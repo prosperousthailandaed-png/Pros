@@ -3,6 +3,7 @@ import { Anuphan, IBM_Plex_Sans_Thai } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Reveal from '@/components/Reveal';
 
 const anuphan = Anuphan({
   subsets: ["thai", "latin"],
