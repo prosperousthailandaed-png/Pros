@@ -8,7 +8,6 @@ export default function AboutPage() {
       {/* hero */}
       <section className="hero" style={{ padding: 0 }}>
         <div className="wrap">
-          <span className="eyebrow">เกี่ยวกับเรา · About Us</span>
           <h1>เปลี่ยนทุกวินาทีวิกฤต<br />ให้เป็น<span className="hl">โอกาสรอดชีวิต</span></h1>
           <p className="lead">โพรสเพอรัส — ผู้เชี่ยวชาญด้านนวัตกรรมช่วยชีวิตและอุปกรณ์กายภาพบำบัดครบวงจร พร้อมส่งต่อองค์ความรู้การกู้ชีพสู่ทุกคนในสังคม</p>
           <svg className="ecg" viewBox="0 0 1200 60" preserveAspectRatio="none" aria-hidden="true">
