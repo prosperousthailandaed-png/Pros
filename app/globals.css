@@ -316,6 +316,24 @@ a.link-more:hover {
   gap: clamp(18px, 2.5vw, 28px);
 }
 
+/* หลักสูตร: บังคับ 4 ใบต่อแถวบนจอกว้าง, ย่อลงอัตโนมัติเมื่อจอเล็ก */
+.cgrid {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+@media (max-width: 1024px) {
+  .cgrid {
+    grid-template-columns: repeat(2, 1fr);   /* แท็บเล็ต 2 ใบต่อแถว */
+  }
+}
+
+@media (max-width: 600px) {
+  .cgrid {
+    grid-template-columns: 1fr;              /* มือถือ 1 ใบต่อแถว */
+  }
+}
+
+
 .pcard,
 .ccard,
 .ncard {
