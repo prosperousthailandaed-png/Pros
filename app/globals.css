@@ -434,14 +434,14 @@ a.link-more:hover {
 }
 
 .statement h3 {
-  font-size: clamp(22px, 3vw, 30px);
+  font-size: clamp(40px, 3vw, 60px);
   color: var(--ink);
   line-height: 1.5;
 }
 
 .statement p {
   margin-top: 18px;
-  font-size: clamp(15px, 1.7vw, 17px);
+  font-size: clamp(20px, 1.7vw, 25px);
   line-height: 1.85;
   color: var(--color-slate);
 }
