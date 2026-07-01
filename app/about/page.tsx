@@ -197,9 +197,9 @@ export default function AboutPage() {
               <span className="is-value">P</span>
               <span className="is-value">E</span>
               <span className="is-value">R</span>
-              <span>O</span>
-              <span>U</span>
-              <span>S</span>
+              <span className="is-value">O</span>
+              <span className="is-value">U</span>
+              <span className="is-value">S</span>
             </div>
           </div>
           {/* การ์ดคุณค่า 7 ใบ เรียงลงมาเป็นคอลัมน์เดียว (จัดการใน .values ที่ globals.css) */}
