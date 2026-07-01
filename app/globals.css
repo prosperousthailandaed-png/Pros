@@ -1,267 +1,894 @@
 @import "tailwindcss";
 
-/* ===========================================================
-   globals.css — Tailwind + สไตล์หน้าเว็บมาร์เก็ตติ้ง (Navbar A / Footer / หน้าแรก / เกี่ยวกับเรา)
-   - ตัวแปร + Navbar + Footer = global (เพราะเรนเดอร์ใน layout)
-   - สไตล์เฉพาะหน้า scope ใต้ .home / .about → ไม่รั่วไปหน้า admin/หน้าอื่น
-   =========================================================== */
-
-
+/* ============================================================
+   1) THEME TOKENS
+   สีและฟอนต์หลักของแบรนด์ — ประกาศผ่าน @theme เพื่อให้ Tailwind
+   สร้าง utility class ให้อัตโนมัติ (เช่น bg-red, text-ink ฯลฯ)
+   ============================================================ */
 @theme {
-  /* สี → กลายเป็น bg-red, text-ink, border-line ฯลฯ */
-  --color-red:      #C8102E;
+  --color-red: #C8102E;
   --color-red-dark: #A00D24;
   --color-red-wash: #FBEDEF;
-  --color-night:    #0B0C0E;   /* เดิม --black */
-  --color-ink:      #14161A;
-  --color-slate:    #44474E;
-  --color-muted:    #868B94;
-  --color-paper:    #FFFFFF;
-  --color-mist:     #F4F5F7;
-  --color-line:     #E4E6EA;
-  --color-line-d:   rgba(255,255,255,.14);
-  --color-txt-d:    #d4d7dd;
-  --color-muted-d:  #9499a2;
 
-  /* ฟอนต์ → กลายเป็น font-display, font-body */
-  --font-display: "Anuphan", sans-serif;
-  --font-body:    "IBM Plex Sans Thai", sans-serif;
+  --color-night: #0B0C0E;
+  --color-ink: #14161A;
+  --color-slate: #44474E;
+  --color-muted: #868B94;
+  --color-paper: #FFFFFF;
+  --color-mist: #F4F5F7;
+  --color-line: #E4E6EA;
 
-  /* breakpoint เดิมของ navbar → ใช้ max-nav:hidden ได้ */
-  --breakpoint-nav: 1040px;
+  /* ใช้ตัวแปรที่ next/font/google สร้างให้ (--font-anuphan / --font-ibm
+     ประกาศไว้ที่ <html> ใน layout.tsx) ก่อนเสมอ เพราะเป็นฟอนต์ที่ถูก
+     self-host + optimize มาแล้ว ส่วนชื่อฟอนต์ตรง ๆ ทิ้งไว้เป็น fallback
+     กรณีตัวแปรยังไม่พร้อม (เดิมอ้างชื่อฟอนต์ตรง ๆ อย่างเดียว ทำให้ฟอนต์
+     ที่โหลดผ่าน next/font ไม่เคยถูกใช้งานจริงเลยสักที่) */
+  --font-display: var(--font-anuphan), "Anuphan", sans-serif;
+  --font-body: var(--font-ibm), "IBM Plex Sans Thai", sans-serif;
 }
 
-/* alias ชั่วคราว — ให้ CSS หน้าเดิม (.home/.about) กับ Navbar ยังทำงานอยู่
-   ค่อยๆ ลบทีละหน้าเมื่อย้ายหน้านั้นไปเป็น utility ครบแล้ว */
+/* ============================================================
+   2) ALIAS VARIABLES
+   ตัวย่อสำหรับใช้กับ Tailwind arbitrary value เช่น bg-[var(--red)]
+   (Navbar.tsx และไฟล์อื่น ๆ อ้างชื่อสั้นพวกนี้โดยตรง)
+   รวมถึงชุดสี "บนพื้นเข้ม" (ปลายชื่อ -d) ที่ไม่มีใน theme หลัก
+   ============================================================ */
 :root {
-  --red: var(--color-red); --red-dark: var(--color-red-dark); --red-wash: var(--color-red-wash);
-  --black: var(--color-night); --ink: var(--color-ink); --slate: var(--color-slate);
-  --muted: var(--color-muted); --paper: var(--color-paper); --mist: var(--color-mist);
-  --line: var(--color-line); --line-d: var(--color-line-d);
-  --txt-d: var(--color-txt-d); --muted-d: var(--color-muted-d);
+  --black: var(--color-night);
+  --red: var(--color-red);
+  --red-dark: var(--color-red-dark);
+  --ink: var(--color-ink);
+  --line: var(--color-line);
+
+  /* ใช้บนพื้นหลังเข้ม (Navbar, Hero, Finale) */
+  --line-d: rgba(255, 255, 255, 0.1);
+  --txt-d: #C6CAD2;
+  --muted-d: #868B94;
+
+  /* จังหวะ transition กลางที่ใช้ซ้ำทั้งเว็บ ให้ทุกเอฟเฟกต์ลื่นไหลแบบเดียวกัน */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --speed: 0.5s;
 }
 
-/* ----- containers (ใช้ร่วมทั้ง Navbar/Footer/หน้าเพจ) ----- */
-.wrap{max-width:1180px;margin:0 auto;padding:0 30px}
-.narrow{max-width:840px;margin:0 auto;padding:0 40px}
-@media(max-width:680px){.narrow{padding:0 22px}.wrap{padding:0 22px}}
+/* ============================================================
+   3) BASE / RESET
+   ============================================================ */
+@layer base {
+  * {
+    @apply box-border;
+  }
 
-/* ===== Navbar A (global) ===== */
-.nav{position:sticky;top:0;z-index:60;background:var(--black);font-family:'Anuphan',sans-serif}
-.nav .row{display:flex;align-items:center;gap:18px;height:76px}
-.nav a{text-decoration:none}
-.logo{display:flex;align-items:center;gap:11px}
-.logo .chip{width:40px;height:40px;border-radius:11px;background:var(--red);display:grid;place-items:center;color:#fff}
-.logo .wm{font-family:'Anuphan';font-weight:700;font-size:21px;color:#fff;letter-spacing:-.3px;line-height:1}
-.logo .sub{font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-d);display:block;margin-top:2px}
-.srch{width:40px;height:40px;border-radius:50%;border:1px solid var(--line-d);display:grid;place-items:center;color:#fff;background:transparent;cursor:pointer;transition:.2s;flex:none}
-.srch:hover{background:var(--red);border-color:var(--red)}
-.menu{display:flex;align-items:center;gap:3px;margin-left:auto}
-.menu a{color:var(--txt-d);font-size:14px;font-weight:500;padding:8px 12px;border-radius:7px;display:flex;align-items:center;gap:5px;white-space:nowrap;transition:color .2s}
-.menu a:hover{color:#fff}
-.menu a.on{color:var(--red)}
-.menu a .car{width:10px;height:10px;opacity:.6}
-.right{display:flex;align-items:center;gap:15px;padding-left:16px;border-left:1px solid var(--line-d)}
-.lang{display:flex;align-items:center;gap:6px;color:var(--txt-d);font-size:13.5px;font-weight:500;cursor:pointer}
-.socials{display:flex;gap:8px}
-.socials a{width:34px;height:34px;border:1px solid var(--line-d);border-radius:8px;display:grid;place-items:center;color:#cfd2d8;transition:.2s}
-.socials a:hover{background:var(--red);border-color:var(--red);color:#fff}
-.burger{display:none;margin-left:auto;width:42px;height:42px;border:1px solid var(--line-d);border-radius:9px;background:transparent;color:#fff;place-items:center;cursor:pointer}
-@media(max-width:1040px){.menu,.right{display:none}.burger{display:grid}}
-.mpanel{display:none;background:#0f1013;border-top:1px solid var(--line-d)}
-.mpanel.open{display:block}
-.mpanel a{display:block;color:var(--txt-d);font-size:15px;padding:13px 30px;border-bottom:1px solid rgba(255,255,255,.06);text-decoration:none;font-family:'Anuphan'}
-.mpanel a.on{color:var(--red)}
+  html {
+    @apply scroll-smooth;
+  }
 
-/* ===== Footer (global) ===== */
-.site-footer{background:#0F1115;color:#7b818c;font-size:13px;padding:30px 0;font-family:'IBM Plex Sans Thai',sans-serif}
-.site-footer .wrap{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
-.site-footer b{color:#fff;font-family:'Anuphan'}
+  body {
+    @apply overflow-x-hidden bg-white text-gray-700;
+    font-family: var(--font-body);
+  }
 
-/* ===========================================================
-   หน้าแรก (.home)
-   =========================================================== */
-.home{font-family:'IBM Plex Sans Thai',sans-serif;color:var(--slate);line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden;background:var(--paper)}
-.home h1,.home h2,.home h3,.home h4{font-family:'Anuphan',sans-serif;color:var(--ink);line-height:1.25}
-.home a{text-decoration:none;color:inherit}
-.home section{padding:84px 0}
-@media(max-width:680px){.home section{padding:56px 0}}
-.home .mist{background:var(--mist)}
-.home h2.sec{font-size:clamp(26px,4vw,38px);font-weight:700;letter-spacing:-.4px;margin-top:16px}
-.home .sec-head .sub{margin-top:14px;color:var(--slate);max-width:60ch}
-.home .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--red);font-family:'Anuphan'}
-.home .eyebrow::before{content:"";width:26px;height:2px;background:var(--red)}
-.home .eyebrow.center{justify-content:center}
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
 
-.home .hero{position:relative;background:var(--ink);color:#fff;overflow:hidden;isolation:isolate}
-.home .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:0;opacity:.55}
-.home .hero-scrim{position:absolute;inset:0;z-index:1;background:radial-gradient(900px 420px at 84% -10%,rgba(200,16,46,.45),transparent 60%),linear-gradient(180deg,rgba(11,12,14,.50),rgba(11,12,14,.82))}
-.home .hero .wrap{position:relative;z-index:2;padding:100px 30px 120px}
-@media(max-width:680px){.home .hero .wrap{padding:64px 22px 92px}}
-.home .hero .eyebrow{color:#ff8a9b}
-.home .hero .eyebrow::before{background:#ff8a9b}
-.home .hero h1{color:#fff;font-size:clamp(34px,6vw,62px);font-weight:700;letter-spacing:-.5px;margin-top:18px;max-width:16ch}
-.home .hero h1 .hl{color:#ff6678}
-.home .hero p.lead{margin-top:20px;max-width:600px;font-size:clamp(15px,2.3vw,18px);color:#c7ccd5;font-weight:300}
-.home .ctas{display:flex;gap:14px;flex-wrap:wrap;margin-top:32px;position:relative;z-index:2}
-@media(prefers-reduced-motion:reduce){.home .hero-video{display:none}}
+  img,
+  video {
+    @apply block max-w-full;
+  }
 
-.home .btn{display:inline-flex;align-items:center;gap:8px;font-family:'Anuphan';font-weight:600;font-size:15px;padding:14px 30px;border-radius:11px;transition:.2s;cursor:pointer}
-.home .btn-primary{background:var(--red);color:#fff}
-.home .btn-primary:hover{background:var(--red-dark)}
-.home .btn-ghost{background:transparent;border:1px solid rgba(255,255,255,.3);color:#fff}
-.home .btn-ghost:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+  a {
+    @apply no-underline;
+  }
+}
 
-.home .ecg{position:absolute;left:0;right:0;bottom:30px;width:100%;opacity:.5}
-.home .ecg path{fill:none;stroke:#ff6678;stroke-width:2.2;stroke-dasharray:1600;stroke-dashoffset:1600;animation:ecg-draw 3s ease-out .3s forwards}
+/* ============================================================
+   4) LAYOUT HELPERS (ใช้ร่วมกันทุกหน้า)
+   .wrap  = คอนเทนเนอร์กว้างมาตรฐาน (การ์ด/กริด)
+   .narrow = คอนเทนเนอร์แคบ อ่านง่าย (ข้อความยาว ๆ)
+   padding ใช้ clamp() แทนการเขียน media query ซ้ำ ๆ
+   เพื่อให้ระยะห่างไหลลื่นทุกขนาดจอ ไม่ใช่กระโดดเป็นขั้น
+   ============================================================ */
+.wrap {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 30px);
+}
 
-.home .who p{font-size:clamp(16px,2.1vw,18.5px);color:var(--slate);line-height:2;margin-top:24px}
-.home .who .more{margin-top:24px}
+.narrow {
+  max-width: 760px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 30px);
+}
 
-.home .link-more{display:inline-flex;align-items:center;gap:7px;color:var(--red);font-weight:600;font-family:'Anuphan';font-size:15px}
-.home .link-more:hover{color:var(--red-dark)}
-.home .linknote{font-size:11px;color:var(--red);background:var(--red-wash);padding:2px 8px;border-radius:6px;font-weight:600;margin-left:8px;font-family:'Anuphan';letter-spacing:.02em}
-.home .ph{border:1px dashed var(--red);color:var(--red);border-radius:9px;padding:9px 12px;font-size:13px;font-weight:500;display:inline-flex;gap:7px;align-items:center}
-.home .ph::before{content:"✎"}
-.home .img-ph{background:repeating-linear-gradient(45deg,#eef0f3 0 13px,#e6e8ec 13px 26px);color:var(--muted);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:500;text-align:center;padding:14px}
+section {
+  padding-block: clamp(56px, 9vw, 108px);
+}
 
-/* ===========================================================
-   หน้าสินค้า 3 ชิ้น
-   =========================================================== */
-.home .pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:42px}
-@media(max-width:1000px){.home .pgrid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:540px){.home .pgrid{grid-template-columns:1fr}}
-.home .pcard{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s}
-.home .pcard:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(20,22,26,.10);border-color:#d8b3ba}
-.home .pcard img{height:350px;width:100%;object-fit:cover}
-.home .pcard .pbody{padding:24px;display:flex;flex-direction:column;gap:9px;flex:1}
-.home .pcard .en{font-size:12px;letter-spacing:.05em;color:var(--red);text-transform:uppercase;font-weight:600;font-family:'Anuphan'}
-.home .pcard h4{font-size:18px;font-weight:600}
-.home .pcard p{font-size:14px;color:var(--slate);line-height:1.8}
-.home .pcard .foot{margin-top:auto;padding-top:6px}
+.mist {
+  background: var(--color-mist);
+}
 
-/* ===========================================================
-   มากกว่าผู้นำ 
-   =========================================================== */
-.home .statement{background:var(--ink);color:#fff;position:relative;overflow:hidden;text-align:center}
-.home .statement::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 360px at 50% -20%,rgba(200,16,46,.42),transparent 62%)}
-.home .statement .narrow{position:relative}
-.home .statement .eyebrow{color:#ff8a9b}
-.home .statement .eyebrow::before{background:#ff8a9b}
-.home .statement h3{color:#fff;font-size:clamp(22px,3.4vw,32px);font-weight:600;line-height:1.5;margin-top:16px}
-.home .statement p{margin-top:22px;font-size:clamp(15px,2.3vw,18px);color:#d7dbe2;font-weight:300;line-height:2;text-wrap:balance}
-.home .statement p .em{color:#ff8a9b;font-weight:500}
+/* หัวข้อหมวด ใช้ร่วมกันหลายส่วน */
+.sec {
+  font-size: clamp(26px, 3.6vw, 38px);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+}
 
-/* ===========================================================
-   หลักสูตร 4 อัน
-   =========================================================== */
-.home .cgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-top:42px}
-@media(max-width:1000px){.home .pgrid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:220px){.home .pgrid{grid-template-columns:1fr}}
-.home .ccard{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s}
-.home .ccard:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(20,22,26,.10);border-color:#d8b3ba}
-.home .ccard img{height:350px;width:100%;object-fit:cover}
-.home .ccard .cbody{padding:24px;display:flex;flex-direction:column;gap:9px;flex:1}
-.home .ccard .en{font-size:12px;letter-spacing:.05em;color:var(--red);text-transform:uppercase;font-weight:600;font-family:'Anuphan'}
-.home .ccard h4{font-size:18px;font-weight:600}
-.home .ccard p{font-size:14px;color:var(--slate);line-height:1.8}
-.home .ccard .foot{margin-top:auto;padding-top:6px}
+.sec-head {
+  text-align: center;
+  max-width: 640px;
+  margin-inline: auto;
+  margin-bottom: clamp(32px, 5vw, 52px);
+}
 
-/* ===========================================================
-   ข่าวสาร ความรู้
-   =========================================================== */
-.home .ngrid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:42px}
-@media(max-width:880px){.home .ngrid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:540px){.home .ngrid{grid-template-columns:1fr}}
-.home .ncard{background:var(--paper);border:1px solid var(--line);border-radius:16px;overflow:hidden;display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s}
-.home .ncard:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,22,26,.08);border-color:#d8b3ba}
-.home .ncard .pic{height:160px}
-.home .ncard .nbody{padding:22px;display:flex;flex-direction:column;gap:12px;flex:1}
-.home .ncard h4{font-size:16px;font-weight:600;line-height:1.55}
-.home .ncard .foot{margin-top:auto}
+.sub {
+  margin-top: 12px;
+  color: var(--color-slate);
+  font-size: clamp(15px, 1.6vw, 17px);
+  line-height: 1.7;
+}
 
-.home .finale{background:var(--ink);color:#fff;position:relative;overflow:hidden}
-.home .finale::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 380px at 50% 130%,rgba(200,16,46,.45),transparent 60%)}
-.home .finale .narrow{position:relative;text-align:center}
-.home .finale h2{color:#fff;font-size:clamp(24px,3.8vw,38px);font-weight:700;letter-spacing:-.3px;max-width:22ch;margin:0 auto}
-.home .finale p{margin-top:18px;max-width:52ch;margin-left:auto;margin-right:auto;color:#c7ccd5;font-weight:300}
-.home .finale .ctas{justify-content:center;margin-top:30px}
+.eyebrow {
+  display: block;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 14px;
+}
 
-.reveal-ready .home .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
-.home .reveal.in{opacity:1;transform:none}
+.eyebrow.center {
+  text-align: center;
+}
 
-/* ===========================================================
-   เกี่ยวกับเรา (.about)
-   =========================================================== */
-.about{font-family:'IBM Plex Sans Thai',sans-serif;color:var(--slate);line-height:1.85;-webkit-font-smoothing:antialiased;overflow-x:hidden;background:var(--paper)}
-.about h1,.about h2,.about h3,.about h4{font-family:'Anuphan',sans-serif;color:var(--ink);line-height:1.25}
-.about a{text-decoration:none;color:inherit}
-.about section{padding:84px 0}
-@media(max-width:680px){.about section{padding:56px 0}}
-.about .mist{background:var(--mist)}
-.about h2.sec{font-size:clamp(26px,4vw,38px);font-weight:700;letter-spacing:-.4px;margin-top:16px}
-.about .eyebrow{display:inline-flex;align-items:center;gap:9px;font-size:12px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--red);font-family:'Anuphan'}
-.about .eyebrow::before{content:"";width:26px;height:2px;background:var(--red)}
-.about .eyebrow.center{justify-content:center}
+.em {
+  color: var(--red);
+  font-weight: 600;
+}
 
-.about .hero{position:relative;background:var(--ink);color:#fff;overflow:hidden}
-.about .hero::before{content:"";position:absolute;inset:0;background:radial-gradient(900px 420px at 84% -10%,rgba(200,16,46,.40),transparent 60%)}
-.about .hero .wrap{position:relative;padding:92px 30px 104px}
-@media(max-width:680px){.about .hero .wrap{padding:60px 22px 76px}}
-.about .hero .eyebrow{color:#ff8a9b}
-.about .hero .eyebrow::before{background:#ff8a9b}
-.about .hero h1{color:#fff;font-size:clamp(34px,6vw,60px);font-weight:700;letter-spacing:-.5px;margin-top:18px;max-width:15ch}
-.about .hero h1 .hl{color:#ff6678}
-.about .hero p.lead{margin-top:20px;max-width:600px;font-size:clamp(15px,2.3vw,18px);color:#c7ccd5;font-weight:300}
-.about .ecg{position:absolute;left:0;right:0;bottom:30px;width:100%;opacity:.5}
-.about .ecg path{fill:none;stroke:#ff6678;stroke-width:2.2;stroke-dasharray:1600;stroke-dashoffset:1600;animation:ecg-draw 3s ease-out .3s forwards}
+/* ลิงก์ "ดูเพิ่มเติม →" ที่ใช้ซ้ำทั้งเว็บ พร้อมเอฟเฟกต์ขยับลูกศรตอน hover */
+.link-more {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--red);
+  font-weight: 600;
+  font-size: 14.5px;
+  transition: gap var(--speed) var(--ease), color var(--speed) var(--ease);
+}
 
-.about .who p{font-size:clamp(16px,2.1vw,18.5px);color:var(--slate);line-height:2}
-.about .story-title{font-size:clamp(22px,3.4vw,30px);font-weight:600;color:var(--ink);border-left:4px solid var(--red);padding-left:20px;margin:6px 0 28px;line-height:1.4}
-.about .story p{margin-bottom:20px;color:var(--slate)}
-.about .story p .em{color:var(--ink);font-weight:600}
-.about .pull{color:var(--red-dark);font-weight:600}
+a.link-more:hover {
+  gap: 10px;
+  color: var(--red-dark);
+}
 
-.about .vision-card{background:var(--ink);color:#fff;border-radius:20px;padding:48px;position:relative;overflow:hidden}
-.about .vision-card::after{content:"";position:absolute;right:-40px;bottom:-40px;width:220px;height:220px;border-radius:50%;background:radial-gradient(circle,rgba(200,16,46,.5),transparent 70%)}
-.about .vision-card .eyebrow{color:#ff8a9b}
-.about .vision-card .eyebrow::before{background:#ff8a9b}
-.about .vision-card h3{color:#fff;font-size:clamp(22px,3vw,30px);font-weight:600;margin-top:14px;position:relative;line-height:1.5}
-@media(max-width:680px){.about .vision-card{padding:32px 26px}}
+.linknote {
+  margin-left: 10px;
+  font-size: 12.5px;
+  color: var(--color-muted);
+}
 
-.about .mission{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:40px}
-@media(max-width:760px){.about .mission{grid-template-columns:1fr}}
-.about .m-item{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:30px 28px;transition:transform .25s,box-shadow .25s,border-color .25s}
-.about .m-item:hover{transform:translateY(-4px);box-shadow:0 18px 40px rgba(20,22,26,.08);border-color:#d8b3ba}
-.about .m-num{font-family:'Anuphan';font-weight:700;font-size:15px;color:#fff;background:var(--red);width:34px;height:34px;border-radius:9px;display:grid;place-items:center;margin-bottom:16px}
-.about .m-item h4{font-size:18.5px;font-weight:600;margin-bottom:3px}
-.about .m-item .en{font-size:12.5px;letter-spacing:.04em;color:var(--red);text-transform:uppercase;font-weight:600;margin-bottom:12px;font-family:'Anuphan'}
-.about .m-item p{font-size:14.5px;color:var(--slate);line-height:1.85}
+.more {
+  margin-top: 22px;
+}
 
-.about .prosper-word{display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(6px,2vw,20px);margin:26px 0 8px}
-.about .prosper-word span{font-family:'Anuphan';font-weight:700;font-size:clamp(34px,8vw,72px);color:var(--line)}
-.about .values{display:grid;grid-template-columns:1fr;gap:20px;margin-top:46px;max-width:760px;margin-left:auto;margin-right:auto}
-.about .v-card{display:flex;gap:22px;background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:28px;transition:border-color .25s,box-shadow .25s}
-.about .v-card:hover{border-color:var(--red);box-shadow:0 14px 34px rgba(200,16,46,.10)}
-.about .v-letter{flex:0 0 auto;width:60px;height:60px;border-radius:14px;background:var(--red-wash);color:var(--red);font-family:'Anuphan';font-weight:700;font-size:30px;display:grid;place-items:center}
-.about .v-card h4{font-size:18px;font-weight:600;margin-bottom:2px}
-.about .v-card .en{font-size:12px;letter-spacing:.05em;color:var(--red);text-transform:uppercase;font-weight:600;font-family:'Anuphan'}
-.about .v-card p{font-size:14.5px;color:var(--slate);line-height:1.8;margin-top:9px}
+/* ปุ่มมาตรฐาน */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 30px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 15px;
+  transition: transform var(--speed) var(--ease),
+    background-color var(--speed) var(--ease),
+    box-shadow var(--speed) var(--ease);
+}
 
-.about .finale{background:var(--ink);color:#fff;position:relative;overflow:hidden}
-.about .finale::before{content:"";position:absolute;inset:0;background:radial-gradient(700px 380px at 15% 120%,rgba(200,16,46,.42),transparent 60%)}
-.about .finale .narrow{position:relative;text-align:center}
-.about .finale .big-r{font-family:'Anuphan';font-weight:700;font-size:clamp(60px,16vw,150px);color:rgba(255,255,255,.05);line-height:.8;letter-spacing:.1em}
-.about .finale h3{color:#fff;font-size:clamp(20px,3vw,28px);font-weight:600;line-height:1.7;margin-top:-26px;position:relative}
-.about .finale .quote{font-size:clamp(16px,2.4vw,19px);color:#d7dbe2;font-weight:300;line-height:2;margin-top:24px}
-.about .finale .quote .em{color:#ff8a9b;font-weight:500}
+.btn-primary {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 10px 26px -10px rgba(200, 16, 46, 0.55);
+}
 
-.reveal-ready .about .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease,transform .7s ease}
-.about .reveal.in{opacity:1;transform:none}
+.btn-primary:hover {
+  background: var(--red-dark);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -10px rgba(200, 16, 46, 0.6);
+}
 
-/* ===== keyframes + reduced motion (global) ===== */
-@keyframes ecg-draw{to{stroke-dashoffset:0}}
-@media(prefers-reduced-motion:reduce){
-  .home .reveal,.about .reveal{opacity:1;transform:none;transition:none}
-  .home .ecg path,.about .ecg path{animation:none;stroke-dashoffset:0}
+/* ============================================================
+   5) HOME — HERO (วิดีโอเต็มจอ)
+   ใช้ 100dvh แทน 100vh กันปัญหาบนมือถือที่ address bar
+   ดันความสูงจอเพี้ยนตอนเลื่อน
+   ============================================================ */
+.hero {
+  position: relative;
+  min-height: 100dvh;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  background: var(--black);
+}
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ไล่เฉดมืดจากล่างขึ้นบน ช่วยให้ตัวหนังสือสีขาวอ่านง่ายบนวิดีโอ
+   ไม่ว่าฉากหลังของวิดีโอตอนนั้นจะสว่างแค่ไหน */
+.hero-scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 12, 14, 0.35) 0%,
+    rgba(11, 12, 14, 0.55) 55%,
+    rgba(11, 12, 14, 0.92) 100%
+  );
+}
+
+.hero .wrap {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  padding-block: clamp(48px, 10vh, 96px) clamp(56px, 9vh, 88px);
+}
+
+.hero-title {
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.2;
+  font-size: clamp(30px, 6vw, 58px);
+  max-width: 15ch;
+}
+
+.hero-title .hl {
+  color: var(--red);
+}
+
+.hero .lead {
+  margin-top: 20px;
+  max-width: 56ch;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: clamp(15px, 1.8vw, 18px);
+  line-height: 1.75;
+}
+
+/* เส้นกราฟหัวใจ (ECG) วาดตัวเองตอนโหลดหน้า แล้ววนซ้ำเบา ๆ */
+.ecg {
+  display: block;
+  width: 100%;
+  max-width: 620px;
+  height: 44px;
+  margin-top: clamp(24px, 4vw, 40px);
+  stroke: var(--red);
+  stroke-width: 3;
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.ecg path {
+  stroke-dasharray: 1400;
+  stroke-dashoffset: 1400;
+  animation: ecg-draw 2.2s var(--ease) 0.3s forwards;
+}
+
+@keyframes ecg-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ============================================================
+   6) HOME — WHO WE ARE (ข้อความสั้น กึ่งกลาง)
+   ============================================================ */
+.who {
+  padding-block: clamp(64px, 10vw, 110px);
+}
+
+.who p {
+  margin-top: 18px;
+  font-size: clamp(15px, 1.7vw, 17px);
+  line-height: 1.85;
+  color: var(--color-slate);
+}
+
+/* ============================================================
+   7) การ์ดสินค้า / หลักสูตร (ใช้โครงร่วมกัน)
+   Grid แบบ auto-fit: มือถือ 1 คอลัมน์ → แท็บเล็ต 2 → เดสก์ท็อป 3
+   ไม่ต้องกำหนด breakpoint ตายตัว ปรับตามพื้นที่จริงเสมอ
+   ============================================================ */
+.pgrid,
+.cgrid,
+.ngrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(18px, 2.5vw, 28px);
+}
+
+.pcard,
+.ccard,
+.ncard {
+  display: block;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform var(--speed) var(--ease),
+    box-shadow var(--speed) var(--ease),
+    border-color var(--speed) var(--ease);
+}
+
+.pcard:hover,
+.ccard:hover,
+.ncard:hover {
+  transform: translateY(-6px);
+  border-color: transparent;
+  box-shadow: 0 22px 40px -20px rgba(20, 22, 26, 0.25);
+}
+
+.pcard img,
+.ccard img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+
+.pcard:hover img,
+.ccard:hover img {
+  transform: scale(1.04);
+}
+
+.pbody,
+.cbody,
+.nbody {
+  padding: clamp(18px, 2.4vw, 26px);
+}
+
+.pbody .en,
+.cbody .en {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  text-transform: uppercase;
+}
+
+.pbody h4,
+.cbody h4 {
+  margin-top: 8px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.pbody p,
+.cbody p {
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--color-slate);
+}
+
+.pbody .foot,
+.cbody .foot,
+.nbody .foot {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+
+/* กล่องรูปสำรอง (ยังไม่มีปกบทความจริง) */
+.pic.img-ph {
+  aspect-ratio: 16 / 10;
+  display: grid;
+  place-items: center;
+  background: var(--color-mist);
+  border-bottom: 1px dashed var(--line);
+  color: var(--color-muted);
+  font-size: 13px;
+}
+
+.ph {
+  font-size: 16.5px;
+  font-weight: 700;
+}
+
+/* ============================================================
+   8) STATEMENT (คำกล่าวกลางหน้า)
+   ============================================================ */
+.statement {
+  background: var(--color-red-wash);
+}
+
+.statement h3 {
+  font-size: clamp(22px, 3vw, 30px);
+  color: var(--ink);
+  line-height: 1.5;
+}
+
+.statement p {
+  margin-top: 18px;
+  font-size: clamp(15px, 1.7vw, 17px);
+  line-height: 1.85;
+  color: var(--color-slate);
+}
+
+/* ============================================================
+   9) FINALE CTA (ปิดท้ายหน้า — พื้นเข้ม ตัดกับหน้าเว็บที่เหลือ)
+   ============================================================ */
+.finale {
+  background: var(--black);
+  text-align: center;
+}
+
+.finale h2,
+.finale h3 {
+  color: #fff;
+  font-size: clamp(24px, 3.4vw, 34px);
+  line-height: 1.4;
+}
+
+.finale p {
+  margin-top: 16px;
+  color: var(--muted-d);
+  font-size: clamp(15px, 1.7vw, 17px);
+  line-height: 1.8;
+  max-width: 56ch;
+  margin-inline: auto;
+}
+
+.finale .ctas {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+
+.finale .quote {
+  color: var(--muted-d);
+  font-size: clamp(15px, 1.8vw, 18px);
+  line-height: 1.9;
+}
+
+.finale .big-r {
+  font-size: clamp(48px, 9vw, 96px);
+  font-weight: 700;
+  color: var(--red);
+  letter-spacing: 0.05em;
+  margin-bottom: 8px;
+}
+
+/* ============================================================
+   10) FOOTER
+   ============================================================ */
+.site-footer {
+  background: var(--black);
+  border-top: 1px solid var(--line-d);
+  padding-block: 26px;
+}
+
+.site-footer .wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  text-align: center;
+  color: var(--muted-d);
+  font-size: 13px;
+}
+
+.site-footer b {
+  color: #fff;
+}
+
+/* ============================================================
+   11) ABOUT — HERO
+   ตั้งใจให้ต่างจากหน้าแรก: ไม่มีวิดีโอ ใช้พื้นเข้มพร้อมเส้นสายไทม์ไลน์
+   บาง ๆ พาดผ่าน เพื่อ "เกริ่น" ธีมเล่าเรื่องตามเวลาที่จะตามมาในหน้านี้
+   ============================================================ */
+.about-hero {
+  position: relative;
+  background: linear-gradient(160deg, var(--black) 0%, #1a0d10 100%);
+  overflow: hidden;
+  padding-block: clamp(80px, 14vh, 140px) clamp(64px, 10vh, 100px);
+}
+
+/* เส้นไทม์ไลน์จาง ๆ ที่ลากยาวเป็นฉากหลัง เกริ่นก่อนเข้าเนื้อหาไทม์ไลน์จริง */
+.about-hero::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -40%;
+  width: 1px;
+  height: 60%;
+  background: linear-gradient(180deg, var(--line-d), transparent);
+}
+
+.about-hero .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.about-hero h1 {
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.25;
+  font-size: clamp(28px, 5.2vw, 50px);
+  max-width: 18ch;
+}
+
+.about-hero .hl {
+  color: var(--red);
+}
+
+.about-hero .lead {
+  margin-top: 20px;
+  max-width: 56ch;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: clamp(15px, 1.8vw, 18px);
+  line-height: 1.75;
+}
+
+/* ============================================================
+   12) ABOUT — TIMELINE
+   โครงสร้างหลักที่ทำให้หน้านี้ต่างจากหน้าแรก (การ์ดกริด)
+   มือถือ: เส้นและจุดอยู่ชิดซ้าย เนื้อหาอยู่ขวาเส้นเสมอ (อ่านง่าย ไม่ล้น)
+   เดสก์ท็อป: สลับซ้าย-ขวา รอบเส้นกึ่งกลาง
+
+   หมายเหตุ: ตามที่ขอ ตัดป้าย eyebrow (ข้อความตัวเล็กพิมพ์ใหญ่สีแดง)
+   ออกจากแต่ละจุดในไทม์ไลน์ ใช้ "ตัวเลขในจุดวงกลม" บอกลำดับแทน
+   (ดีไซน์เดียวกับ .m-num ในส่วนพันธกิจ ให้ภาษาภาพเดียวกันทั้งหน้า)
+   และห่อเนื้อหาด้วยการ์ดสีขาวยกน้ำหนัก (เงา + ขอบมน) ให้ดูมีระดับขึ้น
+   ============================================================ */
+.timeline {
+  position: relative;
+  margin-top: clamp(40px, 6vw, 64px);
+}
+
+/* เส้นหลักของไทม์ไลน์ */
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 22px;
+  bottom: 22px;
+  left: 20px;
+  width: 2px;
+  background: var(--line);
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 56px;
+  padding-bottom: clamp(28px, 4vw, 40px);
+}
+
+.timeline-item:last-child {
+  padding-bottom: 0;
+}
+
+/* จุดวงกลมบนเส้น พร้อมเลขลำดับ แทนป้าย eyebrow แบบเดิม */
+.timeline-dot {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: #fff;
+  border: 2px solid var(--red);
+  color: var(--red);
+  font-weight: 700;
+  font-size: 15px;
+  font-family: var(--font-display);
+  box-shadow: 0 6px 16px -6px rgba(200, 16, 46, 0.35);
+}
+
+/* การ์ดเนื้อหาแต่ละจุด ยกน้ำหนักด้วยพื้นขาว + เงานุ่ม ๆ ให้ดูเป็นมืออาชีพ
+   มากกว่าปล่อยข้อความลอยบนพื้น .mist เฉย ๆ */
+.timeline-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: clamp(20px, 2.6vw, 28px);
+  box-shadow: 0 16px 32px -24px rgba(20, 22, 26, 0.35);
+}
+
+.timeline-card h3 {
+  font-size: clamp(18px, 2.1vw, 22px);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.timeline-card p {
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--color-slate);
+}
+
+.timeline-card .pull {
+  display: block;
+  margin-top: 14px;
+  padding: 16px 18px;
+  border-left: 3px solid var(--red);
+  background: var(--color-red-wash);
+  color: var(--ink);
+  font-weight: 600;
+  font-size: 14.5px;
+  line-height: 1.7;
+  border-radius: 0 10px 10px 0;
+}
+
+/* จอกว้างขึ้น: ย้ายเส้นไปกึ่งกลาง แล้วสลับเนื้อหาซ้าย-ขวา */
+@media (min-width: 860px) {
+  .timeline::before {
+    left: 50%;
+    transform: translateX(-1px);
+  }
+
+  .timeline-item {
+    width: 50%;
+    padding-left: 0;
+    padding-right: 56px;
+  }
+
+  .timeline-item:nth-child(even) {
+    margin-left: 50%;
+    padding-right: 0;
+    padding-left: 56px;
+  }
+
+  .timeline-dot {
+    left: auto;
+    right: -20px;
+  }
+
+  .timeline-item:nth-child(even) .timeline-dot {
+    right: auto;
+    left: -20px;
+  }
+
+  .timeline-item:nth-child(odd) {
+    text-align: right;
+  }
+
+  .timeline-item:nth-child(odd) .timeline-card .pull {
+    border-left: none;
+    border-right: 3px solid var(--red);
+    border-radius: 10px 0 0 10px;
+  }
+}
+
+/* ============================================================
+   13) ABOUT — VISION / MISSION
+   ============================================================ */
+.vision-card {
+  background: var(--black);
+  border-radius: 20px;
+  padding: clamp(28px, 4vw, 44px);
+  text-align: center;
+}
+
+.vision-card .eyebrow {
+  color: var(--red);
+}
+
+.vision-card h3 {
+  color: #fff;
+  font-size: clamp(19px, 2.6vw, 25px);
+  line-height: 1.6;
+  font-weight: 600;
+}
+
+.mission {
+  margin-top: clamp(28px, 4vw, 40px);
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(20px, 2.6vw, 30px);
+}
+
+.m-item {
+  padding: 22px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  transition: box-shadow var(--speed) var(--ease), transform var(--speed) var(--ease);
+}
+
+.m-item:hover {
+  box-shadow: 0 18px 34px -20px rgba(20, 22, 26, 0.22);
+  transform: translateY(-4px);
+}
+
+.m-num {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--color-red-wash);
+  color: var(--red);
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+
+.m-item h4 {
+  font-size: 16.5px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.m-item .en {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-top: 4px;
+}
+
+.m-item p {
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.75;
+  color: var(--color-slate);
+}
+
+/* ============================================================
+   14) ABOUT — CORE VALUES
+   หัวข้อจัดกึ่งกลางเรียงลงมาปกติ (eyebrow → หัวข้อ → คำอธิบาย → wordmark)
+   ตัวอักษรชื่อบริษัท "PROSPEROUS" เรียงเป็น "แถวแนวนอน" ตัวต่อตัว
+   (P R O S P E R O U S) ไม่ใช่แนวตั้ง — ตัว 7 ตัวแรกที่มีคุณค่ากำกับ
+   เน้นด้วยสีแบรนด์ ส่วนการ์ดคุณค่า 7 ใบไล่เรียงลงมาด้านล่างตามปกติ
+   ============================================================ */
+.values-head {
+  text-align: center;
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.values-head .sub {
+  max-width: 46ch;
+  margin-inline: auto;
+}
+
+/* wordmark แนวนอน: ตัวอักษรเรียงต่อกันเป็นแถวเดียว ห่อบรรทัดได้บนจอแคบ */
+.prosper-mark {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(4px, 1vw, 10px);
+  margin-top: clamp(20px, 3vw, 28px);
+}
+
+.prosper-mark span {
+  display: grid;
+  place-items: center;
+  width: clamp(34px, 5vw, 48px);
+  height: clamp(34px, 5vw, 48px);
+  border-radius: 12px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: clamp(16px, 2.4vw, 22px);
+  color: var(--color-slate);
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+/* 7 ตัวแรกคือคุณค่าหลักที่มีความหมายกำกับ (การ์ดด้านล่าง) เน้นด้วยสีแบรนด์ */
+.prosper-mark span.is-value {
+  color: #fff;
+  background: var(--red);
+  border-color: var(--red);
+}
+
+/* การ์ดคุณค่า 7 ใบ: เรียงลงมาเป็นคอลัมน์เดียว (บนลงล่าง) ไม่ใช่กริดหลายใบต่อแถว
+   จำกัดความกว้าง + จัดกึ่งกลาง ให้อ่านง่าย ไม่ยืดเต็มจอบนเดสก์ท็อป */
+.values {
+  margin-top: clamp(32px, 4.5vw, 48px);
+  margin-inline: auto;
+  max-width: 720px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(16px, 2.2vw, 24px);
+}
+
+.v-card {
+  display: flex;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  transition: box-shadow var(--speed) var(--ease), transform var(--speed) var(--ease);
+}
+
+.v-card:hover {
+  box-shadow: 0 18px 34px -20px rgba(20, 22, 26, 0.22);
+  transform: translateY(-4px);
+}
+
+.v-letter {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: 999px;
+  background: var(--color-red-wash);
+  color: var(--red);
+  font-weight: 700;
+  font-size: 17px;
+}
+
+.v-card .en {
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.v-card h4 {
+  margin-top: 3px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.v-card p {
+  margin-top: 8px;
+  font-size: 13.8px;
+  line-height: 1.7;
+  color: var(--color-slate);
+}
+
+/* ============================================================
+   15) REVEAL — สโครลแล้วค่อย ๆ ปรากฏ (จัดการ state โดย Reveal.tsx)
+   ก่อน JS โหลดเสร็จ (ไม่มีคลาส reveal-ready) เนื้อหาต้องโชว์ปกติ
+   กัน layout กระพริบ/หายไปกรณี JS โหลดช้าหรือปิด JS
+   ============================================================ */
+html.reveal-ready .reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s var(--ease), transform 0.7s var(--ease);
+}
+
+html.reveal-ready .reveal.in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ผู้ใช้ที่ตั้งค่าลดการเคลื่อนไหวไว้ในระบบ → ตัดแอนิเมชันทั้งหมดออก
+   ทั้งเอฟเฟกต์ reveal และเส้น ECG */
+@media (prefers-reduced-motion: reduce) {
+  html.reveal-ready .reveal,
+  html.reveal-ready .reveal.in {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .ecg path {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
 }
