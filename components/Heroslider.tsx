@@ -75,7 +75,7 @@ export default function HeroSlider() {
       </div>
 
       {/* Content */}
-      <div className="absolute inset-0 z-[2] flex items-center">
+      <div className="absolute inset-0 z-[2] flex items-end pb-20 max-md:pb-16">
         <div className="w-full max-w-[1140px] mx-auto px-10 max-md:px-5">
           <div className="max-w-[560px] text-white max-md:text-center max-md:mx-auto">
             <div className="flex items-center gap-3 mb-4 max-md:justify-center">
