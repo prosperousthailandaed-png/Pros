@@ -40,7 +40,7 @@ export default function HomePage() {
           </div>
           <div className="pgrid">
             <a href="#" className="pcard reveal">
-              <img src="/image/a102_1.avif" alt="AED" />
+              <img src="/image/A112.avif" className="contain tall" alt="AED" />
               <div className="pbody">
                 <div className="en">AED</div>
                 <h4>เครื่องกระตุกหัวใจไฟฟ้าอัตโนมัติ</h4>
