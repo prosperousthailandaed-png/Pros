@@ -184,7 +184,7 @@ export default function AboutPage() {
             <span className="eyebrow center">คุณค่าหลักขององค์กร · Core Values</span>
             <h2 className="sec">คุณค่าที่สะกดจากชื่อของเรา</h2>
             <p className="sub">
-              ตัวอักษร 7 ตัวแรกของชื่อบริษัท “PROSPEROUS” คือคุณค่าหลัก 7 ประการ
+              ตัวอักษร 7 ตัวแรกของชื่อบริษัท “PROSPER” คือคุณค่าหลัก 7 ประการ
               ที่เรายึดถือในการทำงานทุกวัน
             </p>
             {/* wordmark สะกดชื่อบริษัทเต็ม ๆ เรียงเป็นแถวแนวนอน P R O S P E R O U S
@@ -197,9 +197,6 @@ export default function AboutPage() {
               <span className="is-value">P</span>
               <span className="is-value">E</span>
               <span className="is-value">R</span>
-              <span className="is-value">O</span>
-              <span className="is-value">U</span>
-              <span className="is-value">S</span>
             </div>
           </div>
           {/* การ์ดคุณค่า 7 ใบ เรียงลงมาเป็นคอลัมน์เดียว (จัดการใน .values ที่ globals.css) */}

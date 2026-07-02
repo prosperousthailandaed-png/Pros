@@ -1,4 +1,6 @@
+
 import Link from 'next/link';
+import HeroSlider from '@/components/Heroslider';
 
 export const metadata = {
   title: 'หน้าหลัก | Prosperous Rescue Swimming',
@@ -8,38 +10,7 @@ export default function HomePage() {
   return (
     <div className="home">
       {/* hero */}
-      <section className="hero" style={{ padding: 0 }}>
-        <video
-          className="hero-video"
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster=""
-        >
-          <source src="/image/First.mp4" type="video/mp4" />
-        </video>
-        <div className="hero-scrim" />
-        <div className="wrap">
-          <h1 className="hero-title">
-            มากกว่าผู้นำเข้า คือเรา
-            <span className="hl block sm:inline">พร้อมเคียงข้างทุกชีวิต</span>
-          </h1>
-          <p className="lead">
-            โพรสเพอรัส — ผู้เชี่ยวชาญด้านนวัตกรรมช่วยชีวิตและอุปกรณ์กายภาพบำบัดครบวงจร
-            พร้อมส่งต่อองค์ความรู้การกู้ชีพสู่ทุกคนในสังคม
-          </p>
-          <svg
-            className="ecg"
-            viewBox="0 0 1200 60"
-            preserveAspectRatio="none"
-            aria-hidden="true"
-          >
-            <path d="M0 30 H420 l18 -22 l20 44 l16 -52 l22 60 l18 -30 H720 l16 -16 l14 30 l12 -14 H1200" />
-          </svg>
-        </div>
-      </section>
+      <HeroSlider />
 
       {/* who we are */}
       <section className="who">
@@ -138,11 +109,13 @@ export default function HomePage() {
               หลักสูตรมาตรฐานสากล AHA และการกู้ภัยทางน้ำ สอนทักษะที่ใช้ได้จริงในวิกฤต
             </p>
           </div>
+
+          {/* CPR & AED*/}
           <div className="cgrid">
             <a href="#" className="ccard reveal">
-              <img src="/image/swimmer.avif" alt="CPR & AED Training" />
+              <img src="/image/csr.avif" alt="CPR & AED Training" />
               <div className="cbody">
-                <div className="en">AED (CPR & AED Training)</div>
+                <div className="en">AED (CPR & AED T  raining)</div>
                 <h4>หลักสูตรการช่วยชีวิตขั้นพื้นฐาน</h4>
                 <p>หลักสูตรการช่วยชีวิตขั้นพื้นฐานและการใช้เครื่อง AED</p>
                 <div className="foot">
@@ -151,7 +124,8 @@ export default function HomePage() {
                 </div>
               </div>
             </a>
-
+      
+            {/* RESCUE SWIMMER */}
             <a href="#" className="ccard reveal">
               <img src="/image/rescue_swimmer.avif" alt="Rescue Swimmer" />
               <div className="cbody">
@@ -167,19 +141,21 @@ export default function HomePage() {
               </div>
             </a>
 
+            {/* DIVER */}
             <a href="#" className="ccard reveal">
-              <img src="/image/driving.avif" alt="Driver" />
+              <img src="/image/diving.avif" alt="Diver" />
               <div className="cbody">
-                <div className="en">DRIVER</div>
+                <div className="en">DIVER</div>
                 <h4>หลักสูตรการดำน้ำเพื่อการกู้ภัย</h4>
                 <p>หลักสูตรฝึกอบรมนักดำน้ำกู้ภัยมืออาชีพ</p>
                 <div className="foot">
                   <span className="link-more">ดูเพิ่มเติม →</span>
-                  <span className="linknote">DRIVER</span>
+                  <span className="linknote">DIVER</span>
                 </div>
               </div>
             </a>
 
+            {/* LIFE GUARDS */}
             <a href="#" className="ccard reveal">
               <img src="/image/lifeguard.avif" alt="Lifeguard Training" />
               <div className="cbody">

@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from "next";
 import { Anuphan, IBM_Plex_Sans_Thai } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import Reveal from '@/components/Reveal';
+import LayoutShell from "@/components/Layoutshell";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -41,9 +40,7 @@ export default function RootLayout({
             เพิ่มคลาส .reveal-ready ให้ <html> เลย ทำให้ Effect เลื่อนแล้ว
             ค่อย ๆ ปรากฏ (fade-up) ที่ตั้งใจไว้ใน CSS ไม่ทำงาน — เพิ่มไว้ตรงนี้ */}
         <Reveal />
-        <Navbar />
-        {children}
-        <Footer />
+        <LayoutShell>{children}</LayoutShell>
       </body>
     </html>
   );

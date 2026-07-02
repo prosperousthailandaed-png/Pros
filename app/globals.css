@@ -206,6 +206,26 @@ a.link-more:hover {
    ใช้ 100dvh แทน 100vh กันปัญหาบนมือถือที่ address bar
    ดันความสูงจอเพี้ยนตอนเลื่อน
    ============================================================ */
+/* ============================================================
+   5.1) HOME — HERO SLIDER (สไลด์รูปภาพ + ข้อความ หมุนอัตโนมัติ)
+   ใช้ CSS variable --slide-img รับ path รูปจาก inline style ที่ตั้ง
+   แบบ dynamic ต่อสไลด์ (ค่าที่มาจาก data ต้องส่งผ่าน style อยู่ดี)
+   ส่วนพฤติกรรมภาพ (cover/center) และ overlay ทั้งหมดยกมาไว้ที่นี่
+   ============================================================ */
+.hero-slide {
+  background-image: var(--slide-img);
+  background-size: cover;
+  background-position: center;
+}
+
+.hero-slide-overlay {
+  background: linear-gradient(
+    90deg,
+    rgba(22, 24, 29, 0.92) 0%,
+    rgba(22, 24, 29, 0.55) 45%,
+    rgba(22, 24, 29, 0.25) 100%
+  );
+}
 .hero {
   position: relative;
   min-height: 100dvh;
@@ -441,7 +461,7 @@ a.link-more:hover {
 
 .statement p {
   margin-top: 18px;
-  font-size: clamp(20px, 1.7vw, 25px);
+  font-size: clamp(20px, 2.1vw, 25px);
   line-height: 1.85;
   color: var(--color-slate);
 }
