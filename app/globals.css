@@ -942,3 +942,127 @@ html.reveal-ready .reveal.in {
     stroke-dashoffset: 0;
   }
 }
+
+/* ============================================================
+   16) PRODUCT — AUTO CPR (หน้ารายละเอียดสินค้า)
+   โครงหน้า: hero เรียบ (พื้นขาว) → กล่องสื่อสลับ "รูปใหญ่ / วิดีโอ"
+   ด้วยแท็บ → การ์ดสเปกบนพื้น .mist (สไตล์เดียวกับ .timeline-card)
+   → ปิดท้ายด้วย .finale ที่มีอยู่แล้ว (ใช้ซ้ำ ไม่ต้องเขียนใหม่)
+   ============================================================ */
+
+/* hero: จัดกึ่งกลาง ระยะห่างเท่าโครง .sec-head เดิม */
+.p-hero {
+  text-align: center;
+  padding-block: clamp(56px, 9vw, 96px) clamp(24px, 4vw, 40px);
+}
+
+.p-hero .eyebrow {
+  display: inline-block;
+}
+
+.p-hero .sub {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+/* แท็บสลับสื่อ */
+.p-media-sec {
+  padding-block: 0 clamp(56px, 9vw, 96px);
+}
+
+.ptabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.ptab {
+  padding: 10px 26px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: #fff;
+  color: var(--color-slate);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--speed) var(--ease),
+    border-color var(--speed) var(--ease), color var(--speed) var(--ease);
+}
+
+.ptab:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.ptab.is-active {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
+
+/* กรอบสื่อ: ให้สัดส่วนคงที่ ไม่ดันเลย์เอาต์กระโดดตอนสลับรูป/วิดีโอ */
+.pmedia-frame {
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--color-mist);
+  border: 1px solid var(--line);
+}
+
+.pmedia-img,
+.pmedia-video {
+  width: 100%;
+  height: clamp(320px, 60vh, 640px);
+  object-fit: contain;
+  background: var(--color-mist);
+}
+
+/* การ์ดสเปก: ใช้ภาษาภาพเดียวกับ .timeline-card (พื้นขาว ขอบมน เงานุ่ม) */
+.spec-card {
+  max-width: 720px;
+  margin-inline: auto;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: clamp(8px, 1.5vw, 12px) clamp(20px, 2.6vw, 28px);
+  box-shadow: 0 16px 32px -24px rgba(20, 22, 26, 0.35);
+}
+
+.spec-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 14.5px;
+}
+
+.spec-row:last-child {
+  border-bottom: none;
+}
+
+.spec-label {
+  color: var(--color-muted);
+}
+
+.spec-value {
+  font-weight: 600;
+  color: var(--ink);
+  text-align: right;
+}
+
+@media (max-width: 680px) {
+  .pmedia-img,
+  .pmedia-video {
+    height: clamp(220px, 46vh, 360px);
+  }
+
+  .spec-row {
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .spec-value {
+    text-align: left;
+  }
+}
