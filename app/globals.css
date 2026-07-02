@@ -324,21 +324,101 @@ a.link-more:hover {
 }
 
 /* ============================================================
-   7) การ์ดสินค้า / หลักสูตร (ใช้โครงร่วมกัน)
-   Grid แบบ auto-fit: มือถือ 1 คอลัมน์ → แท็บเล็ต 2 → เดสก์ท็อป 3
-   ไม่ต้องกำหนด breakpoint ตายตัว ปรับตามพื้นที่จริงเสมอ
+   7) การ์ดสินค้า (PRODUCT CARD)
    ============================================================ */
-.pgrid,
-.cgrid,
-.ngrid {
+.pgrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: clamp(18px, 2.5vw, 28px);
 }
 
-/* หลักสูตร: บังคับ 4 ใบต่อแถวบนจอกว้าง, ย่อลงอัตโนมัติเมื่อจอเล็ก */
+.pcard {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform var(--speed) var(--ease),
+    box-shadow var(--speed) var(--ease),
+    border-color var(--speed) var(--ease);
+}
+
+.pcard:hover {
+  transform: translateY(-6px);
+  border-color: transparent;
+  box-shadow: 0 22px 40px -20px rgba(20, 22, 26, 0.25);
+}
+
+.pcard img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  transition: transform 0.6s var(--ease);
+}
+
+.pcard:hover img {
+  transform: scale(1.04);
+}
+
+.pcard img.contain {
+  object-fit: contain;
+  object-position: top;
+  background: var(--color-mist);
+  padding: 0px;
+}
+
+.pcard img.tall {
+  aspect-ratio: 825 / 958;
+}
+
+.pbody {
+  padding: 6px clamp(18px, 2.4vw, 26px) clamp(18px, 2.4vw, 26px);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.pbody .en {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--red);
+  text-transform: uppercase;
+}
+
+.pbody h4 {
+  margin-top: 8px;
+  font-size: 19px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.pbody p {
+  margin-top: 10px;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--color-slate);
+}
+
+.pbody .foot {
+  margin-top: auto;
+  padding-top: 0px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+
+/* ============================================================
+   7.1) การ์ดหลักสูตร (COURSE CARD)
+   บังคับ 4 ใบต่อแถวบนจอกว้าง, ย่อลงอัตโนมัติเมื่อจอเล็ก
+   ============================================================ */
 .cgrid {
+  display: grid;
   grid-template-columns: repeat(4, 1fr);
+  gap: clamp(18px, 2.5vw, 28px);
 }
 
 @media (max-width: 1024px) {
@@ -353,11 +433,9 @@ a.link-more:hover {
   }
 }
 
-
-.pcard,
-.ccard,
-.ncard {
-  display: block;
+.ccard {
+  display: flex;
+  flex-direction: column;
   background: #fff;
   border: 1px solid var(--line);
   border-radius: 16px;
@@ -367,15 +445,12 @@ a.link-more:hover {
     border-color var(--speed) var(--ease);
 }
 
-.pcard:hover,
-.ccard:hover,
-.ncard:hover {
+.ccard:hover {
   transform: translateY(-6px);
   border-color: transparent;
   box-shadow: 0 22px 40px -20px rgba(20, 22, 26, 0.25);
 }
 
-.pcard img,
 .ccard img {
   width: 100%;
   aspect-ratio: 4 / 3;
@@ -383,39 +458,32 @@ a.link-more:hover {
   transition: transform 0.6s var(--ease);
 }
 
-.pcard:hover img,
 .ccard:hover img {
   transform: scale(1.04);
 }
 
-.pcard img.contain,
 .ccard img.contain {
   object-fit: contain;
+  object-position: top;
   background: var(--color-mist);
   padding: 0px;
 }
 
-.pcard img.tall,
-.ccard img.tall {
-  aspect-ratio: 825 / 958;
+.cbody {
+  padding: 6px clamp(18px, 2.4vw, 26px) clamp(18px, 2.4vw, 26px);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
-.pbody,
-.cbody,
-.nbody {
-  padding: clamp(18px, 2.4vw, 26px);
-}
-
-.pbody .en,
 .cbody .en {
-  font-size: 12px;
+  font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.12em;
   color: var(--red);
   text-transform: uppercase;
 }
 
-.pbody h4,
 .cbody h4 {
   margin-top: 8px;
   font-size: 19px;
@@ -424,7 +492,10 @@ a.link-more:hover {
   line-height: 1.4;
 }
 
-.pbody p,
+.cbody h4:first-child {
+  margin-top: 0;
+}
+
 .cbody p {
   margin-top: 10px;
   font-size: 14.5px;
@@ -432,10 +503,52 @@ a.link-more:hover {
   color: var(--color-slate);
 }
 
-.pbody .foot,
-.cbody .foot,
+.cbody .foot {
+  margin-top: auto;
+  padding-top: 0px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+
+/* ============================================================
+   7.2) การ์ดข่าวสาร (NEWS CARD)
+   ============================================================ */
+.ngrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: clamp(18px, 2.5vw, 28px);
+}
+
+.ncard {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform var(--speed) var(--ease),
+    box-shadow var(--speed) var(--ease),
+    border-color var(--speed) var(--ease);
+}
+
+.ncard:hover {
+  transform: translateY(-6px);
+  border-color: transparent;
+  box-shadow: 0 22px 40px -20px rgba(20, 22, 26, 0.25);
+}
+
+.nbody {
+  padding: clamp(18px, 2.4vw, 26px);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
 .nbody .foot {
-  margin-top: 16px;
+  margin-top: auto;
+  padding-top: 0px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
@@ -469,6 +582,7 @@ a.link-more:hover {
   font-size: clamp(40px, 3vw, 60px);
   color: var(--ink);
   line-height: 1.5;
+  text-wrap: balance;
 }
 
 .statement p {
@@ -945,116 +1059,108 @@ html.reveal-ready .reveal.in {
 
 /* ============================================================
    16) PRODUCT — AUTO CPR (หน้ารายละเอียดสินค้า)
-   โครงหน้า: hero เรียบ (พื้นขาว) → กล่องสื่อสลับ "รูปใหญ่ / วิดีโอ"
-   ด้วยแท็บ → การ์ดสเปกบนพื้น .mist (สไตล์เดียวกับ .timeline-card)
-   → ปิดท้ายด้วย .finale ที่มีอยู่แล้ว (ใช้ซ้ำ ไม่ต้องเขียนใหม่)
+   วิดีโอ/รูปแยกเป็นบล็อกของตัวเอง ไม่ทับข้อความ
+   ต่อด้วยหัวเรื่อง + คำอธิบาย แล้วตามด้วยสเปกแบบเส้นคั่น
    ============================================================ */
-
-/* hero: จัดกึ่งกลาง ระยะห่างเท่าโครง .sec-head เดิม */
-.p-hero {
-  text-align: center;
-  padding-block: clamp(56px, 9vw, 96px) clamp(24px, 4vw, 40px);
-}
-
-.p-hero .eyebrow {
-  display: inline-block;
-}
-
-.p-hero .sub {
-  max-width: 640px;
-  margin-inline: auto;
-}
-
-/* แท็บสลับสื่อ */
-.p-media-sec {
-  padding-block: 0 clamp(56px, 9vw, 96px);
-}
-
-.ptabs {
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  margin-bottom: 18px;
-}
-
-.ptab {
-  padding: 10px 26px;
-  border-radius: 999px;
-  border: 1px solid var(--line);
-  background: #fff;
-  color: var(--color-slate);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color var(--speed) var(--ease),
-    border-color var(--speed) var(--ease), color var(--speed) var(--ease);
-}
-
-.ptab:hover {
-  border-color: var(--red);
-  color: var(--red);
-}
-
-.ptab.is-active {
-  background: var(--red);
-  border-color: var(--red);
-  color: #fff;
-}
-
-/* กรอบสื่อ: ให้สัดส่วนคงที่ ไม่ดันเลย์เอาต์กระโดดตอนสลับรูป/วิดีโอ */
-.pmedia-frame {
-  border-radius: 16px;
-  overflow: hidden;
-  background: var(--color-mist);
-  border: 1px solid var(--line);
-}
-
-.pmedia-img,
-.pmedia-video {
+.cpr-media {
   width: 100%;
-  height: clamp(320px, 60vh, 640px);
-  object-fit: contain;
-  background: var(--color-mist);
+  height: 100vh;
+  background: #111;
+  overflow: hidden;
+  padding: 0;
 }
 
-/* การ์ดสเปก: ใช้ภาษาภาพเดียวกับ .timeline-card (พื้นขาว ขอบมน เงานุ่ม) */
-.spec-card {
-  max-width: 720px;
-  margin-inline: auto;
+.cpr-media-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.cpr-intro {
   background: #fff;
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: clamp(8px, 1.5vw, 12px) clamp(20px, 2.6vw, 28px);
-  box-shadow: 0 16px 32px -24px rgba(20, 22, 26, 0.35);
+  padding-block: clamp(40px, 6vw, 64px) 0;
+  text-align: center;
+}
+
+.cpr-lead {
+  margin-top: 18px;
+  margin-inline: auto;
+  max-width: 60ch;
+  color: var(--color-slate);
+  font-size: clamp(15px, 1.7vw, 17px);
+  line-height: 1.8;
+}
+
+.cpr-eyebrow {
+  display: inline-block;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 10px;
+}
+
+.cpr-title {
+  margin-top: 12px;
+  margin-inline: auto;
+  font-size: clamp(28px, 4.5vw, 44px);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.25;
+  max-width: 18ch;
+  text-align: center;
+}
+
+.cpr-lead {
+  margin-top: 18px;
+  max-width: 60ch;
+  color: var(--color-slate);
+  font-size: clamp(15px, 1.7vw, 17px);
+  line-height: 1.8;
+}
+
+.p-specs-sec {
+  background: #fff;
+}
+
+.spec-list {
+  max-width: 760px;
+  margin-inline: auto;
+  margin-top: clamp(32px, 4.5vw, 48px);
+  border-top: 1px solid var(--line);
+}
+
+.p-specs-sec .sec-head {
+  margin-top: clamp(32px, 4.5vw, 48px);
+  margin-bottom: 0;
 }
 
 .spec-row {
   display: flex;
+  align-items: baseline;
   justify-content: space-between;
-  gap: 16px;
-  padding: 14px 0;
+  gap: 24px;
+  padding: 18px 0;
   border-bottom: 1px solid var(--line);
-  font-size: 14.5px;
-}
-
-.spec-row:last-child {
-  border-bottom: none;
 }
 
 .spec-label {
-  color: var(--color-muted);
+  font-size: 14.5px;
+  color: var(--color-slate);
 }
 
 .spec-value {
-  font-weight: 600;
+  font-size: 15.5px;
+  font-weight: 700;
   color: var(--ink);
   text-align: right;
 }
 
 @media (max-width: 680px) {
-  .pmedia-img,
-  .pmedia-video {
-    height: clamp(220px, 46vh, 360px);
+  .cpr-media {
+    height: 50vh;
   }
 
   .spec-row {

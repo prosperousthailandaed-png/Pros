@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 const SPECS: { label: string; value: string }[] = [
@@ -13,67 +13,44 @@ const SPECS: { label: string; value: string }[] = [
 ];
 
 export default function AutoCprPage() {
-  const [tab, setTab] = useState<'image' | 'video'>('image');
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.play().catch(() => {});
+  }, []);
 
   return (
     <div className="product">
-      {/* hero: ชื่อสินค้า + คำโปรย เหมือนโครง about-hero แต่ไม่ใช้พื้นเข้ม */}
-      <section className="p-hero">
+      <section className="cpr-media">
+        <video
+          ref={videoRef}
+          src="/image/Autocpr1.mp4"
+          className="cpr-media-video"
+          autoPlay
+          muted
+          playsInline
+          loop
+          preload="auto"
+        />
+      </section>
+
+      <section className="cpr-intro">
         <div className="wrap">
-          <span className="eyebrow">AUTO CPR</span>
-          <h1 className="sec">เครื่องนวดหัวใจอัตโนมัติ</h1>
-          <p className="sub">
+          <span className="cpr-eyebrow">AUTO CPR</span>
+          <h1 className="cpr-title">เครื่องนวดหัวใจอัตโนมัติ</h1>
+          <p className="cpr-lead">
             Auto CPR จาก Michigan Instruments ช่วยกดหน้าอกต่อเนื่องอย่างแม่นยำและสม่ำเสมอ
             ในภาวะฉุกเฉิน ลดความเหนื่อยล้าของผู้ช่วยเหลือ และเพิ่มโอกาสรอดชีวิตของผู้ป่วย
           </p>
         </div>
       </section>
 
-      {/* สื่อหลัก: สลับดูรูปใหญ่ / วิดีโอ ด้วยแท็บ */}
-      <section className="p-media-sec">
+      <section className="p-specs-sec" id="specs">
         <div className="wrap">
-          <div className="ptabs">
-            <button
-              className={`ptab ${tab === 'image' ? 'is-active' : ''}`}
-              onClick={() => setTab('image')}
-            >
-              รูปใหญ่
-            </button>
-            <button
-              className={`ptab ${tab === 'video' ? 'is-active' : ''}`}
-              onClick={() => setTab('video')}
-            >
-              วิดีโอ
-            </button>
-          </div>
-
-          <div className="pmedia-frame">
-            {tab === 'image' ? (
-              <img src="/image/AutoCPR_1.avif" alt="Auto CPR" className="pmedia-img" />
-            ) : (
-              <video
-                src="/video/autocpr.mp4"
-                className="pmedia-video"
-                controls
-                autoPlay
-                muted
-                playsInline
-                loop
-              />
-            )}
-          </div>
-        </div>
-      </section>
-
-      {/* คุณสมบัติทางเทคนิค: การ์ดขาวสไตล์เดียวกับ timeline-card */}
-      <section className="mist p-specs-sec">
-        <div className="wrap">
-          <div className="sec-head reveal">
-            <h2 className="sec">คุณสมบัติทางเทคนิค</h2>
-            <p className="sub">ข้อมูลจำเพาะของเครื่อง Auto CPR รุ่น Thumper</p>
-          </div>
-
-          <div className="spec-card reveal">
+          <div className="spec-list reveal">
             {SPECS.map((s) => (
               <div className="spec-row" key={s.label}>
                 <span className="spec-label">{s.label}</span>
@@ -81,10 +58,14 @@ export default function AutoCprPage() {
               </div>
             ))}
           </div>
+
+          <div className="sec-head reveal">
+            <h2 className="sec">คุณสมบัติทางเทคนิค</h2>
+            <p className="sub">ข้อมูลจำเพาะของเครื่อง Auto CPR รุ่น Thumper</p>
+          </div>
         </div>
       </section>
 
-      {/* ปิดท้ายด้วย CTA เข้มเหมือนหน้าแรก */}
       <section className="finale">
         <div className="narrow reveal">
           <h2>สนใจเครื่อง Auto CPR สำหรับหน่วยงานของคุณ?</h2>

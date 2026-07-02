@@ -42,8 +42,8 @@ export default function HomePage() {
             <a href="#" className="pcard reveal">
               <img src="/image/A112.avif" className="contain tall" alt="AED" />
               <div className="pbody">
-                <div className="en">AED</div>
                 <h4>เครื่องกระตุกหัวใจไฟฟ้าอัตโนมัติ</h4>
+                <div className="en">AED</div>
                 <p>
                   เครื่อง AED แบรนด์ Acoresmed มาตรฐานสากล ใช้งานง่าย
                   พร้อมในทุกวินาทีวิกฤต
@@ -58,8 +58,8 @@ export default function HomePage() {
             <a href="#" className="pcard reveal">
               <img src="/image/autocpr.avif" alt="Auto CPR" />
               <div className="pbody">
-                <div className="en">AUTO CPR</div>
                 <h4>เครื่องนวดหัวใจอัตโนมัติ</h4>
+                <div className="en">AUTO CPR</div>
                 <p>
                   Auto CPR จาก Michigan Instrument
                   ช่วยปั๊มหัวใจต่อเนื่องอย่างมีประสิทธิภาพในภาวะฉุกเฉิน
@@ -74,8 +74,8 @@ export default function HomePage() {
             <a href="#" className="pcard reveal">
               <img src="/image/physio.avif" alt="Physical Therapy" />
               <div className="pbody">
-                <div className="en">Physical Therapy</div>
                 <h4>อุปกรณ์กายภาพบำบัด</h4>
+                <div className="en">Physical Therapy</div>
                 <p>อุปกรณ์ฟื้นฟูและกายภาพบำบัดสำหรับสถานพยาบาลและองค์กร</p>
                 <div className="foot">
                   <span className="link-more">ดูเพิ่มเติม →</span>
@@ -90,12 +90,12 @@ export default function HomePage() {
       {/* statement */}
       <section className="statement">
         <div className="narrow reveal">
-          <h3>“มากกว่าผู้นำเข้า... คือเราพร้อมเคียงข้างทุกชีวิต”</h3>
+          <h3 className="text-balance">“มากกว่าผู้นำเข้า...<br /> คือเราพร้อมเคียงข้างทุกชีวิต”</h3>
           <p>
-            เราไม่ได้เป็นเพียงผู้จำหน่ายอุปกรณ์แพทย์ แต่เราขับเคลื่อนความปลอดภัยผ่านผู้เชี่ยวชาญในทุกมิติ
+            เราไม่ได้เป็นเพียงผู้จำหน่ายอุปกรณ์ทีมการแพทย์ แต่เราขับเคลื่อนความปลอดภัย ผ่านผู้เชี่ยวชาญในทุกมิติ
             เพื่อส่งต่อ <span className="em">‘คุณค่าแห่งการรอดชีวิต’</span> สู่การสร้าง{' '}
             <span className="em">‘พื้นที่ปลอดภัย’</span> ที่สมบูรณ์และยั่งยืน
-            ให้กับเทศบาล บริษัท และโรงงาน
+            ให้กับทุกบริษัท และโรงงาน
           </p>
         </div>
       </section>
@@ -112,31 +112,30 @@ export default function HomePage() {
 
           {/* CPR & AED*/}
           <div className="cgrid">
+            {/* CPR & AED*/}
             <a href="#" className="ccard reveal">
               <img src="/image/csr.avif" alt="CPR & AED Training" />
               <div className="cbody">
-                <div className="en">AED (CPR & AED T  raining)</div>
                 <h4>หลักสูตรการช่วยชีวิตขั้นพื้นฐาน</h4>
+                <div className="en">AED (CPR & AED Training)</div>
                 <p>หลักสูตรการช่วยชีวิตขั้นพื้นฐานและการใช้เครื่อง AED</p>
                 <div className="foot">
                   <span className="link-more">ดูเพิ่มเติม →</span>
-                  <span className="linknote">AED (CPR & AED Training)</span>
                 </div>
               </div>
             </a>
-      
+
             {/* RESCUE SWIMMER */}
             <a href="#" className="ccard reveal">
               <img src="/image/rescue_swimmer.avif" alt="Rescue Swimmer" />
               <div className="cbody">
-                <div className="en">RESCUE SWIMMER</div>
                 <h4>หลักสูตรกู้ภัยทางน้ำทางทะเล</h4>
+                <div className="en">RESCUE SWIMMER</div>
                 <p>
                   ฝึกการว่ายน้ำตัวเปล่า และการช่วยเหลือผู้ประสบภัยในกรณีที่ไม่มีอุปกรณ์ช่วยเหลือ
                 </p>
                 <div className="foot">
                   <span className="link-more">ดูเพิ่มเติม →</span>
-                  <span className="linknote">RESCUE SWIMMER</span>
                 </div>
               </div>
             </a>
@@ -145,12 +144,11 @@ export default function HomePage() {
             <a href="#" className="ccard reveal">
               <img src="/image/diving.avif" alt="Diver" />
               <div className="cbody">
-                <div className="en">DIVER</div>
                 <h4>หลักสูตรการดำน้ำเพื่อการกู้ภัย</h4>
+                <div className="en">RESCUE DIVER</div>
                 <p>หลักสูตรฝึกอบรมนักดำน้ำกู้ภัยมืออาชีพ</p>
                 <div className="foot">
                   <span className="link-more">ดูเพิ่มเติม →</span>
-                  <span className="linknote">DIVER</span>
                 </div>
               </div>
             </a>
@@ -159,12 +157,11 @@ export default function HomePage() {
             <a href="#" className="ccard reveal">
               <img src="/image/lifeguard.avif" alt="Lifeguard Training" />
               <div className="cbody">
-                <div className="en">LIFEGUARD TRAINING</div>
                 <h4>หลักสูตรการช่วยชีวิต ผู้ประสบภัยทางน้ำ</h4>
+                <div className="en">LIFEGUARD TRAINING</div>
                 <p>หลักสูตรฝึกอบรมเจ้าหน้าที่กู้ภัยทางน้ำ</p>
                 <div className="foot">
                   <span className="link-more">ดูเพิ่มเติม →</span>
-                  <span className="linknote">LIFEGUARD TRAINING</span>
                 </div>
               </div>
             </a>
