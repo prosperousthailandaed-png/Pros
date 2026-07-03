@@ -27,7 +27,7 @@ export default function AutoCprPage() {
       <section className="cpr-media">
         <video
           ref={videoRef}
-          src="/image/Autocpr1.mp4"
+          src="/video/Autocpr1.mp4"
           className="cpr-media-video"
           autoPlay
           muted

@@ -39,8 +39,8 @@ export default function HomePage() {
             </p>
           </div>
           <div className="pgrid">
-            <a href="#" className="pcard reveal">
-              <img src="/image/A112.avif" className="contain tall" alt="AED" />
+            <Link href="/products/aed" className="pcard reveal">
+              <img src="/image/aed/A112.avif" className="contain tall" alt="AED" />
               <div className="pbody">
                 <h4>เครื่องกระตุกหัวใจไฟฟ้าอัตโนมัติ</h4>
                 <div className="en">AED</div>
@@ -49,14 +49,14 @@ export default function HomePage() {
                   พร้อมในทุกวินาทีวิกฤต
                 </p>
                 <div className="foot">
-                  <span className="link-more">ดูเพิ่มเติม →</span>
+                  <span className="link-more">ดูสินค้าเพิ่มเติม →</span>
                   <span className="linknote">AED 2 รุ่น</span>
                 </div>
               </div>
-            </a>
+            </Link>
 
-            <a href="#" className="pcard reveal">
-              <img src="/image/autocpr.avif" alt="Auto CPR" />
+            <Link href="/products/auto-cpr" className="pcard reveal">
+              <img src="/image/aed/autocpr.avif" alt="Auto CPR" />
               <div className="pbody">
                 <h4>เครื่องนวดหัวใจอัตโนมัติ</h4>
                 <div className="en">AUTO CPR</div>
@@ -69,10 +69,10 @@ export default function HomePage() {
                   <span className="linknote">รูปใหญ่ + วิดีโอ</span>
                 </div>
               </div>
-            </a>
+            </Link>
 
-            <a href="#" className="pcard reveal">
-              <img src="/image/physio.avif" alt="Physical Therapy" />
+            <Link href="/products/physio" className="pcard reveal">
+              <img src="/image/physio/physio.avif" alt="Physical Therapy" />
               <div className="pbody">
                 <h4>อุปกรณ์กายภาพบำบัด</h4>
                 <div className="en">Physical Therapy</div>
@@ -82,7 +82,7 @@ export default function HomePage() {
                   <span className="linknote">อุปกรณ์ทั้งหมด</span>
                 </div>
               </div>
-            </a>
+            </Link>
           </div>
         </div>
       </section>
@@ -114,7 +114,7 @@ export default function HomePage() {
           <div className="cgrid">
             {/* CPR & AED*/}
             <a href="#" className="ccard reveal">
-              <img src="/image/csr.avif" alt="CPR & AED Training" />
+              <img src="/image/csr/csr.avif" alt="CPR & AED Training" />
               <div className="cbody">
                 <h4>หลักสูตรการช่วยชีวิตขั้นพื้นฐาน</h4>
                 <div className="en">AED (CPR & AED Training)</div>
@@ -127,7 +127,7 @@ export default function HomePage() {
 
             {/* RESCUE SWIMMER */}
             <a href="#" className="ccard reveal">
-              <img src="/image/rescue_swimmer.avif" alt="Rescue Swimmer" />
+              <img src="/image/rescue/rescue_swimmer.avif" alt="Rescue Swimmer" />
               <div className="cbody">
                 <h4>หลักสูตรกู้ภัยทางน้ำทางทะเล</h4>
                 <div className="en">RESCUE SWIMMER</div>
@@ -142,7 +142,7 @@ export default function HomePage() {
 
             {/* DIVER */}
             <a href="#" className="ccard reveal">
-              <img src="/image/diving.avif" alt="Diver" />
+              <img src="/image/rescue/diving.avif" alt="Diver" />
               <div className="cbody">
                 <h4>หลักสูตรการดำน้ำเพื่อการกู้ภัย</h4>
                 <div className="en">RESCUE DIVER</div>
@@ -155,7 +155,7 @@ export default function HomePage() {
 
             {/* LIFE GUARDS */}
             <a href="#" className="ccard reveal">
-              <img src="/image/lifeguard.avif" alt="Lifeguard Training" />
+              <img src="/image/rescue/lifeguard.avif" alt="Lifeguard Training" />
               <div className="cbody">
                 <h4>หลักสูตรการช่วยชีวิต ผู้ประสบภัยทางน้ำ</h4>
                 <div className="en">LIFEGUARD TRAINING</div>

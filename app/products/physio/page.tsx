@@ -1,22 +1,101 @@
-import React from 'react'
-import Navbar from '@/components/Navbar'
-import Footer from '@/components/Footer'
+"use client";
 
-export default function ProductsPage() {
+import { useEffect, useRef } from "react";
+import Image from "next/image";
+
+const PRODUCTS = [
+  {
+    id: "ultrasound",
+    name: "เครื่องอัลตราซาวด์บำบัด",
+    tag: "Ultrasound Therapy",
+    desc: "คลื่นอัลตราซาวด์บำบัดลึกถึงชั้นกล้ามเนื้อ ปรับความถี่ได้ 1MHz/3MHz หน้าจอสัมผัสควบคุมง่าย",
+    image: "/image/physio/ultrasound.png",
+  },
+  {
+    id: "treatment-table",
+    name: "เตียงกายภาพบำบัด",
+    tag: "Treatment Table",
+    desc: "เตียงปรับระดับไฟฟ้า 3 ท่อน รองรับน้ำหนักสูง เคลื่อนย้ายสะดวกด้วยล้อล็อกได้",
+    image: "/image/physio/treatmentTable.png",
+  },
+  {
+    id: "tens",
+    name: "เครื่องกระตุ้นไฟฟ้า TENS",
+    tag: "TENS Stimulator",
+    desc: "บรรเทาอาการปวดกล้ามเนื้อด้วยกระแสไฟฟ้า พกพาสะดวก ปรับความเข้มได้หลายระดับ",
+    image: "/image/physio/tens.png",
+  },
+  {
+    id: "bike",
+    name: "จักรยานฟื้นฟูกล้ามเนื้อ",
+    tag: "Pedal Exerciser",
+    desc: "อุปกรณ์ออกกำลังกายฟื้นฟูแขน-ขา ปรับแรงต้านได้ เหมาะสำหรับผู้ป่วยพักฟื้น",
+    image: "/image/physio/bike.png",
+  },
+];
+
+export default function PhysioPage() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = true;
+    video.play().catch(() => {});
+  }, []);
+
   return (
-    // กำหนดให้หน้าจอยืดเต็มความสูง (อย่างน้อย 100vh) เพื่อดัน Footer ไปไว้ล่างสุด
-    <div className="flex flex-col min-height-screen" style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+    <div className="physio">
+      <section className="physio-hero">
+        <video
+          ref={videoRef}
+          className="physio-hero-video"
+          autoPlay
+          muted
+          loop
+          playsInline
+        >
+          <source src="/video/physio.mp4" type="video/mp4" />
+        </video>
+      </section>
 
-      {/* 2. ส่วนเนื้อหาตรงกลาง (ขยายพื้นที่เต็มที่เหลือ และจัดกึ่งกลางให้สวยงาม) */}
-      <main style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '4rem 2rem' }}>
-        <h1 style={{ fontSize: '2.5rem', fontWeight: 'bold', marginBottom: '1rem', color: '#333' }}>
-          อุปกรณ์กายภาพ
-        </h1>
-        <p style={{ fontSize: '1.25rem', color: '#666' }}>
-          Coming soon...
+      <div className="wrap physio-hero-content">
+        <p className="physio-eyebrow">PROSPEROUS PHYSIO</p>
+        <h1>อุปกรณ์กายภาพบำบัด</h1>
+        <p className="sub">
+          เครื่องมือฟื้นฟูและบำบัดคุณภาพสูง สำหรับคลินิกและศูนย์กายภาพบำบัด
         </p>
-      </main>
+      </div>
 
+      <section className="sec physio-list">
+        <div className="wrap">
+          {PRODUCTS.map((p, i) => (
+            <article
+              key={p.id}
+              className={`physio-row reveal ${i % 2 === 1 ? "physio-row--rev" : ""}`}
+            >
+              <div className="physio-row-media">
+                <Image
+                  src={p.image}
+                  alt={p.name}
+                  width={800}
+                  height={800}
+                  className="physio-row-img"
+                />
+              </div>
+              <div className="physio-row-body">
+                <span className="physio-row-index">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <p className="physio-row-tag">{p.tag}</p>
+                <h3>{p.name}</h3>
+                <p>{p.desc}</p>
+                <span className="physio-row-soon">รายละเอียดเร็วๆ นี้</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
     </div>
-  )
+  );
 }

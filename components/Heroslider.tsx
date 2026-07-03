@@ -19,7 +19,7 @@ const SLIDES = [
     title: 'เสริมพลังชุมชนของคุณให้ช่วยชีวิตได้',
     body: 'ทุกคนสามารถเป็นผู้ช่วยชีวิตได้ โปรแกรมอบรม CPR และ AED ของเรามอบความรู้และทักษะที่ใช้ได้จริงในยามฉุกเฉิน',
     ctaHref: '/heart-champion',
-    image: '/image/csr.avif',
+    image: '/image/csr/csr.avif',
     position: 'center 30%',
   },
 ]
@@ -33,11 +33,16 @@ export default function HeroSlider() {
   const slidesRef = useRef<HTMLDivElement>(null)
   const tot = SLIDES.length
 
+  // touch tracking
+  const touchStartX = useRef(0)
+  const touchDeltaX = useRef(0)
+  const isDragging = useRef(false)
+
   const goTo = (n: number) => setCur(n)
   const slide = (d: number) => setCur(prev => (prev + d + tot) % tot)
 
   useEffect(() => {
-    if (slidesRef.current) {
+    if (slidesRef.current && !isDragging.current) {
       slidesRef.current.style.transform = `translateX(-${cur * 33.333}%)`
     }
   }, [cur])
@@ -47,6 +52,42 @@ export default function HeroSlider() {
     timerRef.current = setInterval(() => setCur(c => (c + 1) % tot), 7000)
     return () => { if (timerRef.current) clearInterval(timerRef.current) }
   }, [paused, tot])
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    setPaused(true)
+    isDragging.current = true
+    touchStartX.current = e.touches[0].clientX
+    touchDeltaX.current = 0
+    if (slidesRef.current) {
+      slidesRef.current.style.transitionDuration = '0ms'
+    }
+  }
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!isDragging.current || !slidesRef.current) return
+    touchDeltaX.current = e.touches[0].clientX - touchStartX.current
+    const containerWidth = slidesRef.current.parentElement?.offsetWidth ?? 1
+    const deltaPercent = (touchDeltaX.current / containerWidth) * 33.333
+    slidesRef.current.style.transform = `translateX(-${cur * 33.333 - deltaPercent}%)`
+  }
+
+  const handleTouchEnd = () => {
+    if (!slidesRef.current) return
+    isDragging.current = false
+    slidesRef.current.style.transitionDuration = ''
+
+    const threshold = 50 // px
+    if (touchDeltaX.current > threshold) {
+      slide(-1)
+    } else if (touchDeltaX.current < -threshold) {
+      slide(1)
+    } else {
+      // snap back
+      slidesRef.current.style.transform = `translateX(-${cur * 33.333}%)`
+    }
+    touchDeltaX.current = 0
+    setPaused(false)
+  }
 
   const s = SLIDES[cur]
 
@@ -59,15 +100,19 @@ export default function HeroSlider() {
       {/* Slide track */}
       <div
         ref={slidesRef}
-        className="hero-track absolute inset-0 flex w-[300%] h-full duration-700 ease-[cubic-bezier(.4,0,.2,1)]"
+        className="hero-track absolute inset-0 flex w-[300%] h-full duration-700 ease-[cubic-bezier(.4,0,.2,1)] touch-pan-y"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
       >
         {SLIDES.map((slideItem, i) => (
           <div key={i} className="relative w-[33.333%] h-full overflow-hidden">
             <img
             src={slideItem.image}
             alt={slideItem.title}
-            className="absolute inset-0 w-full h-full object-cover"
+            className="absolute inset-0 w-full h-full object-cover pointer-events-none"
             style={{ objectPosition: slideItem.position ?? 'center' }}
+            draggable={false}
             />
             <div className="hero-slide-overlay absolute inset-0" />
           </div>
@@ -75,7 +120,7 @@ export default function HeroSlider() {
       </div>
 
       {/* Content */}
-      <div className="absolute inset-0 z-[2] flex items-end pb-20 max-md:pb-16">
+      <div className="absolute inset-0 z-[2] flex items-end pb-20 max-md:pb-16 pointer-events-none">
         <div className="w-full max-w-[1140px] mx-auto px-10 max-md:px-5">
           <div className="max-w-[560px] text-white max-md:text-center max-md:mx-auto">
             <div className="flex items-center gap-3 mb-4 max-md:justify-center">

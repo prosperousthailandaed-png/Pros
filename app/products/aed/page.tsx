@@ -1,4 +1,4 @@
-// app/products/aed/page.tsx
+
 import Image from "next/image";
 import Link from "next/link";
 
@@ -6,13 +6,13 @@ const aedProducts = [
   {
     id: "a112",
     name: "AED รุ่น A112",
-    image: "/image/A112.avif",
+    image: "/image/aed/A112.avif",
     href: "/products/aed/a112",
   },
   {
     id: "a102",
     name: "AED รุ่น A102",
-    image: "/image/A102.avif",
+    image: "/image/aed/A102.avif",
     href: "/products/aed/a102",
   },
 ];
