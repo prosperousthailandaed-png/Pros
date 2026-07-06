@@ -17,6 +17,7 @@
   --color-paper: #FFFFFF;
   --color-mist: #F4F5F7;
   --color-line: #E4E6EA;
+  
 
   /* ใช้ตัวแปรที่ next/font/google สร้างให้ (--font-anuphan / --font-ibm
      ประกาศไว้ที่ <html> ใน layout.tsx) ก่อนเสมอ เพราะเป็นฟอนต์ที่ถูก
@@ -95,7 +96,7 @@
 }
 
 .narrow {
-  max-width: 760px;
+  max-width: 900px;
   margin-inline: auto;
   padding-inline: clamp(20px, 5vw, 30px);
 }
@@ -108,24 +109,24 @@ section {
   background: var(--color-mist);
 }
 
-/* หัวข้อหมวด ใช้ร่วมกันหลายส่วน */
+/* หัวข้อหมวด ใช้ร่วมกันทุกจุดในเว็บ — centered เสมอ
+   และบนจอใหญ่ (≥1024px) บังคับให้อยู่บรรทัดเดียว */
 .sec {
-  font-size: clamp(26px, 3.6vw, 38px);
+  font-size: clamp(28px, 3.6vw, 48px);
   font-weight: 700;
   color: var(--ink);
   line-height: 1.25;
+  text-align: center;
+}
+
+@media (min-width: 1024px) {
+  .sec {
+    white-space: nowrap;
+  }
 }
 
 .sec-head {
-  text-align: center;
-  max-width: 640px;
-  margin-inline: auto;
-  margin-bottom: clamp(32px, 5vw, 52px);
-}
-
-.sec-head reveal two{
-  text-align: center;
-  max-width: 640px;
+  max-width: 900px;
   margin-inline: auto;
   margin-bottom: clamp(32px, 5vw, 52px);
 }
@@ -133,13 +134,14 @@ section {
 .sub {
   margin-top: 12px;
   color: var(--color-slate);
-  font-size: clamp(15px, 1.6vw, 17px);
+  font-size: clamp(19px, 2.2vw, 23px); /* เดิม clamp(17px, 2vw, 20px) — ปรับให้เท่ากับ .who p */
   line-height: 1.7;
+  text-align: center;
 }
 
 .eyebrow {
   display: block;
-  font-size: 12.5px;
+  font-size: 17px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -163,7 +165,7 @@ section {
   gap: 6px;
   color: var(--red);
   font-weight: 600;
-  font-size: 14.5px;
+  font-size: 17.5px; /* ขยายเพิ่มจาก 16.5px */
   transition: gap var(--speed) var(--ease), color var(--speed) var(--ease);
 }
 
@@ -180,6 +182,7 @@ a.link-more:hover {
 
 .more {
   margin-top: 22px;
+  text-align: center; /* กันไว้เผื่อ .more ถูกใช้นอก .who ด้วย */
 }
 
 /* ปุ่มมาตรฐาน */
@@ -190,7 +193,7 @@ a.link-more:hover {
   padding: 14px 30px;
   border-radius: 999px;
   font-weight: 600;
-  font-size: 15px;
+  font-size: 17px; /* เดิม 15px */
   transition: transform var(--speed) var(--ease),
     background-color var(--speed) var(--ease),
     box-shadow var(--speed) var(--ease);
@@ -278,15 +281,19 @@ a.link-more:hover {
   max-width: 15ch;
 }
 
-.hero-title .hl {
-  color: var(--red);
+.hero-title {
+  color: #fff;
+  font-weight: 700;
+  line-height: 1.2;
+  font-size: clamp(34px, 7vw, 66px); /* เดิม clamp(30px, 6vw, 58px) */
+  max-width: 15ch;
 }
 
 .hero .lead {
   margin-top: 20px;
   max-width: 56ch;
   color: rgba(255, 255, 255, 0.86);
-  font-size: clamp(15px, 1.8vw, 18px);
+  font-size: clamp(19px, 2.3vw, 23px); /* เดิม clamp(17px, 2vw, 20px) */
   line-height: 1.75;
 }
 
@@ -321,13 +328,15 @@ a.link-more:hover {
    ============================================================ */
 .who {
   padding-block: clamp(64px, 10vw, 110px);
+  text-align: center; /* ทำให้ลูกทุกตัวใน .who centered ทั้งหมด */
 }
 
 .who p {
   margin-top: 18px;
-  font-size: clamp(15px, 1.7vw, 17px);
+  font-size: clamp(19px, 2.2vw, 23px); /* ขยายเพิ่มจาก clamp(17px, 2vw, 20px) */
   line-height: 1.85;
   color: var(--color-slate);
+  margin-inline: auto; /* ให้ตัวย่อหน้า center ตัวเองในบรรทัดด้วย ไม่ใช่แค่ text-align */
 }
 
 /* ============================================================
@@ -404,7 +413,7 @@ a.link-more:hover {
 
 .pbody p {
   margin-top: 10px;
-  font-size: 14.5px;
+  font-size: 16.5px;
   line-height: 1.7;
   color: var(--color-slate);
 }
@@ -574,7 +583,7 @@ a.link-more:hover {
 }
 
 .ph {
-  font-size: 16.5px;
+  font-size: 18.5px; /* เดิม 16.5px */
   font-weight: 700;
 }
 
@@ -610,14 +619,14 @@ a.link-more:hover {
 .finale h2,
 .finale h3 {
   color: #fff;
-  font-size: clamp(24px, 3.4vw, 34px);
+  font-size: clamp(24px, 3vw, 34px); /* ลดลงจาก 38px ให้พอดีกับความยาวข้อความ */
   line-height: 1.4;
 }
 
 .finale p {
   margin-top: 16px;
   color: var(--muted-d);
-  font-size: clamp(15px, 1.7vw, 17px);
+  font-size: clamp(19px, 2.2vw, 23px); /* เดิม clamp(15px, 1.7vw, 17px) — เท่ากับ .sub */
   line-height: 1.8;
   max-width: 56ch;
   margin-inline: auto;
@@ -633,7 +642,7 @@ a.link-more:hover {
 
 .finale .quote {
   color: var(--muted-d);
-  font-size: clamp(15px, 1.8vw, 18px);
+  font-size: clamp(19px, 2.2vw, 23px); /* เดิม clamp(15px, 1.8vw, 18px) */
   line-height: 1.9;
 }
 
@@ -643,6 +652,15 @@ a.link-more:hover {
   color: var(--red);
   letter-spacing: 0.05em;
   margin-bottom: 8px;
+}
+
+
+
+@media (min-width: 1024px) {
+  .finale h2,
+  .finale h3 {
+    white-space: nowrap; /* บังคับบรรทัดเดียวบนจอใหญ่ */
+  }
 }
 
 /* ============================================================
@@ -661,7 +679,7 @@ a.link-more:hover {
   gap: 6px;
   text-align: center;
   color: var(--muted-d);
-  font-size: 13px;
+  font-size: 16px;
 }
 
 .site-footer b {
@@ -700,7 +718,7 @@ a.link-more:hover {
   color: #fff;
   font-weight: 700;
   line-height: 1.25;
-  font-size: clamp(28px, 5.2vw, 50px);
+  font-size: clamp(32px, 6vw, 58px); /* เดิม clamp(28px, 5.2vw, 50px) */
   max-width: 18ch;
 }
 
@@ -783,7 +801,7 @@ a.link-more:hover {
 }
 
 .timeline-card h3 {
-  font-size: clamp(18px, 2.1vw, 22px);
+  font-size: clamp(20px, 2.4vw, 25px); /* เดิม clamp(18px, 2.1vw, 22px) */
   font-weight: 700;
   color: var(--ink);
   line-height: 1.4;
@@ -791,7 +809,7 @@ a.link-more:hover {
 
 .timeline-card p {
   margin-top: 10px;
-  font-size: 14.5px;
+  font-size: 16.5px; /* เดิม 14.5px */
   line-height: 1.85;
   color: var(--color-slate);
 }
@@ -804,7 +822,7 @@ a.link-more:hover {
   background: var(--color-red-wash);
   color: var(--ink);
   font-weight: 600;
-  font-size: 14.5px;
+  font-size: 16.5px; /* เดิม 14.5px */
   line-height: 1.7;
   border-radius: 0 10px 10px 0;
 }
@@ -865,7 +883,7 @@ a.link-more:hover {
 
 .vision-card h3 {
   color: #fff;
-  font-size: clamp(19px, 2.6vw, 25px);
+  font-size: clamp(22px, 3vw, 29px); /* เดิม clamp(19px, 2.6vw, 25px) */
   line-height: 1.6;
   font-weight: 600;
 }
@@ -902,13 +920,13 @@ a.link-more:hover {
 }
 
 .m-item h4 {
-  font-size: 16.5px;
+  font-size: 19px; /* เดิม 16.5px */
   font-weight: 700;
   color: var(--ink);
 }
 
 .m-item .en {
-  font-size: 11.5px;
+  font-size: 13px; /* เดิม 11.5px */
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -918,7 +936,7 @@ a.link-more:hover {
 
 .m-item p {
   margin-top: 10px;
-  font-size: 14px;
+  font-size: 16px; /* เดิม 14px */
   line-height: 1.75;
   color: var(--color-slate);
 }
@@ -953,12 +971,12 @@ a.link-more:hover {
 .prosper-mark span {
   display: grid;
   place-items: center;
-  width: clamp(34px, 5vw, 48px);
-  height: clamp(34px, 5vw, 48px);
+  width: clamp(38px, 5.5vw, 54px); /* เดิม clamp(34px, 5vw, 48px) */
+  height: clamp(38px, 5.5vw, 54px);
   border-radius: 12px;
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(16px, 2.4vw, 22px);
+  font-size: clamp(18px, 2.8vw, 25px); /* เดิม clamp(16px, 2.4vw, 22px) */
   color: var(--color-slate);
   background: #fff;
   border: 1px solid var(--line);
@@ -1011,7 +1029,7 @@ a.link-more:hover {
 }
 
 .v-card .en {
-  font-size: 11.5px;
+  font-size: 13px; /* เดิม 11.5px */
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1020,14 +1038,14 @@ a.link-more:hover {
 
 .v-card h4 {
   margin-top: 3px;
-  font-size: 16px;
+  font-size: 18px; /* เดิม 16px */
   font-weight: 700;
   color: var(--ink);
 }
 
 .v-card p {
   margin-top: 8px;
-  font-size: 13.8px;
+  font-size: 15.8px; /* เดิม 13.8px — ถ้ายังไม่ได้แก้จากรอบก่อน */
   line-height: 1.7;
   color: var(--color-slate);
 }

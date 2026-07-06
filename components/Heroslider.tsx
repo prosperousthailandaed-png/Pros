@@ -122,18 +122,18 @@ export default function HeroSlider() {
       {/* Content */}
       <div className="absolute inset-0 z-[2] flex items-end pb-20 max-md:pb-16 pointer-events-none">
         <div className="w-full max-w-[1140px] mx-auto px-10 max-md:px-5">
-          <div className="max-w-[560px] text-white max-md:text-center max-md:mx-auto">
+          <div className="max-w-[900px] text-white max-md:text-center max-md:mx-auto">
             <div className="flex items-center gap-3 mb-4 max-md:justify-center">
               <svg viewBox="0 0 80 24" className="w-[64px] h-5 max-md:hidden">
                 <path className="ecg-line ecg-draw" d="M2 12h14l3-8 5 16 4-12 2 4h6l3-6 4 14 3-8h22" />
               </svg>
             </div>
-            <h1 className="text-[44px] font-extrabold leading-[1.12] mb-4 tracking-[-0.5px] max-md:text-[28px]">
-              {s.title}
-            </h1>
-            <p className="text-[15px] leading-[1.8] text-white/75 mb-7 max-w-[460px] max-md:text-[13px] max-md:mx-auto">
-              {s.body}
-            </p>
+              <h1 className="text-[48px] font-extrabold leading-[1.12] mb-4 tracking-[-0.5px] whitespace-nowrap max-md:text-[28px] max-md:whitespace-normal">
+                {s.title}
+              </h1>
+              <p className="text-[20px] leading-[1.8] text-white/75 mb-7 max-w-none whitespace-nowrap max-md:text-[13px] max-md:whitespace-normal max-md:max-w-[460px] max-md:mx-auto">
+                {s.body}
+              </p>
 
             {/* Standards row */}
             <div className="flex items-center gap-4 mt-9 max-md:justify-center max-md:flex-wrap max-md:gap-2.5">

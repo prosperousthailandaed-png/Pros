@@ -34,7 +34,7 @@ export default function AboutPage() {
       {/* who */}
       <section className="who">
         <div className="narrow reveal">
-          <span className="eyebrow">เราเป็นใคร · Who We Are</span>
+          <span className="eyebrow">Who We Are</span>
           <h2 className="sec">ผู้เชี่ยวชาญด้านนวัตกรรมช่วยชีวิต</h2>
           <p>
             โพรสเพอรัส คือผู้เชี่ยวชาญด้านนวัตกรรมช่วยชีวิตและอุปกรณ์กายภาพบำบัดครบวงจร
@@ -50,7 +50,6 @@ export default function AboutPage() {
       <section className="mist">
         <div className="wrap">
           <div className="sec-head reveal">
-            <span className="eyebrow center">เรื่องราวของเรา · Our Story</span>
             <h2 className="sec">“เริ่มต้นจากความสูญเสีย... สู่ภารกิจปกป้องทุกหัวใจ”</h2>
           </div>
 
@@ -115,19 +114,16 @@ export default function AboutPage() {
       <section>
         <div className="narrow">
           <div className="reveal" style={{ textAlign: 'center' }}>
-            <span className="eyebrow center">ทิศทางองค์กร · Our Direction</span>
             <h2 className="sec">วิสัยทัศน์และพันธกิจ</h2>
           </div>
           <div className="vision-card reveal" style={{ marginTop: 42 }}>
-            <span className="eyebrow">วิสัยทัศน์ · Vision</span>
             <h3>
               “เป็นผู้นำด้านนวัตกรรมช่วยชีวิตและบริการกู้ชีพแบบครบวงจร ที่สังคมไว้วางใจ
               เพื่อเปลี่ยนทุกวินาทีวิกฤตให้เป็นโอกาสรอดชีวิตอย่างยั่งยืน”
             </h3>
           </div>
           <div className="reveal" style={{ marginTop: 54, textAlign: 'center' }}>
-            <span className="eyebrow center">พันธกิจ · Mission</span>
-            <h3 style={{ fontSize: 22, fontWeight: 600, marginTop: 12, color: 'var(--ink)' }}>
+            <h3 style={{ fontSize: 26, fontWeight: 600, marginTop: 12, color: 'var(--ink)' }}>
               ภารกิจหลักที่ขับเคลื่อนเพื่อบรรลุวิสัยทัศน์
             </h3>
           </div>
@@ -181,7 +177,6 @@ export default function AboutPage() {
       <section className="mist">
         <div className="wrap">
           <div className="values-head reveal">
-            <span className="eyebrow center">คุณค่าหลักขององค์กร · Core Values</span>
             <h2 className="sec">คุณค่าที่สะกดจากชื่อของเรา</h2>
             <p className="sub">
               ตัวอักษร 7 ตัวแรกของชื่อบริษัท “PROSPER” คือคุณค่าหลัก 7 ประการ
