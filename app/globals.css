@@ -596,7 +596,7 @@ a.link-more:hover {
 }
 
 .statement .em {
-  color: #009C04;
+  color: #076600;
 }
 
 .statement h3 {
@@ -656,7 +656,7 @@ a.link-more:hover {
 .finale .big-r {
   font-size: clamp(48px, 9vw, 96px);
   font-weight: 700;
-  color: #009C04; /* PROSPER ตัวใหญ่ */
+  color: #076600; /* PROSPER ตัวใหญ่ */
   letter-spacing: 0.05em;
   margin-bottom: 8px;
 }
@@ -666,7 +666,7 @@ a.link-more:hover {
 }
 
 .em-brand {
-  color: #009C04; /* PROSPER ในคำพูด */
+  color: #076600; /* PROSPER ในคำพูด */
   font-weight: 600;
 }
 
@@ -1095,14 +1095,14 @@ a.link-more:hover {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(18px, 2.6vw, 24px);
-  color: #009C04; /* เดิม #fff */
+  color: #076600; /* เดิม #fff */
   background: transparent;
   border: none;
 }
 
 /* 7 ตัวแรกคือคุณค่าหลักที่มีความหมายกำกับ (การ์ดด้านล่าง) เน้นด้วยสีแบรนด์ */
 .prosper-mark span.is-value {
-  color: #009C04; /* เดิม #fff */
+  color: #076600; /* เดิม #fff */
   background: transparent;
   border: none;
 }
@@ -1142,7 +1142,7 @@ a.link-more:hover {
   place-items: center;
   border-radius: 999px;
   background: #FFA900; /* เดิม var(--color-red-wash) */
-  color: #009C04; /* เดิม var(--red) */
+  color: #076600; /* เดิม var(--red) */
   font-weight: 700;
   font-size: 17px;
 }
