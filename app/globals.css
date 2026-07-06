@@ -637,6 +637,13 @@ a.link-more:hover {
   margin-inline: auto;
 }
 
+@media (min-width: 1024px) {
+  .finale p {
+    white-space: nowrap;
+    max-width: none;
+  }
+}
+
 .finale .ctas {
   margin-top: 30px;
   display: flex;
@@ -662,7 +669,7 @@ a.link-more:hover {
 }
 
 .finale .narrow {
-  max-width: 900px;
+  max-width: 1300px;
 }
 
 .em-brand {
