@@ -106,7 +106,7 @@ export default function HomePage() {
           <div className="sec-head reveal">
             <h2 className="sec">หลักสูตรฝึกอบรมของเรา</h2>
             <p className="sub">
-              หลักสูตรมาตรฐานสากล AHA และการกู้ภัยทางน้ำ สอนทักษะที่ใช้ได้จริงในวิกฤต
+              หลักสูตรการช่วยชีวิตขั้นพื้นฐาน Hard Association และการกู้ภัยทางน้ำ ทักษะที่ใช้ได้จริงในสภาวะวิกฤติ แม้คุณจะไม่ใข่นักกู้ภัย
             </p>
           </div>
 
