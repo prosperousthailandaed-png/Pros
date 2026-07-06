@@ -17,7 +17,19 @@ const DESKTOP: NavItem[] = [
       { href: '/products/physio', label: 'อุปกรณ์กายภาพ'},
     ],
   },
+  {
+    href: '/courses',
+    label: 'หลักสูตร',
+    children: [
+      { href: '/courses/cpr-aed-basic', label: 'AED (CPR & AED Training)' },
+      { href: '/courses/rescue-swimmer', label: 'Rescue Swimmer' },
+      { href: '/courses/rescue-diver', label: 'Rescue Diver' },
+      { href: '/courses/lifeguard-training', label: 'Lifeguard Training' },
+    ],
+  },
+  { href: '/articles', label: 'บทความ' },
   { href: '/about', label: 'เกี่ยวกับเรา' },
+  { href: '/contact', label: 'ติดต่อเรา' },
 ];
 
 const MOBILE: NavItem[] = [
@@ -30,7 +42,18 @@ const MOBILE: NavItem[] = [
       { href: '/products/physio', label: 'อุปกรณ์กายภาพ'},
     ],
   },
-  { href: '/about', label: 'ติดต่อเรา' },
+  {
+    href: '/courses',
+    label: 'หลักสูตร',
+    children: [
+      { href: '/courses/cpr-aed-basic', label: 'AED (CPR & AED Training)' },
+      { href: '/courses/rescue-swimmer', label: 'Rescue Swimmer' },
+      { href: '/courses/rescue-diver', label: 'Rescue Diver' },
+      { href: '/courses/lifeguard-training', label: 'Lifeguard Training' },
+    ],
+  },
+  { href: '/articles', label: 'บทความ' },
+  { href: '/contact', label: 'ติดต่อเรา' },
 ];
 
 export default function Navbar() {
@@ -54,7 +77,6 @@ export default function Navbar() {
             </span>
             <span>
               <span className="block text-[21px] font-bold leading-none tracking-[-.3px] text-white">Prosperous</span>
-              <span className="mt-0.5 block text-[8.5px] uppercase tracking-[.16em] text-[var(--muted-d)]">Rescue Swimming</span>
             </span>
           </Link>
 

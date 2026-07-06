@@ -1,9 +1,10 @@
-
 import Link from 'next/link';
 import HeroSlider from '@/components/Heroslider';
+import { courses } from '@/lib/data/courses';
+import { articles } from '@/lib/data/articles';
 
 export const metadata = {
-  title: 'หน้าหลัก | Prosperous Rescue Swimming',
+  title: 'หน้าหลัก | Prosperous',
 };
 
 export default function HomePage() {
@@ -110,61 +111,34 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* CPR & AED*/}
           <div className="cgrid">
-            {/* CPR & AED*/}
-            <a href="#" className="ccard reveal">
-              <img src="/image/csr/csr.avif" alt="CPR & AED Training" />
-              <div className="cbody">
-                <h4>หลักสูตรการช่วยชีวิตขั้นพื้นฐาน</h4>
-                <div className="en">AED (CPR & AED Training)</div>
-                <p>หลักสูตรการช่วยชีวิตขั้นพื้นฐานและการใช้เครื่อง AED</p>
-                <div className="foot">
-                  <span className="link-more">ดูเพิ่มเติม →</span>
+            {courses.map((course, i) => (
+              <Link
+                key={course.slug}
+                href={`/courses/${course.slug}`}
+                className="ccard reveal"
+              >
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  loading={i === 0 ? 'eager' : 'lazy'}
+                />
+                <div className="cbody">
+                  <h4>{course.title}</h4>
+                  <div className="en">{course.category}</div>
+                  <p>{course.description}</p>
+                  <div className="foot">
+                    <span className="link-more">ดูเพิ่มเติม →</span>
+                  </div>
                 </div>
-              </div>
-            </a>
+              </Link>
+            ))}
+          </div>
 
-            {/* RESCUE SWIMMER */}
-            <a href="#" className="ccard reveal">
-              <img src="/image/rescue/rescue_swimmer.avif" alt="Rescue Swimmer" />
-              <div className="cbody">
-                <h4>หลักสูตรกู้ภัยทางน้ำทางทะเล</h4>
-                <div className="en">RESCUE SWIMMER</div>
-                <p>
-                  ฝึกการว่ายน้ำตัวเปล่า และการช่วยเหลือผู้ประสบภัยในกรณีที่ไม่มีอุปกรณ์ช่วยเหลือ
-                </p>
-                <div className="foot">
-                  <span className="link-more">ดูเพิ่มเติม →</span>
-                </div>
-              </div>
-            </a>
-
-            {/* DIVER */}
-            <a href="#" className="ccard reveal">
-              <img src="/image/rescue/diving.avif" alt="Diver" />
-              <div className="cbody">
-                <h4>หลักสูตรการดำน้ำเพื่อการกู้ภัย</h4>
-                <div className="en">RESCUE DIVER</div>
-                <p>หลักสูตรฝึกอบรมนักดำน้ำกู้ภัยมืออาชีพ</p>
-                <div className="foot">
-                  <span className="link-more">ดูเพิ่มเติม →</span>
-                </div>
-              </div>
-            </a>
-
-            {/* LIFE GUARDS */}
-            <a href="#" className="ccard reveal">
-              <img src="/image/rescue/lifeguard.avif" alt="Lifeguard Training" />
-              <div className="cbody">
-                <h4>หลักสูตรการช่วยชีวิต ผู้ประสบภัยทางน้ำ</h4>
-                <div className="en">LIFEGUARD TRAINING</div>
-                <p>หลักสูตรฝึกอบรมเจ้าหน้าที่กู้ภัยทางน้ำ</p>
-                <div className="foot">
-                  <span className="link-more">ดูเพิ่มเติม →</span>
-                </div>
-              </div>
-            </a>
+          <div style={{ marginTop: 28 }}>
+            <Link href="/courses" className="link-more">
+              ดูหลักสูตรทั้งหมด →
+            </Link>
           </div>
         </div>
       </section>
@@ -177,45 +151,32 @@ export default function HomePage() {
             <p className="sub">ดึงจากระบบบทความในแอดมินอัตโนมัติ</p>
           </div>
           <div className="ngrid">
-            <a href="#" className="ncard reveal">
-              <div className="pic img-ph">[ ปกบทความ 1 ]</div>
-              <div className="nbody">
-                <h4 className="ph" style={{ border: 'none', padding: 0, color: 'var(--red)' }}>
-                  รอข้อมูลจริง — หัวข้อบทความ
-                </h4>
-                <div className="foot">
-                  <span className="link-more">อ่านเพิ่มเติม →</span>
+            {articles.map((article) => (
+              <Link
+                key={article.slug}
+                href={`/articles/${article.slug}`}
+                className="ncard reveal"
+              >
+                {article.cover ? (
+                  <img src={article.cover} alt={article.title} className="pic" />
+                ) : (
+                  <div className="pic img-ph">[ ปกบทความ ]</div>
+                )}
+                <div className="nbody">
+                  <h4 className="ph" style={{ border: 'none', padding: 0, color: 'var(--red)' }}>
+                    {article.title}
+                  </h4>
+                  <div className="foot">
+                    <span className="link-more">อ่านเพิ่มเติม →</span>
+                  </div>
                 </div>
-              </div>
-            </a>
-            <a href="#" className="ncard reveal">
-              <div className="pic img-ph">[ ปกบทความ 2 ]</div>
-              <div className="nbody">
-                <h4 className="ph" style={{ border: 'none', padding: 0, color: 'var(--red)' }}>
-                  รอข้อมูลจริง — หัวข้อบทความ
-                </h4>
-                <div className="foot">
-                  <span className="link-more">อ่านเพิ่มเติม →</span>
-                </div>
-              </div>
-            </a>
-            <a href="#" className="ncard reveal">
-              <div className="pic img-ph">[ ปกบทความ 3 ]</div>
-              <div className="nbody">
-                <h4 className="ph" style={{ border: 'none', padding: 0, color: 'var(--red)' }}>
-                  รอข้อมูลจริง — หัวข้อบทความ
-                </h4>
-                <div className="foot">
-                  <span className="link-more">อ่านเพิ่มเติม →</span>
-                </div>
-              </div>
-            </a>
+              </Link>
+            ))}
           </div>
           <div style={{ marginTop: 28 }}>
-            <a href="#" className="link-more">
+            <Link href="/articles" className="link-more">
               ดูบทความทั้งหมด →
-            </a>
-            <span className="linknote">→ /articles</span>
+            </Link>
           </div>
         </div>
       </section>
@@ -226,12 +187,12 @@ export default function HomePage() {
           <h2>พร้อมสร้าง “พื้นที่ปลอดภัย” ให้องค์กรของคุณแล้วหรือยัง?</h2>
           <p>
             ปรึกษาผู้เชี่ยวชาญของเราเพื่อออกแบบโซลูชันความปลอดภัยที่เหมาะกับองค์กร
-            โรงงาน หรือหน่วยงานของคุณ
+            ของคุณ
           </p>
           <div className="ctas">
-            <a href="#" className="btn btn-primary">
+            <Link href="/contact" className="btn btn-primary">
               ติดต่อเรา
-            </a>
+            </Link>
           </div>
         </div>
       </section>

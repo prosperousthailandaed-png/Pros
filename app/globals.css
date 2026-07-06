@@ -158,6 +158,7 @@ section {
   font-weight: 600;
 }
 
+
 /* ลิงก์ "ดูเพิ่มเติม →" ที่ใช้ซ้ำทั้งเว็บ พร้อมเอฟเฟกต์ขยับลูกศรตอน hover */
 .link-more {
   display: inline-flex;
@@ -591,7 +592,7 @@ a.link-more:hover {
    8) STATEMENT (คำกล่าวกลางหน้า)
    ============================================================ */
 .statement {
-  background: var(--color-red-wash);
+  background: #FFA900;
 }
 
 .statement h3 {
@@ -612,21 +613,21 @@ a.link-more:hover {
    9) FINALE CTA (ปิดท้ายหน้า — พื้นเข้ม ตัดกับหน้าเว็บที่เหลือ)
    ============================================================ */
 .finale {
-  background: var(--black);
+  background: #FFA900;
   text-align: center;
 }
 
 .finale h2,
 .finale h3 {
-  color: #fff;
-  font-size: clamp(24px, 3vw, 34px); /* ลดลงจาก 38px ให้พอดีกับความยาวข้อความ */
+  color: #000000;
+  font-size: clamp(26px, 3.4vw, 36px);
   line-height: 1.4;
 }
 
 .finale p {
   margin-top: 16px;
-  color: var(--muted-d);
-  font-size: clamp(19px, 2.2vw, 23px); /* เดิม clamp(15px, 1.7vw, 17px) — เท่ากับ .sub */
+  color: #000000;
+  font-size: clamp(19px, 2.2vw, 23px);
   line-height: 1.8;
   max-width: 56ch;
   margin-inline: auto;
@@ -641,49 +642,160 @@ a.link-more:hover {
 }
 
 .finale .quote {
-  color: var(--muted-d);
-  font-size: clamp(19px, 2.2vw, 23px); /* เดิม clamp(15px, 1.8vw, 18px) */
+  color: #000000;
+  font-size: clamp(19px, 2.2vw, 23px);
   line-height: 1.9;
+  max-width: 56ch;
+  margin-inline: auto;
 }
 
 .finale .big-r {
   font-size: clamp(48px, 9vw, 96px);
   font-weight: 700;
-  color: var(--red);
+  color: #009C04; /* PROSPER ตัวใหญ่ */
   letter-spacing: 0.05em;
   margin-bottom: 8px;
 }
 
+.finale .narrow {
+  max-width: 900px;
+}
 
-
-@media (min-width: 1024px) {
-  .finale h2,
-  .finale h3 {
-    white-space: nowrap; /* บังคับบรรทัดเดียวบนจอใหญ่ */
-  }
+.em-brand {
+  color: #009C04; /* PROSPER ในคำพูด */
+  font-weight: 600;
 }
 
 /* ============================================================
    10) FOOTER
    ============================================================ */
+/* ===================================================================
+   SITE FOOTER — วาง block นี้แยกต่างหากใน globals.css
+   =================================================================== */
+
 .site-footer {
-  background: var(--black);
-  border-top: 1px solid var(--line-d);
-  padding-block: 26px;
+  background: var(--black, #0f1013);
+  color: #cfd2d8;
+  padding-top: 3rem;
 }
 
-.site-footer .wrap {
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.6fr repeat(4, 1fr);
+  gap: 2rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .footer-col--brand {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.footer-col--brand {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  text-align: center;
-  color: var(--muted-d);
-  font-size: 16px;
+  gap: 0.9rem;
 }
 
-.site-footer b {
+.footer-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 1.15rem;
+  font-weight: 700;
   color: #fff;
+  text-decoration: none;
+}
+
+.footer-logo__mark {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  background: var(--red);
+  color: #fff;
+}
+
+.footer-desc {
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #9a9ea6;
+}
+
+.footer-socials {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.footer-social-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #cfd2d8;
+  transition: border-color var(--ease), background var(--ease), color var(--ease);
+}
+
+.footer-social-btn:hover {
+  border-color: var(--red);
+  background: var(--red);
+  color: #fff;
+}
+
+.footer-heading {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links a {
+  font-size: 0.88rem;
+  color: #9a9ea6;
+  text-decoration: none;
+  transition: color var(--ease);
+}
+
+.footer-links a:hover {
+  color: #fff;
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 1.25rem 0;
+}
+
+.footer-bottom__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: #767a82;
 }
 
 /* ============================================================
@@ -871,7 +983,7 @@ a.link-more:hover {
    13) ABOUT — VISION / MISSION
    ============================================================ */
 .vision-card {
-  background: var(--black);
+  background: #FFA900;
   border-radius: 20px;
   padding: clamp(28px, 4vw, 44px);
   text-align: center;
@@ -882,7 +994,7 @@ a.link-more:hover {
 }
 
 .vision-card h3 {
-  color: #fff;
+  color: #000000 ;
   font-size: clamp(22px, 3vw, 29px); /* เดิม clamp(19px, 2.6vw, 25px) */
   line-height: 1.6;
   font-weight: 600;
@@ -962,32 +1074,35 @@ a.link-more:hover {
 /* wordmark แนวนอน: ตัวอักษรเรียงต่อกันเป็นแถวเดียว ห่อบรรทัดได้บนจอแคบ */
 .prosper-mark {
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
-  gap: clamp(4px, 1vw, 10px);
   margin-top: clamp(20px, 3vw, 28px);
+  background: #FFA900;
+  border-radius: 12px;
+  overflow: hidden;
+  width: fit-content;
+  margin-inline: auto;
 }
 
 .prosper-mark span {
   display: grid;
   place-items: center;
-  width: clamp(38px, 5.5vw, 54px); /* เดิม clamp(34px, 5vw, 48px) */
-  height: clamp(38px, 5.5vw, 54px);
-  border-radius: 12px;
+  width: clamp(40px, 6vw, 56px);
+  height: clamp(40px, 6vw, 56px);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(18px, 2.8vw, 25px); /* เดิม clamp(16px, 2.4vw, 22px) */
-  color: var(--color-slate);
-  background: #fff;
-  border: 1px solid var(--line);
+  font-size: clamp(18px, 2.6vw, 24px);
+  color: #009C04; /* เดิม #fff */
+  background: transparent;
+  border: none;
 }
 
 /* 7 ตัวแรกคือคุณค่าหลักที่มีความหมายกำกับ (การ์ดด้านล่าง) เน้นด้วยสีแบรนด์ */
 .prosper-mark span.is-value {
-  color: #fff;
-  background: var(--red);
-  border-color: var(--red);
+  color: #009C04; /* เดิม #fff */
+  background: transparent;
+  border: none;
 }
+
 
 /* การ์ดคุณค่า 7 ใบ: เรียงลงมาเป็นคอลัมน์เดียว (บนลงล่าง) ไม่ใช่กริดหลายใบต่อแถว
    จำกัดความกว้าง + จัดกึ่งกลาง ให้อ่านง่าย ไม่ยืดเต็มจอบนเดสก์ท็อป */
@@ -1022,8 +1137,8 @@ a.link-more:hover {
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: var(--color-red-wash);
-  color: var(--red);
+  background: #FFA900; /* เดิม var(--color-red-wash) */
+  color: #009C04; /* เดิม var(--red) */
   font-weight: 700;
   font-size: 17px;
 }
@@ -1500,4 +1615,573 @@ html.reveal-ready .reveal.in {
   .physio-row-body {
     max-width: none;
   }
+}
+
+
+/* ===================================================================
+   COURSES SECTION — scoped ภายใต้ .courses / .course-detail
+   วาง block นี้แยกต่างหากใน globals.css อย่าปนกับ .pcard / .ncard
+   =================================================================== */
+
+/* ---------- หน้ารวมหลักสูตร (.courses) ---------- */
+
+.courses__title {
+  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-weight: 700;
+  color: var(--ink);
+  text-align: center;
+  margin-top: 0.5rem;
+}
+
+.courses__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.5rem;
+  margin-top: 2.5rem;
+}
+
+@media (max-width: 1024px) {
+  .courses__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .courses__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ---------- การ์ดหลักสูตร (.ccard / .cbody / .cfoot) ---------- */
+
+.ccard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 1rem;
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+
+.ccard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.ccard__media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  background: var(--color-mist);
+}
+
+.ccard__img {
+  object-fit: cover;
+}
+
+.cbody {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.25rem;
+  /* padding-top: 0 ไม่ต้องใส่ที่นี่ เพราะ margin-top: auto ของ .cfoot
+     ทำงานได้ปกติเมื่อ .cbody เป็น flex column และไม่มี padding แปลกปน */
+}
+
+.cbody__title {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.4;
+}
+
+.cbody__category {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--red);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+}
+
+.cbody__desc {
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+  margin-top: 0.5rem;
+  line-height: 1.5;
+}
+
+.cfoot {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--red);
+  margin-top: auto;
+  padding-top: 1rem;
+}
+
+/* ---------- หน้ารายละเอียดหลักสูตร (.course-detail) ---------- */
+
+.course-detail .sec-head {
+  text-align: center;
+}
+
+.course-detail__hero {
+  position: relative;
+  min-height: 60vh;
+  display: flex;
+  align-items: flex-end;
+  color: #fff;
+}
+
+.course-detail__hero-media {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.course-detail__hero-img {
+  object-fit: cover;
+}
+
+.course-detail__hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0.15)
+  );
+  z-index: 1;
+}
+
+.course-detail__hero .wrap {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 3rem;
+}
+
+.course-detail__title {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-top: 0.5rem;
+}
+
+.course-detail__meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.course-detail__meta-label {
+  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
+}
+
+.course-detail__meta-value {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 0.25rem;
+}
+
+.course-detail__section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 1rem;
+}
+
+.course-detail__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+  color: var(--ink);
+}
+
+.course-detail__cta {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 0.85rem 2rem;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  font-weight: 700;
+  text-decoration: none;
+  transition: opacity var(--ease);
+}
+
+.course-detail__cta:hover {
+  opacity: 0.85;
+}
+
+/* ===================================================================
+   COURSE DETAIL — เฉพาะส่วนที่ "ยังไม่มี" ในระบบ (.cgrid/.ccard/.cbody/.en/.foot
+   /.link-more/.sec/.sub/.mist/.finale/.btn มีอยู่แล้ว ไม่ต้องเพิ่ม)
+   วาง block นี้แยกต่างหากใน globals.css
+   =================================================================== */
+
+.course-hero {
+  position: relative;
+  min-height: 55vh;
+  display: flex;
+  align-items: flex-end;
+  color: #fff;
+  overflow: hidden;
+}
+
+.course-hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.course-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.75),
+    rgba(0, 0, 0, 0.15)
+  );
+  z-index: 1;
+}
+
+.course-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 3rem;
+}
+
+.course-hero__content h1 {
+  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-weight: 700;
+  margin-top: 0.5rem;
+  color: #fff;
+}
+
+.course-hero__content .sub {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.course-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  border: 1px solid var(--line);
+  border-radius: 1rem;
+  padding: 1.5rem;
+}
+
+.course-meta__label {
+  display: block;
+  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
+}
+
+.course-meta__value {
+  display: block;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+  margin-top: 0.25rem;
+}
+
+.course-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+  color: var(--ink);
+}
+
+/* grid หลักสูตรอื่น ๆ ในหน้า detail — แยกจาก .cgrid (4 คอลัมน์) เพราะมีแค่ 3 การ์ด
+   ใช้ .cgrid ตรง ๆ จะเหลือช่องว่างคอลัมน์ที่ 4 */
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+}
+
+@media (max-width: 1024px) {
+  .related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+/* ===================================================================
+   CONTACT PAGE — .sec-head/.sub/.mist/.wrap/.reveal มีอยู่แล้ว ใช้ต่อได้เลย
+   ส่วนใหม่: .contact-grid / .contact-card
+   =================================================================== */
+
+/* ใช้ auto-fit แทนจำนวนคอลัมน์ตายตัว เพราะมี 5 การ์ด ไม่ลงตัวกับ grid 4 หรือ 3 คอลัมน์
+   (บทเรียนจากปัญหา .cgrid ก่อนหน้าที่เหลือช่องว่างตอนการ์ดไม่ครบคอลัมน์) */
+.contact-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  align-content: start;
+}
+
+/* จัดแผงแชท (ซ้าย) กับการ์ดช่องทางอื่น ๆ (ขวา) ให้อยู่แถวเดียวกัน
+   แทนที่จะวางซ้อนกันแล้วเหลือที่ว่างข้าง ๆ แผงแชท */
+.contact-layout {
+  display: grid;
+  grid-template-columns: 480px 1fr;
+  gap: 2rem;
+  margin-top: 2rem;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .contact-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contact-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 1.75rem 1.5rem;
+  border-radius: 1rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  text-decoration: none;
+  color: var(--ink);
+  transition: transform var(--ease), box-shadow var(--ease);
+}
+
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+}
+
+.contact-card__icon {
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  background: var(--color-mist);
+  color: var(--red);
+  margin-bottom: 0.5rem;
+}
+
+.contact-card h4 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.contact-card p {
+  font-size: 0.9rem;
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+  line-height: 1.5;
+}
+
+.contact-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--red);
+  margin-top: auto;
+  padding-top: 0.75rem;
+}
+
+/* ---------- แผงแชทที่เปิดค้างอยู่แล้ว (.chat-panel) ---------- */
+
+.chat-panel {
+  width: 100%;
+  padding: 1.5rem;
+  border-radius: 1.25rem;
+  background: #fff;
+  border: 1px solid var(--line);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.06);
+}
+
+.chat-panel__header {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.chat-panel__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  background: #22c55e;
+  flex: none;
+}
+
+.chat-panel__title {
+  font-weight: 700;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.chat-panel__status {
+  font-size: 0.8rem;
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
+}
+
+.chat-panel__bubble {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  border-radius: 0.9rem;
+  border-top-left-radius: 0.25rem;
+  background: var(--color-mist);
+  color: var(--ink);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.chat-panel__log {
+  display: flex;
+  flex-direction: column;
+  max-height: 280px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+/* scrollbar บาง ๆ อ่านง่ายขึ้นตอนมีข้อความเยอะ */
+.chat-panel__log::-webkit-scrollbar {
+  width: 6px;
+}
+.chat-panel__log::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 999px;
+}
+
+.chat-panel__bubble--user {
+  align-self: flex-end;
+  background: var(--red);
+  color: #fff;
+  border-top-left-radius: 0.9rem;
+  border-top-right-radius: 0.25rem;
+}
+
+.chat-panel__quick {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.chat-panel__quick-btn {
+  padding: 0.5rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink);
+  text-decoration: none;
+  transition: border-color var(--ease), color var(--ease);
+}
+
+.chat-panel__quick-btn:hover {
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.chat-panel__form {
+  display: flex;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.chat-panel__input {
+  flex: 1;
+  padding: 0.65rem 0.9rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: 0.9rem;
+  color: var(--ink);
+}
+
+.chat-panel__input:focus {
+  outline: none;
+  border-color: var(--red);
+}
+
+.chat-panel__input:disabled,
+.chat-panel__send:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chat-panel__send {
+  padding: 0.65rem 1.25rem;
+  border-radius: 999px;
+  background: var(--red);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.9rem;
+  border: none;
+  cursor: pointer;
+  transition: opacity var(--ease);
+}
+
+.chat-panel__send:hover {
+  opacity: 0.85;
+}
+
+
+/* ===================================================================
+   ARTICLE DETAIL — เฉพาะส่วนที่ยังไม่มีในระบบ
+   (.related-grid ใช้ตัวเดียวกับที่ประกาศไว้แล้วใน course-detail-new.css
+   ไม่ต้องประกาศซ้ำ — ถ้ายังไม่ได้เพิ่มไฟล์นั้น ให้เพิ่มก่อน)
+   =================================================================== */
+
+.article-cover {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 1rem;
+  object-fit: cover;
+  margin-bottom: 1.5rem;
+}
+
+.article-cover--ph {
+  display: grid;
+  place-items: center;
+  background: var(--color-mist);
+  color: color-mix(in srgb, var(--ink) 50%, transparent);
+  font-size: 0.9rem;
+}
+
+.article-meta {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  margin-top: 0.5rem;
+}
+
+.article-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: var(--ink);
+  line-height: 1.7;
 }

@@ -15,6 +15,15 @@ export interface ContactChannel {
 
 export const contactChannels: ContactChannel[] = [
   {
+    id: 'chat',
+    icon: 'chat',
+    title: 'แชทสดกับเจ้าหน้าที่',
+    description: 'คุยกับทีมงานได้ทันทีผ่านหน้าเว็บไซต์ ตอบไว ไม่ต้องโทร',
+    ctaLabel: 'เริ่มแชท',
+    // TODO: เปลี่ยนเป็นตัวเปิด live chat widget จริง (เช่น LINE OA Chat Plugin, Crisp, Tawk.to)
+    href: '#chat-widget',
+  },
+  {
     id: 'line',
     icon: 'line',
     title: 'แอดไลน์ทางการ',
