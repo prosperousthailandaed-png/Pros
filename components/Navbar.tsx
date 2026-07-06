@@ -53,6 +53,7 @@ const MOBILE: NavItem[] = [
     ],
   },
   { href: '/articles', label: 'บทความ' },
+  { href: '/about', label: 'เกี่ยวกับเรา' },
   { href: '/contact', label: 'ติดต่อเรา' },
 ];
 
