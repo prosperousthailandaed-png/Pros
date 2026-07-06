@@ -595,6 +595,10 @@ a.link-more:hover {
   background: #FFA900;
 }
 
+.statement .em {
+  color: #009C04;
+}
+
 .statement h3 {
   font-size: clamp(40px, 3vw, 60px);
   color: var(--ink);
