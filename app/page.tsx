@@ -1,13 +1,15 @@
 import Link from 'next/link';
 import HeroSlider from '@/components/Heroslider';
 import { courses } from '@/lib/data/courses';
-import { articles } from '@/lib/data/articles';
+import { getArticles } from '@/lib/data/articles';
 
 export const metadata = {
   title: 'หน้าหลัก | Prosperous',
 };
 
-export default function HomePage() {
+export default async function HomePage() {
+  const articles = await getArticles();
+
   return (
     <div className="home">
       {/* hero */}

@@ -1,16 +1,22 @@
 // app/articles/page.tsx
-// หน้ารวมบทความ — ใช้ class เดียวกับ section ข่าวสารใน HomePage
+// หน้ารวมบทความ — ดึงข้อมูลจาก Supabase (public.articles, published = true)
+// ใช้ class เดียวกับ section ข่าวสารใน HomePage
 // (.ngrid / .ncard / .nbody / .pic / .img-ph / .foot / .link-more มีอยู่แล้วใน globals.css)
 
 import Link from 'next/link';
-import { articles } from '@/lib/data/articles';
+import { getArticles } from '@/lib/data/articles';
 
 export const metadata = {
   title: 'ข่าวสาร & ความรู้ | Prosperous',
   description: 'บทความและความรู้ด้านการช่วยชีวิต CPR AED และการกู้ภัยจากโพรสเพอรัส',
 };
 
-export default function ArticlesPage() {
+// ดึงข้อมูลใหม่ทุกครั้งที่มีการ deploy/revalidate แทนที่จะ cache แบบ static ตลอดไป
+export const revalidate = 60; // วินาที — ปรับตามความถี่ที่แอดมินโพสต์บทความ
+
+export default async function ArticlesPage() {
+  const articles = await getArticles();
+
   return (
     <div className="articles-page">
       <section className="mist">

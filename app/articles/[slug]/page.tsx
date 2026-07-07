@@ -1,22 +1,24 @@
 // app/articles/[slug]/page.tsx
-// โครงหน้ารายละเอียดบทความ (เนื้อหาจริงใส่ทีหลังผ่าน lib/data/articles.ts
-// หรือเปลี่ยนเป็น fetch จากระบบแอดมินเมื่อพร้อม)
+// หน้ารายละเอียดบทความ — ดึงข้อมูลจาก Supabase (public.articles, published = true)
 
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
-import { articles, getArticleBySlug, getAllArticleSlugs } from '@/lib/data/articles';
+import { getArticles, getArticleBySlug, getAllArticleSlugs } from '@/lib/data/articles';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
 
-export function generateStaticParams() {
-  return getAllArticleSlugs().map((slug) => ({ slug }));
+export const revalidate = 60; // วินาที
+
+export async function generateStaticParams() {
+  const slugs = await getAllArticleSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
   if (!article) return {};
   return {
     title: `${article.title} | Prosperous`,
@@ -26,9 +28,12 @@ export async function generateMetadata({ params }: PageProps) {
 
 export default async function ArticleDetailPage({ params }: PageProps) {
   const { slug } = await params;
-  const article = getArticleBySlug(slug);
+  const article = await getArticleBySlug(slug);
 
   if (!article) notFound();
+
+  const allArticles = await getArticles();
+  const relatedArticles = allArticles.filter((a) => a.slug !== article.slug);
 
   return (
     <div className="article-detail">
@@ -50,7 +55,6 @@ export default async function ArticleDetailPage({ params }: PageProps) {
       </section>
 
       {/* ===== เนื้อหาบทความ ===== */}
-      {/* TODO: ใส่ content[] จริงใน lib/data/articles.ts หรือดึงจากระบบแอดมิน */}
       <section className="sec">
         <div className="wrap narrow reveal article-body">
           {(article.content ?? ['รอเนื้อหาจริงจากระบบแอดมิน']).map((p, i) => (
@@ -75,28 +79,26 @@ export default async function ArticleDetailPage({ params }: PageProps) {
             <h2 className="sec">บทความอื่น ๆ</h2>
           </div>
           <div className="related-grid">
-            {articles
-              .filter((a) => a.slug !== article.slug)
-              .map((a) => (
-                <Link key={a.slug} href={`/articles/${a.slug}`} className="ncard reveal">
-                  {a.cover ? (
-                    <img src={a.cover} alt={a.title} className="pic" />
-                  ) : (
-                    <div className="pic img-ph">[ ปกบทความ ]</div>
-                  )}
-                  <div className="nbody">
-                    <h4
-                      className="ph"
-                      style={{ border: 'none', padding: 0, color: 'var(--red)' }}
-                    >
-                      {a.title}
-                    </h4>
-                    <div className="foot">
-                      <span className="link-more">อ่านเพิ่มเติม →</span>
-                    </div>
+            {relatedArticles.map((a) => (
+              <Link key={a.slug} href={`/articles/${a.slug}`} className="ncard reveal">
+                {a.cover ? (
+                  <img src={a.cover} alt={a.title} className="pic" />
+                ) : (
+                  <div className="pic img-ph">[ ปกบทความ ]</div>
+                )}
+                <div className="nbody">
+                  <h4
+                    className="ph"
+                    style={{ border: 'none', padding: 0, color: 'var(--red)' }}
+                  >
+                    {a.title}
+                  </h4>
+                  <div className="foot">
+                    <span className="link-more">อ่านเพิ่มเติม →</span>
                   </div>
-                </Link>
-              ))}
+                </div>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
