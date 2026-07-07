@@ -8,7 +8,7 @@ import { courses } from '@/lib/data/courses';
 export const metadata = {
   title: 'หลักสูตรฝึกอบรม | Prosperous',
   description:
-    'หลักสูตรการช่วยชีวิตขั้นพื้นฐาน Hard Association และการกู้ภัยทางน้ำ ทักษะที่ใช้ได้จริงในสภาวะวิกฤติ แม้คุณจะไม่ใช่นักกู้ภัย',
+    'หลักสูตรการช่วยชีวิตขั้นพื้นฐาน American Heart Association (AHA) และการกู้ภัยทางน้ำ ทักษะที่ใช้ได้จริงในสภาวะวิกฤติ แม้คุณจะไม่ใช่นักกู้ภัย',
 };
 
 export default function CoursesPage() {
@@ -19,7 +19,8 @@ export default function CoursesPage() {
           <div className="sec-head reveal">
             <h2 className="sec">หลักสูตรฝึกอบรมของเรา</h2>
             <p className="sub">
-              หลักสูตรการช่วยชีวิตขั้นพื้นฐาน Hard Association และการกู้ภัยทางน้ำ
+              หลักสูตรการช่วยชีวิตขั้นพื้นฐาน American Heart Association (AHA) และการกู้ภัยทางน้ำ
+              <br />
               ทักษะที่ใช้ได้จริงในสภาวะวิกฤติ แม้คุณจะไม่ใช่นักกู้ภัย
             </p>
           </div>

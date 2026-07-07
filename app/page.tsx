@@ -16,7 +16,7 @@ export default function HomePage() {
       {/* who we are */}
       <section className="who">
         <div className="narrow reveal">
-          <h2 className="sec">ผู้เชี่ยวชาญด้านนวัตกรรมช่วยชีวิต</h2>
+          <h2 className="sec">"ตัวแทน... นวัตกรรมช่วยชีวิต..."</h2>
           <p>
             โพรสเพอรัส เป็นตัวแทนจำหน่ายเครื่อง AED และ Auto CPR มาตรฐานสากล
             พร้อมส่งต่อองค์ความรู้ผ่านหลักสูตรฝึกอบรมการช่วยชีวิตขั้นพื้นฐาน (CPR &amp; AED)
@@ -50,7 +50,7 @@ export default function HomePage() {
                   พร้อมในทุกวินาทีวิกฤต
                 </p>
                 <div className="foot">
-                  <span className="link-more">ดูสินค้าเพิ่มเติม →</span>
+                  <span className="link-more">รายละเอียดสินค้า →</span>
                   <span className="linknote">AED 2 รุ่น</span>
                 </div>
               </div>
@@ -66,7 +66,7 @@ export default function HomePage() {
                   ช่วยปั๊มหัวใจต่อเนื่องอย่างมีประสิทธิภาพในภาวะฉุกเฉิน
                 </p>
                 <div className="foot">
-                  <span className="link-more">ดูเพิ่มเติม →</span>
+                  <span className="link-more">รายละเอียดสินค้า →</span>
                   <span className="linknote">รูปใหญ่ + วิดีโอ</span>
                 </div>
               </div>
@@ -79,7 +79,7 @@ export default function HomePage() {
                 <div className="en">Physical Therapy</div>
                 <p>อุปกรณ์ฟื้นฟูและกายภาพบำบัดสำหรับสถานพยาบาลและองค์กร</p>
                 <div className="foot">
-                  <span className="link-more">ดูเพิ่มเติม →</span>
+                  <span className="link-more">รายละเอียดสินค้า →</span>
                   <span className="linknote">อุปกรณ์ทั้งหมด</span>
                 </div>
               </div>
@@ -91,7 +91,7 @@ export default function HomePage() {
       {/* statement */}
       <section className="statement">
         <div className="narrow reveal">
-          <h3 className="text-balance">“มากกว่าผู้นำเข้า...<br /> คือเราพร้อมเคียงข้างทุกชีวิต”</h3>
+          <h3 className="text-balance statement__title">“มากกว่าผู้นำเข้า...<br /> คือเราพร้อมเคียงข้างทุกชีวิต”</h3>
           <p>
             เราไม่ได้เป็นเพียงผู้จำหน่ายอุปกรณ์ทีมการแพทย์ แต่เราขับเคลื่อนความปลอดภัย ผ่านผู้เชี่ยวชาญในทุกมิติ
             เพื่อส่งต่อ <span className="em">‘คุณค่าแห่งการรอดชีวิต’</span> สู่การสร้าง{' '}
@@ -107,7 +107,9 @@ export default function HomePage() {
           <div className="sec-head reveal">
             <h2 className="sec">หลักสูตรฝึกอบรมของเรา</h2>
             <p className="sub">
-              หลักสูตรการช่วยชีวิตขั้นพื้นฐาน American Heart Association (AHA) และการกู้ภัยทางน้ำ ทักษะที่ใช้ได้จริงในสภาวะวิกฤติ แม้คุณจะไม่ใช่นักกู้ภัย
+              หลักสูตรการช่วยชีวิตขั้นพื้นฐาน American Heart Association (AHA) และการกู้ภัยทางน้ำ
+              <br />
+              ทักษะที่ใช้ได้จริงในสภาวะวิกฤติ แม้คุณจะไม่ใช่นักกู้ภัย
             </p>
           </div>
 

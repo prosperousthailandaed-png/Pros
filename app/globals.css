@@ -49,6 +49,12 @@
   /* จังหวะ transition กลางที่ใช้ซ้ำทั้งเว็บ ให้ทุกเอฟเฟกต์ลื่นไหลแบบเดียวกัน */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --speed: 0.5s;
+
+  /* สีเขียวหัวเป็ด (accent) และเหลืองแบรนด์ — ใช้ค่าเดียวกับที่มีอยู่แล้ว
+     ใน .statement .em / .finale .big-r / .em-brand / .prosper-mark เพื่อไม่ให้
+     มีเขียว/เหลืองหลายเฉดกระจายอยู่ในไฟล์เดียวกัน */
+  --teal: #006d77;
+  --brand-yellow: #f6a623;
 }
 
 /* ============================================================
@@ -110,11 +116,14 @@ section {
 }
 
 /* หัวข้อหมวด ใช้ร่วมกันทุกจุดในเว็บ — centered เสมอ
-   และบนจอใหญ่ (≥1024px) บังคับให้อยู่บรรทัดเดียว */
+   และบนจอใหญ่ (≥1024px) บังคับให้อยู่บรรทัดเดียว
+   สี: เปลี่ยนจาก var(--ink) เป็นสีเขียวหัวเป็ด (--teal) ตามที่ขอ "ทุกหัวข้อ" (19:21-22)
+   ฟอนต์: Promt ตามที่ระบุสำหรับ "สินค้าและบริการของเรา" (19:08) ใช้ร่วมกันทุกหัวข้อ */
 .sec {
   font-size: clamp(28px, 3.6vw, 48px);
   font-weight: 700;
-  color: var(--ink);
+  color: var(--teal); /* เดิม var(--ink) */
+  font-family: 'Promt', var(--font-display), sans-serif; /* เดิม: ไม่ได้ระบุ ใช้ font-display (Anuphan) */
   line-height: 1.25;
   text-align: center;
 }
@@ -131,9 +140,12 @@ section {
   margin-bottom: clamp(32px, 5vw, 52px);
 }
 
+/* สีเทาเข้ม (var(--color-slate)) ของเดิมตรงกับที่ขอแล้ว ไม่ต้องแก้สี
+   เพิ่มแค่ font-family เป็น Kanit/Anuphan Regular ตามที่ระบุ (19:08 ข้อ 2) */
 .sub {
   margin-top: 12px;
   color: var(--color-slate);
+  font-family: 'Kanit', var(--font-body), sans-serif; /* เดิม: ไม่ได้ระบุ ใช้ font-body (IBM Plex Sans Thai) */
   font-size: clamp(19px, 2.2vw, 23px); /* เดิม clamp(17px, 2vw, 20px) — ปรับให้เท่ากับ .who p */
   line-height: 1.7;
   text-align: center;
@@ -330,6 +342,7 @@ a.link-more:hover {
 .who {
   padding-block: clamp(64px, 10vw, 110px);
   text-align: center; /* ทำให้ลูกทุกตัวใน .who centered ทั้งหมด */
+  background: var(--brand-yellow); /* เพิ่มใหม่ตามที่ขอ (18:50 ข้อ 1: ดำ -> เหลือง) */
 }
 
 .who p {
@@ -397,7 +410,7 @@ a.link-more:hover {
 }
 
 .pbody .en {
-  font-size: 14px;
+  font-size: 15px; /* เดิม 14px — ขยายตามที่ขอ (18:52) */
   font-weight: 700;
   letter-spacing: 0.12em;
   color: var(--red);
@@ -406,7 +419,7 @@ a.link-more:hover {
 
 .pbody h4 {
   margin-top: 8px;
-  font-size: 19px;
+  font-size: 21px; /* เดิม 19px — ขยายตามที่ขอ (18:52) */
   font-weight: 700;
   color: var(--ink);
   line-height: 1.4;
@@ -414,7 +427,7 @@ a.link-more:hover {
 
 .pbody p {
   margin-top: 10px;
-  font-size: 16.5px;
+  font-size: 18.5px; /* เดิม 16.5px — ขยายตามที่ขอ (18:52) */
   line-height: 1.7;
   color: var(--color-slate);
 }
@@ -503,9 +516,9 @@ a.link-more:hover {
 
 .cbody h4 {
   margin-top: 8px;
-  font-size: 19px;
+  font-size: 21px; /* เดิม 19px — ขยายตามที่ขอ (19:02) */
   font-weight: 700;
-  color: var(--ink);
+  color: var(--teal); /* เดิม var(--ink) — เปลี่ยนสีตามที่ขอ (19:02, อัปเดตเป็นเขียวหัวเป็ดตาม 19:21) */
   line-height: 1.4;
 }
 
@@ -592,32 +605,37 @@ a.link-more:hover {
    8) STATEMENT (คำกล่าวกลางหน้า)
    ============================================================ */
 .statement {
-  background: #FFA900;
+  background: #f6a623;
 }
 
 .statement .em {
-  color: #076600;
+  color: #006d77;
 }
 
+/* สี: เปลี่ยนจาก var(--ink) เป็นเขียวหัวเป็ด + ตัวหนา + ฟอนต์ Promt ตามที่ขอ (18:55, 19:21) */
 .statement h3 {
   font-size: clamp(40px, 3vw, 60px);
-  color: var(--ink);
+  color: var(--teal); /* เดิม var(--ink) */
+  font-weight: 700; /* เพิ่มใหม่ตามที่ขอ (18:55 "ตัวหนา") */
+  font-family: 'Promt', var(--font-display), sans-serif; /* เพิ่มใหม่ตามที่ขอ (18:55) */
   line-height: 1.5;
   text-wrap: balance;
 }
 
+/* สีเทาเข้มของเดิม (var(--color-slate)) ตรงกับที่ขอแล้ว เพิ่มแค่ฟอนต์ Kanit/Anuphan (19:28) */
 .statement p {
   margin-top: 18px;
   font-size: clamp(20px, 2.1vw, 25px);
   line-height: 1.85;
-  color: var(--color-slate);
+  color: #999999;
+  font-family: 'Kanit', var(--font-body), sans-serif; /* เพิ่มใหม่ตามที่ขอ (19:28) */
 }
 
 /* ============================================================
    9) FINALE CTA (ปิดท้ายหน้า — พื้นเข้ม ตัดกับหน้าเว็บที่เหลือ)
    ============================================================ */
 .finale {
-  background: #FFA900;
+  background: #f6a623;
   text-align: center;
 }
 
@@ -663,7 +681,7 @@ a.link-more:hover {
 .finale .big-r {
   font-size: clamp(48px, 9vw, 96px);
   font-weight: 700;
-  color: #076600; /* PROSPER ตัวใหญ่ */
+  color: #006d77; /* PROSPER ตัวใหญ่ */
   letter-spacing: 0.05em;
   margin-bottom: 8px;
 }
@@ -673,7 +691,7 @@ a.link-more:hover {
 }
 
 .em-brand {
-  color: #076600; /* PROSPER ในคำพูด */
+  color: #006d77; /* PROSPER ในคำพูด */
   font-weight: 600;
 }
 
@@ -994,7 +1012,7 @@ a.link-more:hover {
    13) ABOUT — VISION / MISSION
    ============================================================ */
 .vision-card {
-  background: #FFA900;
+  background: #f6a623;
   border-radius: 20px;
   padding: clamp(28px, 4vw, 44px);
   text-align: center;
@@ -1087,7 +1105,7 @@ a.link-more:hover {
   display: flex;
   justify-content: center;
   margin-top: clamp(20px, 3vw, 28px);
-  background: #FFA900;
+  background: #f6a623;
   border-radius: 12px;
   overflow: hidden;
   width: fit-content;
@@ -1102,14 +1120,14 @@ a.link-more:hover {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(18px, 2.6vw, 24px);
-  color: #076600; /* เดิม #fff */
+  color: #006d77; /* เดิม #fff */
   background: transparent;
   border: none;
 }
 
 /* 7 ตัวแรกคือคุณค่าหลักที่มีความหมายกำกับ (การ์ดด้านล่าง) เน้นด้วยสีแบรนด์ */
 .prosper-mark span.is-value {
-  color: #076600; /* เดิม #fff */
+  color: #006d77; /* เดิม #fff */
   background: transparent;
   border: none;
 }
@@ -1148,8 +1166,8 @@ a.link-more:hover {
   display: grid;
   place-items: center;
   border-radius: 999px;
-  background: #FFA900; /* เดิม var(--color-red-wash) */
-  color: #076600; /* เดิม var(--red) */
+  background: #f6a623; /* เดิม var(--color-red-wash) */
+  color: #006d77; /* เดิม var(--red) */
   font-weight: 700;
   font-size: 17px;
 }
@@ -1843,7 +1861,7 @@ html.reveal-ready .reveal.in {
 
 .course-hero {
   position: relative;
-  min-height: 55vh;
+  min-height: 60vh;
   display: flex;
   align-items: flex-end;
   color: #fff;
@@ -1857,6 +1875,7 @@ html.reveal-ready .reveal.in {
   height: 100%;
   object-fit: cover;
   z-index: 0;
+  transform: scale(1.03);
 }
 
 .course-hero__overlay {
@@ -1864,8 +1883,9 @@ html.reveal-ready .reveal.in {
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.75),
-    rgba(0, 0, 0, 0.15)
+    rgba(0, 0, 0, 0.85) 0%,
+    rgba(0, 0, 0, 0.45) 45%,
+    rgba(0, 0, 0, 0.1) 100%
   );
   z-index: 1;
 }
@@ -1873,50 +1893,198 @@ html.reveal-ready .reveal.in {
 .course-hero__content {
   position: relative;
   z-index: 2;
-  padding-bottom: 3rem;
+  padding-bottom: 3.5rem;
+}
+
+.course-hero__content .en {
+  display: inline-block;
+  padding: 0.35rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(4px);
+  letter-spacing: normal;
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .course-hero__content h1 {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(1.85rem, 4.2vw, 2.75rem);
   font-weight: 700;
-  margin-top: 0.5rem;
+  line-height: 1.3;
+  margin-top: 0.75rem;
   color: #fff;
 }
 
 .course-hero__content .sub {
+  font-size: 1rem;
+  line-height: 1.7;
   color: rgba(255, 255, 255, 0.85);
+  max-width: 42rem;
+  margin-top: 0.5rem;
 }
 
+/* ===== หัวข้อ section ภายในหน้า detail (จุดเด่น / เนื้อหา / คุณสมบัติ / รูปภาพ) =====
+   ล็อกขนาดให้เท่ากันทุกหัวข้อ ไม่ปล่อยตาม .sec ของหน้าอื่นที่อาจขนาดต่างกัน */
+.course-detail h2.sec {
+  font-size: 1.5rem;
+  font-weight: 700;
+  line-height: 1.4;
+  color: var(--ink);
+  margin-bottom: 1.25rem;
+}
+
+/* ===== Meta: ระยะเวลา / ระดับ ===== */
 .course-meta {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.5rem;
   border: 1px solid var(--line);
   border-radius: 1rem;
-  padding: 1.5rem;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--ink) 2%, transparent);
+}
+
+.course-meta > div {
+  padding: 1.5rem 1.75rem;
+  position: relative;
+}
+
+.course-meta > div:first-child {
+  border-right: 1px solid var(--line);
+}
+
+.course-meta > div::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 1.5rem;
+  bottom: 1.5rem;
+  width: 3px;
+  border-radius: 2px;
+  background: #FFA900;
 }
 
 .course-meta__label {
   display: block;
-  font-size: 0.8rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+  font-weight: 500;
   color: color-mix(in srgb, var(--ink) 60%, transparent);
 }
 
 .course-meta__value {
   display: block;
-  font-size: 1.05rem;
+  font-size: 1.1rem;
+  line-height: 1.5;
   font-weight: 700;
   color: var(--ink);
-  margin-top: 0.25rem;
+  margin-top: 0.35rem;
 }
 
+@media (max-width: 640px) {
+  .course-meta {
+    grid-template-columns: 1fr;
+  }
+  .course-meta > div:first-child {
+    border-right: none;
+    border-bottom: 1px solid var(--line);
+  }
+}
+
+/* ===== List: จุดเด่น / เนื้อหา / คุณสมบัติ =====
+   font-size/line-height เท่ากันทุกลิสต์ อ่านง่ายสบายตา */
 .course-list {
   display: flex;
   flex-direction: column;
-  gap: 0.6rem;
-  padding-left: 1.25rem;
-  list-style: disc;
+  gap: 0.85rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.course-list li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: 1rem;
+  line-height: 1.7;
   color: var(--ink);
+}
+
+.course-list li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0.1rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #fff;
+  background: #009C04;
+  border-radius: 50%;
+}
+
+/* ===== Gallery: บล็อกเตรียมใส่รูปภาพประกอบหลักสูตร =====
+   ใช้ course.gallery?: string[] ใน lib/data/courses.ts (เพิ่มฟิลด์ทีหลังได้)
+   ถ้ายังไม่มีรูป ให้ใช้ .course-gallery__placeholder แทนที่ img */
+.course-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.course-gallery__item {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 0.85rem;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  background: color-mix(in srgb, var(--ink) 4%, transparent);
+}
+
+.course-gallery__item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+}
+
+.course-gallery__item:hover img {
+  transform: scale(1.05);
+}
+
+/* ใช้ตอนยังไม่มีรูปจริง กันหน้าดูโหว่ */
+.course-gallery__placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  color: color-mix(in srgb, var(--ink) 40%, transparent);
+  font-size: 0.85rem;
+}
+
+.course-gallery__placeholder svg {
+  width: 2rem;
+  height: 2rem;
+  opacity: 0.5;
+}
+
+@media (max-width: 1024px) {
+  .course-gallery {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 640px) {
+  .course-gallery {
+    grid-template-columns: 1fr;
+  }
 }
 
 /* grid หลักสูตรอื่น ๆ ในหน้า detail — แยกจาก .cgrid (4 คอลัมน์) เพราะมีแค่ 3 การ์ด
@@ -1925,6 +2093,15 @@ html.reveal-ready .reveal.in {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
+}
+
+.related-grid .ccard {
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.related-grid .ccard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.25);
 }
 
 @media (max-width: 1024px) {
@@ -1938,7 +2115,6 @@ html.reveal-ready .reveal.in {
     grid-template-columns: 1fr;
   }
 }
-
 
 /* ===================================================================
    CONTACT PAGE — .sec-head/.sub/.mist/.wrap/.reveal มีอยู่แล้ว ใช้ต่อได้เลย

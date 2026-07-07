@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import { Anuphan, IBM_Plex_Sans_Thai } from "next/font/google";
+import { Kanit, Anuphan } from "next/font/google";
 import "./globals.css";
 import Reveal from '@/components/Reveal';
 import LayoutShell from "@/components/Layoutshell";
+
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -12,15 +13,17 @@ export const viewport: Viewport = {
 
 
 const anuphan = Anuphan({
-  subsets: ["thai", "latin"],
-  variable: "--font-anuphan",
-  weight: ["400", "500", "600", "700"],
+   subsets: ['thai', 'latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-kanit',
+  display: 'swap',
 });
 
-const ibmPlex = IBM_Plex_Sans_Thai({
-  subsets: ["thai", "latin"],
-  variable: "--font-ibm",
-  weight: ["300", "400", "500", "600", "700"],
+const ibmPlex = Kanit({
+  subsets: ['thai', 'latin'],
+  weight: ['300', '400', '500', '600', '700'],
+  variable: '--font-anuphan',
+  display: 'swap',
 });
 
 export const metadata: Metadata = {
