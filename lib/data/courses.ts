@@ -15,6 +15,7 @@ export interface Course {
   highlights?: string[];   // จุดเด่นของหลักสูตร
   curriculum?: string[];   // หัวข้อเนื้อหาที่จะสอน
   audience?: string[];     // คุณสมบัติผู้เข้าอบรม
+  gallery?: string[];      // รูปบรรยากาศการอบรม 3 รูป ใน public/image/
 }
 
 export const courses: Course[] = [

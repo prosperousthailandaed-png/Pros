@@ -1,8 +1,8 @@
 // app/courses/[slug]/page.tsx
 // โครงหน้ารายละเอียดหลักสูตร (เนื้อหาจริงใส่ทีหลังผ่าน lib/data/courses.ts)
-// ใช้ class ที่มีอยู่แล้ว (.sec, .sub, .mist, .finale, .btn, .btn-primary, .en, .cgrid, .ccard ฯลฯ)
-// ส่วนที่เป็น UI ใหม่ (hero / meta / list) ใช้ class .course-hero / .course-meta / .course-list
-// ซึ่งอยู่ใน styles/course-detail.css แยกต่างหาก
+// ใช้ class ที่มีอยู่แล้ว (.sec, .sub, .mist, .finale, .btn, .btn-primary, .en, .ccard ฯลฯ)
+// ส่วน UI ใหม่ใช้ prefix .course-* ทั้งหมด (hero / meta / split / steps / gallery / check)
+// รูปภาพ: จุดเด่นใช้ course.image, แกลเลอรีใช้ course.gallery?[] (ถ้าไม่มีจะแสดง placeholder)
 
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
@@ -26,11 +26,33 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
+// placeholder ตอนยังไม่มีรูปจริงในแกลเลอรี
+function GalleryPlaceholder() {
+  return (
+    <div className="course-gallery__placeholder">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <path d="M21 15l-5-5L5 21" />
+      </svg>
+      <span>ภาพบรรยากาศการอบรม</span>
+    </div>
+  );
+}
+
 export default async function CourseDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const course = getCourseBySlug(slug);
 
   if (!course) notFound();
+
+  // แกลเลอรี 3 ช่องเสมอ — เติม placeholder ถ้ารูปจริงยังไม่ครบ
+  const gallery: (string | null)[] = [
+    ...(course.gallery ?? []),
+    null,
+    null,
+    null,
+  ].slice(0, 3);
 
   return (
     <div className="course-detail">
@@ -45,8 +67,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* ===== ระยะเวลา / ระดับ ===== */}
-      {/* TODO: ใส่ duration / level จริงใน lib/data/courses.ts */}
+      {/* ===== ระยะเวลา / ระดับ / ประกาศนียบัตร ===== */}
       <section className="sec">
         <div className="wrap narrow reveal">
           <div className="course-meta">
@@ -62,42 +83,74 @@ export default async function CourseDetailPage({ params }: PageProps) {
                 {course.level ?? 'รอเพิ่มเติมข้อมูล'}
               </span>
             </div>
+            <div>
+              <span className="course-meta__label">เมื่อจบหลักสูตร</span>
+              <span className="course-meta__value">ได้รับประกาศนียบัตร</span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* ===== จุดเด่นของหลักสูตร ===== */}
-      {/* TODO: ใส่ highlights[] จริงใน lib/data/courses.ts */}
+      {/* ===== จุดเด่นของหลักสูตร — ลิสต์ซ้าย รูปขวา ===== */}
       <section className="sec">
-        <div className="wrap narrow reveal">
-          <h2 className="sec">จุดเด่นของหลักสูตร</h2>
-          <ul className="course-list">
-            {(course.highlights ?? ['รอเพิ่มเติมเนื้อหา']).map((item, i) => (
-              <li key={i}>{item}</li>
-            ))}
-          </ul>
+        <div className="wrap reveal">
+          <div className="course-split">
+            <div className="course-split__text">
+              <h2 className="sec">จุดเด่นของหลักสูตร</h2>
+              <ul className="course-list">
+                {(course.highlights ?? ['รอเพิ่มเติมเนื้อหา']).map((item, i) => (
+                  <li key={i}>{item}</li>
+                ))}
+              </ul>
+            </div>
+            <figure className="course-split__media">
+              <img src={course.image} alt={course.title} />
+            </figure>
+          </div>
         </div>
       </section>
 
-      {/* ===== เนื้อหาที่จะได้ฝึก ===== */}
-      {/* TODO: ใส่ curriculum[] จริงใน lib/data/courses.ts */}
+      {/* ===== เนื้อหาที่จะได้ฝึก — ลำดับตัวเลข 01 02 03 ===== */}
       <section className="mist">
         <div className="wrap narrow reveal">
           <h2 className="sec">เนื้อหาที่จะได้ฝึก</h2>
-          <ul className="course-list">
+          <ol className="course-steps">
             {(course.curriculum ?? ['รอเพิ่มเติมเนื้อหา']).map((item, i) => (
-              <li key={i}>{item}</li>
+              <li key={i}>
+                <span className="course-steps__num">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span className="course-steps__text">{item}</span>
+              </li>
             ))}
-          </ul>
+          </ol>
         </div>
       </section>
 
-      {/* ===== คุณสมบัติผู้เข้าอบรม ===== */}
-      {/* TODO: ใส่ audience[] จริงใน lib/data/courses.ts */}
+      {/* ===== ภาพบรรยากาศการอบรม ===== */}
+      {/* TODO: เพิ่ม gallery: string[] ใน lib/data/courses.ts เมื่อมีรูปจริง */}
+      <section className="sec">
+        <div className="wrap reveal">
+          <h2 className="sec">ภาพบรรยากาศการอบรม</h2>
+          <div className="course-gallery">
+            {gallery.map((src, i) => (
+              <div key={i} className="course-gallery__item">
+                {src ? (
+                  <img src={src} alt={`${course.title} — ภาพที่ ${i + 1}`} />
+                ) : (
+                  <GalleryPlaceholder />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== คุณสมบัติผู้เข้าอบรม — checklist ===== */}
       <section className="sec">
         <div className="wrap narrow reveal">
           <h2 className="sec">คุณสมบัติผู้เข้าอบรม</h2>
-          <ul className="course-list">
+          <ul className="course-check">
             {(course.audience ?? ['รอเพิ่มเติมเนื้อหา']).map((item, i) => (
               <li key={i}>{item}</li>
             ))}
@@ -106,7 +159,6 @@ export default async function CourseDetailPage({ params }: PageProps) {
       </section>
 
       {/* ===== CTA สมัครอบรม ===== */}
-      {/* TODO: เปลี่ยน href เป็นฟอร์มสมัคร/เบอร์ติดต่อจริง */}
       <section className="finale">
         <div className="narrow reveal">
           <h2>สนใจสมัครอบรมหลักสูตรนี้?</h2>

@@ -120,7 +120,7 @@ section {
    สี: เปลี่ยนจาก var(--ink) เป็นสีเขียวหัวเป็ด (--teal) ตามที่ขอ "ทุกหัวข้อ" (19:21-22)
    ฟอนต์: Promt ตามที่ระบุสำหรับ "สินค้าและบริการของเรา" (19:08) ใช้ร่วมกันทุกหัวข้อ */
 .sec {
-  font-size: clamp(28px, 3.6vw, 48px);
+  font-size: clamp(30px, 3.6vw, 50px);
   font-weight: 700;
   color: var(--teal); /* เดิม var(--ink) */
   font-family: 'Promt', var(--font-display), sans-serif; /* เดิม: ไม่ได้ระบุ ใช้ font-display (Anuphan) */
@@ -146,14 +146,14 @@ section {
   margin-top: 12px;
   color: var(--color-slate);
   font-family: 'Kanit', var(--font-body), sans-serif; /* เดิม: ไม่ได้ระบุ ใช้ font-body (IBM Plex Sans Thai) */
-  font-size: clamp(19px, 2.2vw, 23px); /* เดิม clamp(17px, 2vw, 20px) — ปรับให้เท่ากับ .who p */
+  font-size: clamp(21px, 2.2vw, 25px); /* เดิม clamp(17px, 2vw, 20px) — ปรับให้เท่ากับ .who p */
   line-height: 1.7;
   text-align: center;
 }
 
 .eyebrow {
   display: block;
-  font-size: 17px;
+  font-size: 19px;
   font-weight: 600;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -178,7 +178,7 @@ section {
   gap: 6px;
   color: var(--red);
   font-weight: 600;
-  font-size: 17.5px; /* ขยายเพิ่มจาก 16.5px */
+  font-size: 19.5px; /* ขยายเพิ่มจาก 16.5px */
   transition: gap var(--speed) var(--ease), color var(--speed) var(--ease);
 }
 
@@ -189,7 +189,7 @@ a.link-more:hover {
 
 .linknote {
   margin-left: 10px;
-  font-size: 12.5px;
+  font-size: 14.5px;
   color: var(--color-muted);
 }
 
@@ -206,7 +206,7 @@ a.link-more:hover {
   padding: 14px 30px;
   border-radius: 999px;
   font-weight: 600;
-  font-size: 17px; /* เดิม 15px */
+  font-size: 19px; /* เดิม 15px */
   transition: transform var(--speed) var(--ease),
     background-color var(--speed) var(--ease),
     box-shadow var(--speed) var(--ease);
@@ -290,7 +290,7 @@ a.link-more:hover {
   color: #fff;
   font-weight: 700;
   line-height: 1.2;
-  font-size: clamp(30px, 6vw, 58px);
+  font-size: clamp(32px, 6vw, 60px);
   max-width: 15ch;
 }
 
@@ -298,7 +298,7 @@ a.link-more:hover {
   color: #fff;
   font-weight: 700;
   line-height: 1.2;
-  font-size: clamp(34px, 7vw, 66px); /* เดิม clamp(30px, 6vw, 58px) */
+  font-size: clamp(36px, 7vw, 68px); /* เดิม clamp(30px, 6vw, 58px) */
   max-width: 15ch;
 }
 
@@ -306,7 +306,7 @@ a.link-more:hover {
   margin-top: 20px;
   max-width: 56ch;
   color: rgba(255, 255, 255, 0.86);
-  font-size: clamp(19px, 2.3vw, 23px); /* เดิม clamp(17px, 2vw, 20px) */
+  font-size: clamp(21px, 2.3vw, 25px); /* เดิม clamp(17px, 2vw, 20px) */
   line-height: 1.75;
 }
 
@@ -347,7 +347,7 @@ a.link-more:hover {
 
 .who p {
   margin-top: 18px;
-  font-size: clamp(19px, 2.2vw, 23px); /* ขยายเพิ่มจาก clamp(17px, 2vw, 20px) */
+  font-size: clamp(21px, 2.2vw, 25px); /* ขยายเพิ่มจาก clamp(17px, 2vw, 20px) */
   line-height: 1.85;
   color: var(--color-slate);
   margin-inline: auto; /* ให้ตัวย่อหน้า center ตัวเองในบรรทัดด้วย ไม่ใช่แค่ text-align */
@@ -410,7 +410,7 @@ a.link-more:hover {
 }
 
 .pbody .en {
-  font-size: 15px; /* เดิม 14px — ขยายตามที่ขอ (18:52) */
+  font-size: 17px; /* เดิม 14px — ขยายตามที่ขอ (18:52) */
   font-weight: 700;
   letter-spacing: 0.12em;
   color: var(--red);
@@ -419,7 +419,7 @@ a.link-more:hover {
 
 .pbody h4 {
   margin-top: 8px;
-  font-size: 21px; /* เดิม 19px — ขยายตามที่ขอ (18:52) */
+  font-size: 23px; /* เดิม 19px — ขยายตามที่ขอ (18:52) */
   font-weight: 700;
   color: var(--ink);
   line-height: 1.4;
@@ -427,7 +427,7 @@ a.link-more:hover {
 
 .pbody p {
   margin-top: 10px;
-  font-size: 18.5px; /* เดิม 16.5px — ขยายตามที่ขอ (18:52) */
+  font-size: 20.5px; /* เดิม 16.5px — ขยายตามที่ขอ (18:52) */
   line-height: 1.7;
   color: var(--color-slate);
 }
@@ -507,7 +507,7 @@ a.link-more:hover {
 }
 
 .cbody .en {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 700;
   letter-spacing: 0.12em;
   color: var(--red);
@@ -516,7 +516,7 @@ a.link-more:hover {
 
 .cbody h4 {
   margin-top: 8px;
-  font-size: 21px; /* เดิม 19px — ขยายตามที่ขอ (19:02) */
+  font-size: 23px; /* เดิม 19px — ขยายตามที่ขอ (19:02) */
   font-weight: 700;
   color: var(--teal); /* เดิม var(--ink) — เปลี่ยนสีตามที่ขอ (19:02, อัปเดตเป็นเขียวหัวเป็ดตาม 19:21) */
   line-height: 1.4;
@@ -528,7 +528,7 @@ a.link-more:hover {
 
 .cbody p {
   margin-top: 10px;
-  font-size: 14.5px;
+  font-size: 16.5px;
   line-height: 1.7;
   color: var(--color-slate);
 }
@@ -593,11 +593,11 @@ a.link-more:hover {
   background: var(--color-mist);
   border-bottom: 1px dashed var(--line);
   color: var(--color-muted);
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .ph {
-  font-size: 18.5px; /* เดิม 16.5px */
+  font-size: 20.5px; /* เดิม 16.5px */
   font-weight: 700;
 }
 
@@ -614,7 +614,7 @@ a.link-more:hover {
 
 /* สี: เปลี่ยนจาก var(--ink) เป็นเขียวหัวเป็ด + ตัวหนา + ฟอนต์ Promt ตามที่ขอ (18:55, 19:21) */
 .statement h3 {
-  font-size: clamp(40px, 3vw, 60px);
+  font-size: clamp(42px, 3vw, 62px);
   color: var(--teal); /* เดิม var(--ink) */
   font-weight: 700; /* เพิ่มใหม่ตามที่ขอ (18:55 "ตัวหนา") */
   font-family: 'Promt', var(--font-display), sans-serif; /* เพิ่มใหม่ตามที่ขอ (18:55) */
@@ -625,7 +625,7 @@ a.link-more:hover {
 /* สีเทาเข้มของเดิม (var(--color-slate)) ตรงกับที่ขอแล้ว เพิ่มแค่ฟอนต์ Kanit/Anuphan (19:28) */
 .statement p {
   margin-top: 18px;
-  font-size: clamp(20px, 2.1vw, 25px);
+  font-size: clamp(22px, 2.1vw, 27px);
   line-height: 1.85;
   color: #999999;
   font-family: 'Kanit', var(--font-body), sans-serif; /* เพิ่มใหม่ตามที่ขอ (19:28) */
@@ -642,14 +642,14 @@ a.link-more:hover {
 .finale h2,
 .finale h3 {
   color: #000000;
-  font-size: clamp(26px, 3.4vw, 36px);
+  font-size: clamp(28px, 3.4vw, 38px);
   line-height: 1.4;
 }
 
 .finale p {
   margin-top: 16px;
   color: #000000;
-  font-size: clamp(19px, 2.2vw, 23px);
+  font-size: clamp(21px, 2.2vw, 25px);
   line-height: 1.8;
   max-width: 56ch;
   margin-inline: auto;
@@ -672,14 +672,14 @@ a.link-more:hover {
 
 .finale .quote {
   color: #000000;
-  font-size: clamp(19px, 2.2vw, 23px);
+  font-size: clamp(21px, 2.2vw, 25px);
   line-height: 1.9;
   max-width: 56ch;
   margin-inline: auto;
 }
 
 .finale .big-r {
-  font-size: clamp(48px, 9vw, 96px);
+  font-size: clamp(50px, 9vw, 98px);
   font-weight: 700;
   color: #006d77; /* PROSPER ตัวใหญ่ */
   letter-spacing: 0.05em;
@@ -740,7 +740,7 @@ a.link-more:hover {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-size: 1.15rem;
+  font-size: 1.275rem;
   font-weight: 700;
   color: #fff;
   text-decoration: none;
@@ -757,7 +757,7 @@ a.link-more:hover {
 }
 
 .footer-desc {
-  font-size: 0.85rem;
+  font-size: 0.975rem;
   line-height: 1.6;
   color: #9a9ea6;
 }
@@ -785,7 +785,7 @@ a.link-more:hover {
 }
 
 .footer-heading {
-  font-size: 0.85rem;
+  font-size: 0.975rem;
   font-weight: 700;
   color: #fff;
   margin-bottom: 1rem;
@@ -803,7 +803,7 @@ a.link-more:hover {
 }
 
 .footer-links a {
-  font-size: 0.88rem;
+  font-size: 1.005rem;
   color: #9a9ea6;
   text-decoration: none;
   transition: color var(--ease);
@@ -823,7 +823,7 @@ a.link-more:hover {
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 0.5rem;
-  font-size: 0.8rem;
+  font-size: 0.925rem;
   color: #767a82;
 }
 
@@ -859,7 +859,7 @@ a.link-more:hover {
   color: #fff;
   font-weight: 700;
   line-height: 1.25;
-  font-size: clamp(32px, 6vw, 58px); /* เดิม clamp(28px, 5.2vw, 50px) */
+  font-size: clamp(34px, 6vw, 60px); /* เดิม clamp(28px, 5.2vw, 50px) */
   max-width: 18ch;
 }
 
@@ -871,7 +871,7 @@ a.link-more:hover {
   margin-top: 20px;
   max-width: 56ch;
   color: rgba(255, 255, 255, 0.8);
-  font-size: clamp(15px, 1.8vw, 18px);
+  font-size: clamp(17px, 1.8vw, 20px);
   line-height: 1.75;
 }
 
@@ -926,7 +926,7 @@ a.link-more:hover {
   border: 2px solid var(--red);
   color: var(--red);
   font-weight: 700;
-  font-size: 15px;
+  font-size: 17px;
   font-family: var(--font-display);
   box-shadow: 0 6px 16px -6px rgba(200, 16, 46, 0.35);
 }
@@ -942,7 +942,7 @@ a.link-more:hover {
 }
 
 .timeline-card h3 {
-  font-size: clamp(20px, 2.4vw, 25px); /* เดิม clamp(18px, 2.1vw, 22px) */
+  font-size: clamp(22px, 2.4vw, 27px); /* เดิม clamp(18px, 2.1vw, 22px) */
   font-weight: 700;
   color: var(--ink);
   line-height: 1.4;
@@ -950,7 +950,7 @@ a.link-more:hover {
 
 .timeline-card p {
   margin-top: 10px;
-  font-size: 16.5px; /* เดิม 14.5px */
+  font-size: 18.5px; /* เดิม 14.5px */
   line-height: 1.85;
   color: var(--color-slate);
 }
@@ -963,7 +963,7 @@ a.link-more:hover {
   background: var(--color-red-wash);
   color: var(--ink);
   font-weight: 600;
-  font-size: 16.5px; /* เดิม 14.5px */
+  font-size: 18.5px; /* เดิม 14.5px */
   line-height: 1.7;
   border-radius: 0 10px 10px 0;
 }
@@ -1024,7 +1024,7 @@ a.link-more:hover {
 
 .vision-card h3 {
   color: #000000 ;
-  font-size: clamp(22px, 3vw, 29px); /* เดิม clamp(19px, 2.6vw, 25px) */
+  font-size: clamp(24px, 3vw, 31px); /* เดิม clamp(19px, 2.6vw, 25px) */
   line-height: 1.6;
   font-weight: 600;
 }
@@ -1061,13 +1061,13 @@ a.link-more:hover {
 }
 
 .m-item h4 {
-  font-size: 19px; /* เดิม 16.5px */
+  font-size: 21px; /* เดิม 16.5px */
   font-weight: 700;
   color: var(--ink);
 }
 
 .m-item .en {
-  font-size: 13px; /* เดิม 11.5px */
+  font-size: 15px; /* เดิม 11.5px */
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1077,7 +1077,7 @@ a.link-more:hover {
 
 .m-item p {
   margin-top: 10px;
-  font-size: 16px; /* เดิม 14px */
+  font-size: 18px; /* เดิม 14px */
   line-height: 1.75;
   color: var(--color-slate);
 }
@@ -1119,7 +1119,7 @@ a.link-more:hover {
   height: clamp(40px, 6vw, 56px);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(18px, 2.6vw, 24px);
+  font-size: clamp(20px, 2.6vw, 26px);
   color: #006d77; /* เดิม #fff */
   background: transparent;
   border: none;
@@ -1169,11 +1169,11 @@ a.link-more:hover {
   background: #f6a623; /* เดิม var(--color-red-wash) */
   color: #006d77; /* เดิม var(--red) */
   font-weight: 700;
-  font-size: 17px;
+  font-size: 19px;
 }
 
 .v-card .en {
-  font-size: 13px; /* เดิม 11.5px */
+  font-size: 15px; /* เดิม 11.5px */
   font-weight: 600;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -1182,14 +1182,14 @@ a.link-more:hover {
 
 .v-card h4 {
   margin-top: 3px;
-  font-size: 18px; /* เดิม 16px */
+  font-size: 20px; /* เดิม 16px */
   font-weight: 700;
   color: var(--ink);
 }
 
 .v-card p {
   margin-top: 8px;
-  font-size: 15.8px; /* เดิม 13.8px — ถ้ายังไม่ได้แก้จากรอบก่อน */
+  font-size: 17.8px; /* เดิม 13.8px — ถ้ายังไม่ได้แก้จากรอบก่อน */
   line-height: 1.7;
   color: var(--color-slate);
 }
@@ -1257,13 +1257,13 @@ html.reveal-ready .reveal.in {
   margin-inline: auto;
   max-width: 60ch;
   color: var(--color-slate);
-  font-size: clamp(15px, 1.7vw, 17px);
+  font-size: clamp(17px, 1.7vw, 19px);
   line-height: 1.8;
 }
 
 .cpr-eyebrow {
   display: inline-block;
-  font-size: 12.5px;
+  font-size: 14.5px;
   font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
@@ -1274,7 +1274,7 @@ html.reveal-ready .reveal.in {
 .cpr-title {
   margin-top: 12px;
   margin-inline: auto;
-  font-size: clamp(28px, 4.5vw, 44px);
+  font-size: clamp(30px, 4.5vw, 46px);
   font-weight: 700;
   color: var(--ink);
   line-height: 1.25;
@@ -1286,7 +1286,7 @@ html.reveal-ready .reveal.in {
   margin-top: 18px;
   max-width: 60ch;
   color: var(--color-slate);
-  font-size: clamp(15px, 1.7vw, 17px);
+  font-size: clamp(17px, 1.7vw, 19px);
   line-height: 1.8;
 }
 
@@ -1316,12 +1316,12 @@ html.reveal-ready .reveal.in {
 }
 
 .spec-label {
-  font-size: 14.5px;
+  font-size: 16.5px;
   color: var(--color-slate);
 }
 
 .spec-value {
-  font-size: 15.5px;
+  font-size: 17.5px;
   font-weight: 700;
   color: var(--ink);
   text-align: right;
@@ -1360,7 +1360,7 @@ html.reveal-ready .reveal.in {
   background: rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(6px);
   color: #fff;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
 }
 
@@ -1391,7 +1391,7 @@ html.reveal-ready .reveal.in {
 .p-desc {
   margin-top: 16px;
   color: var(--color-muted);
-  font-size: 15.5px;
+  font-size: 17.5px;
   line-height: 1.7;
 }
 
@@ -1407,7 +1407,7 @@ html.reveal-ready .reveal.in {
   position: relative;
   padding-left: 24px;
   color: var(--ink);
-  font-size: 15px;
+  font-size: 17px;
   line-height: 1.6;
 }
 
@@ -1465,7 +1465,7 @@ html.reveal-ready .reveal.in {
 .ptab {
   padding: 7px 18px;
   border-radius: 999px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 600;
   color: rgba(255, 255, 255, 0.75);
   transition: background-color var(--speed) var(--ease), color var(--speed) var(--ease);
@@ -1509,7 +1509,7 @@ html.reveal-ready .reveal.in {
 
 .physio-eyebrow {
   display: inline-block;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   font-weight: 700;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -1531,7 +1531,7 @@ html.reveal-ready .reveal.in {
 
 .physio-hero-content h1 {
   margin: 1rem 0 0.75rem;
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-size: clamp(2.125rem, 4vw, 2.875rem);
   font-weight: 700;
   letter-spacing: -0.01em;
   color: var(--ink);
@@ -1540,7 +1540,7 @@ html.reveal-ready .reveal.in {
 .physio-hero-content .sub {
   color: #666;
   max-width: 46ch;
-  font-size: 1.0625rem;
+  font-size: 1.1875rem;
   line-height: 1.75;
 }
 
@@ -1593,7 +1593,7 @@ html.reveal-ready .reveal.in {
 
 .physio-row-index {
   display: block;
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: var(--red);
   font-weight: 700;
   margin-bottom: 0.5rem;
@@ -1601,7 +1601,7 @@ html.reveal-ready .reveal.in {
 }
 
 .physio-row-tag {
-  font-size: 0.75rem;
+  font-size: 0.875rem;
   font-weight: 600;
   text-transform: uppercase;
   color: #999;
@@ -1610,14 +1610,14 @@ html.reveal-ready .reveal.in {
 }
 
 .physio-row-body h3 {
-  font-size: clamp(1.375rem, 2vw, 1.75rem);
+  font-size: clamp(1.5rem, 2vw, 1.875rem);
   line-height: 1.3;
   margin: 0 0 0.75rem;
   color: var(--ink);
 }
 
 .physio-row-body p:not(.physio-row-tag) {
-  font-size: 1rem;
+  font-size: 1.125rem;
   line-height: 1.75;
   color: #555;
   margin: 0;
@@ -1626,7 +1626,7 @@ html.reveal-ready .reveal.in {
 .physio-row-soon {
   display: inline-block;
   margin-top: 1.25rem;
-  font-size: 0.8125rem;
+  font-size: 0.9375rem;
   color: #999;
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -1655,7 +1655,7 @@ html.reveal-ready .reveal.in {
 /* ---------- หน้ารวมหลักสูตร (.courses) ---------- */
 
 .courses__title {
-  font-size: clamp(2rem, 4vw, 2.75rem);
+  font-size: clamp(2.125rem, 4vw, 2.875rem);
   font-weight: 700;
   color: var(--ink);
   text-align: center;
@@ -1720,14 +1720,14 @@ html.reveal-ready .reveal.in {
 }
 
 .cbody__title {
-  font-size: 1.05rem;
+  font-size: 1.175rem;
   font-weight: 700;
   color: var(--ink);
   line-height: 1.4;
 }
 
 .cbody__category {
-  font-size: 0.85rem;
+  font-size: 0.975rem;
   font-weight: 700;
   color: var(--red);
   margin-top: 0.25rem;
@@ -1735,7 +1735,7 @@ html.reveal-ready .reveal.in {
 }
 
 .cbody__desc {
-  font-size: 0.9rem;
+  font-size: 1.025rem;
   color: color-mix(in srgb, var(--ink) 70%, transparent);
   margin-top: 0.5rem;
   line-height: 1.5;
@@ -1745,7 +1745,7 @@ html.reveal-ready .reveal.in {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.9rem;
+  font-size: 1.025rem;
   font-weight: 700;
   color: var(--red);
   margin-top: auto;
@@ -1795,7 +1795,7 @@ html.reveal-ready .reveal.in {
 }
 
 .course-detail__title {
-  font-size: clamp(1.75rem, 4vw, 2.5rem);
+  font-size: clamp(1.875rem, 4vw, 2.625rem);
   font-weight: 700;
   margin-top: 0.5rem;
 }
@@ -1810,19 +1810,19 @@ html.reveal-ready .reveal.in {
 }
 
 .course-detail__meta-label {
-  font-size: 0.8rem;
+  font-size: 0.925rem;
   color: color-mix(in srgb, var(--ink) 60%, transparent);
 }
 
 .course-detail__meta-value {
-  font-size: 1.05rem;
+  font-size: 1.175rem;
   font-weight: 700;
   color: var(--ink);
   margin-top: 0.25rem;
 }
 
 .course-detail__section-title {
-  font-size: 1.5rem;
+  font-size: 1.625rem;
   font-weight: 700;
   color: var(--ink);
   margin-bottom: 1rem;
@@ -1857,11 +1857,13 @@ html.reveal-ready .reveal.in {
    COURSE DETAIL — เฉพาะส่วนที่ "ยังไม่มี" ในระบบ (.cgrid/.ccard/.cbody/.en/.foot
    /.link-more/.sec/.sub/.mist/.finale/.btn มีอยู่แล้ว ไม่ต้องเพิ่ม)
    วาง block นี้แยกต่างหากใน globals.css
+   ดีไซน์: corporate/medical — ขาวสะอาด เส้นบาง เน้น typography + บล็อกรูปภาพ
    =================================================================== */
 
+/* ===== Hero ===== */
 .course-hero {
   position: relative;
-  min-height: 60vh;
+  min-height: 68vh;
   display: flex;
   align-items: flex-end;
   color: #fff;
@@ -1875,7 +1877,6 @@ html.reveal-ready .reveal.in {
   height: 100%;
   object-fit: cover;
   z-index: 0;
-  transform: scale(1.03);
 }
 
 .course-hero__overlay {
@@ -1883,9 +1884,9 @@ html.reveal-ready .reveal.in {
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(0, 0, 0, 0.85) 0%,
-    rgba(0, 0, 0, 0.45) 45%,
-    rgba(0, 0, 0, 0.1) 100%
+    rgba(10, 15, 12, 0.88) 0%,
+    rgba(10, 15, 12, 0.35) 50%,
+    rgba(10, 15, 12, 0.05) 100%
   );
   z-index: 1;
 }
@@ -1893,155 +1894,262 @@ html.reveal-ready .reveal.in {
 .course-hero__content {
   position: relative;
   z-index: 2;
-  padding-bottom: 3.5rem;
+  padding-bottom: 4.5rem;
 }
 
+/* หมวดหมู่ = eyebrow เส้นเหลืองนำหน้า สไตล์ corporate */
 .course-hero__content .en {
-  display: inline-block;
-  padding: 0.35rem 0.9rem;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(4px);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.925rem;
+  font-weight: 600;
   letter-spacing: normal;
-  font-size: 0.85rem;
-  font-weight: 500;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.course-hero__content .en::before {
+  content: "";
+  width: 2.5rem;
+  height: 2px;
+  background: #FFA900;
+  flex: none;
 }
 
 .course-hero__content h1 {
-  font-size: clamp(1.85rem, 4.2vw, 2.75rem);
-  font-weight: 700;
-  line-height: 1.3;
-  margin-top: 0.75rem;
+  font-size: clamp(2.125rem, 4.5vw, 3.375rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: normal;
+  margin-top: 1rem;
+  max-width: 46rem;
   color: #fff;
 }
 
 .course-hero__content .sub {
-  font-size: 1rem;
-  line-height: 1.7;
-  color: rgba(255, 255, 255, 0.85);
-  max-width: 42rem;
-  margin-top: 0.5rem;
+  font-size: 1.175rem;
+  line-height: 1.75;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 40rem;
+  margin-top: 1rem;
 }
 
-/* ===== หัวข้อ section ภายในหน้า detail (จุดเด่น / เนื้อหา / คุณสมบัติ / รูปภาพ) =====
-   ล็อกขนาดให้เท่ากันทุกหัวข้อ ไม่ปล่อยตาม .sec ของหน้าอื่นที่อาจขนาดต่างกัน */
+/* ===== หัวข้อ section ภายในหน้า detail =====
+   ล็อกขนาดเท่ากันทุกหัวข้อ + เส้นบางใต้หัวข้อแบบ editorial */
 .course-detail h2.sec {
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1.4;
+  font-size: 1.725rem;
+  font-weight: 600;
+  line-height: 1.35;
   color: var(--ink);
-  margin-bottom: 1.25rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--line);
 }
 
-/* ===== Meta: ระยะเวลา / ระดับ ===== */
+/* ===== Meta: ระยะเวลา / ระดับ / ประกาศนียบัตร =====
+   แถบข้อมูล 3 ช่องแนวราบ เส้นแบ่งบาง สไตล์ spec sheet */
 .course-meta {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  border: 1px solid var(--line);
-  border-radius: 1rem;
-  overflow: hidden;
-  background: color-mix(in srgb, var(--ink) 2%, transparent);
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
 }
 
 .course-meta > div {
-  padding: 1.5rem 1.75rem;
-  position: relative;
+  padding: 2rem 2rem 2rem 0;
 }
 
-.course-meta > div:first-child {
-  border-right: 1px solid var(--line);
-}
-
-.course-meta > div::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 1.5rem;
-  bottom: 1.5rem;
-  width: 3px;
-  border-radius: 2px;
-  background: #FFA900;
+.course-meta > div + div {
+  border-left: 1px solid var(--line);
+  padding-left: 2rem;
 }
 
 .course-meta__label {
   display: block;
-  font-size: 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 600;
   line-height: 1.5;
-  font-weight: 500;
-  color: color-mix(in srgb, var(--ink) 60%, transparent);
+  text-transform: uppercase;
+  letter-spacing: normal;
+  color: color-mix(in srgb, var(--ink) 50%, transparent);
 }
 
 .course-meta__value {
   display: block;
-  font-size: 1.1rem;
-  line-height: 1.5;
-  font-weight: 700;
+  font-size: 1.225rem;
+  font-weight: 600;
+  line-height: 1.55;
   color: var(--ink);
-  margin-top: 0.35rem;
+  margin-top: 0.5rem;
 }
 
-@media (max-width: 640px) {
+@media (max-width: 768px) {
   .course-meta {
     grid-template-columns: 1fr;
   }
-  .course-meta > div:first-child {
-    border-right: none;
-    border-bottom: 1px solid var(--line);
+  .course-meta > div {
+    padding: 1.5rem 0;
+  }
+  .course-meta > div + div {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
   }
 }
 
-/* ===== List: จุดเด่น / เนื้อหา / คุณสมบัติ =====
-   font-size/line-height เท่ากันทุกลิสต์ อ่านง่ายสบายตา */
+/* ===== Split: จุดเด่น — ลิสต์ซ้าย รูปขวา ===== */
+.course-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.course-split__media {
+  margin: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+}
+
+.course-split__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .course-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  /* บนมือถือให้รูปขึ้นก่อนลิสต์ อ่านลื่นกว่า */
+  .course-split__media {
+    order: -1;
+  }
+}
+
+/* ===== List: จุดเด่น =====
+   marker เป็นขีดสั้นสีเหลือง สไตล์ corporate */
 .course-list {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
+  gap: 1.1rem;
   list-style: none;
   padding-left: 0;
 }
 
 .course-list li {
   position: relative;
-  padding-left: 2rem;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: var(--ink);
+  padding-left: 1.75rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
 }
 
 .course-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 1rem;
+  height: 2px;
+  background: #FFA900;
+}
+
+/* ===== Steps: เนื้อหาที่จะได้ฝึก — ลำดับตัวเลข 01 02 03 ===== */
+.course-steps {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding-left: 0;
+  counter-reset: none;
+}
+
+.course-steps li {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.35rem 0;
+}
+
+.course-steps li + li {
+  border-top: 1px solid var(--line);
+}
+
+.course-steps__num {
+  font-size: 1.025rem;
+  font-weight: 600;
+  color: #076600;
+  flex: none;
+  min-width: 2rem;
+  /* เลขใช้ฟอนต์เดียวกับเนื้อหา แต่ fix ความกว้างให้เรียงตรง */
+  font-variant-numeric: tabular-nums;
+}
+
+.course-steps__text {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+/* ===== Check: คุณสมบัติผู้เข้าอบรม ===== */
+.course-check {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 3rem;
+  row-gap: 1.1rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.course-check li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
+}
+
+.course-check li::before {
   content: "✓";
   position: absolute;
   left: 0;
-  top: 0.1rem;
-  width: 1.4rem;
-  height: 1.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 0.75rem;
+  top: 0;
+  font-size: 1.075rem;
   font-weight: 700;
-  color: #fff;
-  background: #009C04;
-  border-radius: 50%;
+  color: #009C04;
 }
 
-/* ===== Gallery: บล็อกเตรียมใส่รูปภาพประกอบหลักสูตร =====
-   ใช้ course.gallery?: string[] ใน lib/data/courses.ts (เพิ่มฟิลด์ทีหลังได้)
-   ถ้ายังไม่มีรูป ให้ใช้ .course-gallery__placeholder แทนที่ img */
+@media (max-width: 768px) {
+  .course-check {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== Gallery: ภาพบรรยากาศการอบรม =====
+   ใช้ course.gallery?: string[] ใน lib/data/courses.ts
+   ถ้ายังไม่มีรูป page.tsx จะ render placeholder ให้เอง */
 .course-gallery {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1rem;
+  gap: 1.25rem;
 }
 
 .course-gallery__item {
   position: relative;
   aspect-ratio: 4 / 3;
-  border-radius: 0.85rem;
+  border-radius: 0.5rem;
   overflow: hidden;
   border: 1px solid var(--line);
-  background: color-mix(in srgb, var(--ink) 4%, transparent);
+  background: color-mix(in srgb, var(--ink) 3%, transparent);
 }
 
 .course-gallery__item img {
@@ -2049,11 +2157,11 @@ html.reveal-ready .reveal.in {
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.35s ease;
+  transition: transform 0.4s ease;
 }
 
 .course-gallery__item:hover img {
-  transform: scale(1.05);
+  transform: scale(1.04);
 }
 
 /* ใช้ตอนยังไม่มีรูปจริง กันหน้าดูโหว่ */
@@ -2064,20 +2172,26 @@ html.reveal-ready .reveal.in {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 0.4rem;
-  color: color-mix(in srgb, var(--ink) 40%, transparent);
-  font-size: 0.85rem;
+  gap: 0.5rem;
+  color: color-mix(in srgb, var(--ink) 35%, transparent);
+  font-size: 0.975rem;
+  font-weight: 500;
 }
 
 .course-gallery__placeholder svg {
-  width: 2rem;
-  height: 2rem;
-  opacity: 0.5;
+  width: 1.75rem;
+  height: 1.75rem;
+  opacity: 0.45;
 }
 
 @media (max-width: 1024px) {
   .course-gallery {
     grid-template-columns: repeat(2, 1fr);
+  }
+  /* 3 ช่องบน grid 2 คอลัมน์ — ช่องแรกกินเต็มแถว กันช่องว่าง */
+  .course-gallery__item:first-child {
+    grid-column: span 2;
+    aspect-ratio: 16 / 9;
   }
 }
 
@@ -2085,10 +2199,16 @@ html.reveal-ready .reveal.in {
   .course-gallery {
     grid-template-columns: 1fr;
   }
+  .course-gallery__item:first-child {
+    grid-column: auto;
+    aspect-ratio: 4 / 3;
+  }
 }
 
-/* grid หลักสูตรอื่น ๆ ในหน้า detail — แยกจาก .cgrid (4 คอลัมน์) เพราะมีแค่ 3 การ์ด
-   ใช้ .cgrid ตรง ๆ จะเหลือช่องว่างคอลัมน์ที่ 4 */
+/* ===== grid หลักสูตรอื่น ๆ ในหน้า detail =====
+   แยกจาก .cgrid (4 คอลัมน์) เพราะมีแค่ 3 การ์ด
+   ใช้ .cgrid ตรง ๆ จะเหลือช่องว่างคอลัมน์ที่ 4
+   hover แบบ subtle: เปลี่ยนสีเส้นขอบ สไตล์ corporate */
 .related-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -2096,12 +2216,15 @@ html.reveal-ready .reveal.in {
 }
 
 .related-grid .ccard {
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid var(--line);
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: border-color 0.25s ease, box-shadow 0.25s ease;
 }
 
 .related-grid .ccard:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.25);
+  border-color: color-mix(in srgb, var(--ink) 30%, transparent);
+  box-shadow: 0 8px 20px -14px rgba(0, 0, 0, 0.2);
 }
 
 @media (max-width: 1024px) {
@@ -2177,13 +2300,13 @@ html.reveal-ready .reveal.in {
 }
 
 .contact-card h4 {
-  font-size: 1.05rem;
+  font-size: 1.175rem;
   font-weight: 700;
   color: var(--ink);
 }
 
 .contact-card p {
-  font-size: 0.9rem;
+  font-size: 1.025rem;
   color: color-mix(in srgb, var(--ink) 70%, transparent);
   line-height: 1.5;
 }
@@ -2192,7 +2315,7 @@ html.reveal-ready .reveal.in {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  font-size: 0.9rem;
+  font-size: 1.025rem;
   font-weight: 700;
   color: var(--red);
   margin-top: auto;
@@ -2227,11 +2350,11 @@ html.reveal-ready .reveal.in {
 .chat-panel__title {
   font-weight: 700;
   color: var(--ink);
-  font-size: 0.95rem;
+  font-size: 1.075rem;
 }
 
 .chat-panel__status {
-  font-size: 0.8rem;
+  font-size: 0.925rem;
   color: color-mix(in srgb, var(--ink) 60%, transparent);
 }
 
@@ -2242,7 +2365,7 @@ html.reveal-ready .reveal.in {
   border-top-left-radius: 0.25rem;
   background: var(--color-mist);
   color: var(--ink);
-  font-size: 0.9rem;
+  font-size: 1.025rem;
   line-height: 1.5;
 }
 
@@ -2282,7 +2405,7 @@ html.reveal-ready .reveal.in {
   padding: 0.5rem 1rem;
   border-radius: 999px;
   border: 1px solid var(--line);
-  font-size: 0.85rem;
+  font-size: 0.975rem;
   font-weight: 600;
   color: var(--ink);
   text-decoration: none;
@@ -2305,7 +2428,7 @@ html.reveal-ready .reveal.in {
   padding: 0.65rem 0.9rem;
   border-radius: 999px;
   border: 1px solid var(--line);
-  font-size: 0.9rem;
+  font-size: 1.025rem;
   color: var(--ink);
 }
 
@@ -2326,7 +2449,7 @@ html.reveal-ready .reveal.in {
   background: var(--red);
   color: #fff;
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1.025rem;
   border: none;
   cursor: pointer;
   transition: opacity var(--ease);
@@ -2356,11 +2479,11 @@ html.reveal-ready .reveal.in {
   place-items: center;
   background: var(--color-mist);
   color: color-mix(in srgb, var(--ink) 50%, transparent);
-  font-size: 0.9rem;
+  font-size: 1.025rem;
 }
 
 .article-meta {
-  font-size: 0.85rem;
+  font-size: 0.975rem;
   color: color-mix(in srgb, var(--ink) 60%, transparent);
   margin-top: 0.5rem;
 }
