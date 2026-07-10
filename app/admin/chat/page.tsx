@@ -32,7 +32,7 @@ export default function AdminChatPage() {
       .on(
         'postgres_changes',
         { event: 'INSERT', schema: 'public', table: 'messages' },
-        (payload) => {
+        (payload: { new: Message }) => {
           const msg = payload.new as Message;
           if (msg.sender_type === 'customer' && msg.conversation_id !== activeId) {
             setUnreadMap((prev) => ({
@@ -74,7 +74,7 @@ export default function AdminChatPage() {
           table: 'messages',
           filter: `conversation_id=eq.${activeId}`,
         },
-        (payload) => {
+        (payload: { new: Message }) => {
           setMessages((prev) => [...prev, payload.new as Message]);
         }
       )

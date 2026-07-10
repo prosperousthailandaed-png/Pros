@@ -91,7 +91,7 @@ export default function ContactChatPanel() {
           table: 'messages',
           filter: `conversation_id=eq.${conversationId}`,
         },
-        (payload) => {
+        (payload: { new: Message }) => {
           const msg = payload.new as Message;
           setMessages((prev) =>
             prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]
