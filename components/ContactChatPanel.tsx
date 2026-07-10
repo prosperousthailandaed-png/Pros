@@ -2,66 +2,141 @@
 
 // components/ContactChatPanel.tsx
 // แผงแชทที่ "เปิดอยู่แล้ว" ทันทีที่เข้าหน้า /contact ไม่ต้องกดปุ่มไหนก่อน
-// ยังไม่มี live chat backend จริง เลยทำเป็น auto-reply ง่าย ๆ:
-//   ผู้ใช้พิมพ์อะไรมาก็ตาม ระบบตอบกลับอัตโนมัติทันที ไล่ไปช่องทางที่ตอบจริงได้
-//   (LINE / Messenger / โทร) ไม่มีการเก็บ/ส่งข้อความไปที่ไหนทั้งสิ้น
+// ต่อกับ Supabase Realtime จริงแล้ว — ข้อความที่พิมพ์จะถูกบันทึกและแอดมิน
+// ตอบกลับผ่านหน้า /admin/chat ได้แบบเรียลไทม์
 //
-// กันสแปม 2 ชั้น:
+// การทำงาน:
+//   - สร้าง/ดึง conversation จาก localStorage (STORAGE_KEY) กันบทสนทนาหายตอนรีเฟรช
+//   - subscribe realtime ฟังข้อความใหม่จากแอดมิน
+//   - ยังคงปุ่มลัดไป LINE / Messenger / โทร ไว้เผื่อคนอยากคุยช่องทางอื่นแทน
+//
+// กันสแปม 2 ชั้น (เหมือนเดิม):
 //   1. Cooldown — ส่งได้ทุก ๆ SEND_COOLDOWN_MS มิลลิวินาที ปุ่ม/ช่องพิมพ์จะถูกปิดชั่วคราว
 //   2. MAX_MESSAGE_LENGTH — จำกัดความยาวข้อความต่อครั้ง กันวางข้อความยาว ๆ ถล่ม
-//   (log ก็ตั้ง max-height + overflow-y: auto ใน CSS ไว้แล้ว เลยไม่ดันความสูงหน้าเว็บ
-//    ต่อให้มีข้อความเยอะแค่ไหนก็เลื่อนอ่านแทน)
-//
-// TODO: ถ้าจะทำแชทเรียลไทม์จริงในอนาคต ให้เปลี่ยนส่วน handleSend
-//       ไปต่อกับ live chat backend จริง (เช่น LINE OA Chat Plugin, Crisp, Tawk.to)
 
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import { contactChannels } from '@/lib/data/contact-channels';
+import { supabase } from '@/lib/supabase/client';
+import type { Message } from '@/lib/types/chat';
 
-type ChatMessage = {
-  from: 'bot' | 'user';
-  text: string;
-};
-
-const AUTO_REPLY =
-  'ขอบคุณที่ทักมาค่ะ 🙏 ตอนนี้แชทหน้าเว็บยังไม่รองรับการตอบกลับเรียลไทม์ รบกวนทักต่อทาง LINE หรือ Messenger ด้านล่างนี้ได้เลยค่ะ ทีมงานจะตอบไวกว่ามากค่ะ';
-
+const STORAGE_KEY = 'prosperous_conversation_id';
 const SEND_COOLDOWN_MS = 2000; // ส่งได้ทุก 2 วิ กันสแปมกดรัว ๆ
 const MAX_MESSAGE_LENGTH = 300; // กันวางข้อความยาว ๆ ถล่ม
 
 export default function ContactChatPanel() {
+  const [conversationId, setConversationId] = useState<string | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
-  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [cooldown, setCooldown] = useState(false);
 
   const logRef = useRef<HTMLDivElement>(null);
-
-  // เลื่อนไปข้อความล่าสุดอัตโนมัติทุกครั้งที่มีข้อความใหม่
-  useEffect(() => {
-    logRef.current?.scrollTo({ top: logRef.current.scrollHeight, behavior: 'smooth' });
-  }, [messages]);
 
   const line = contactChannels.find((c) => c.id === 'line');
   const messenger = contactChannels.find((c) => c.id === 'messenger');
   const phone = contactChannels.find((c) => c.id === 'phone');
 
-  const handleSend = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (cooldown) return; // กันสแปม: ยังอยู่ในช่วง cooldown
+  useEffect(() => {
+    async function initConversation() {
+      const existingId = localStorage.getItem(STORAGE_KEY);
 
-    const text = input.trim();
-    if (!text) return;
+      if (existingId) {
+        const { data } = await supabase
+          .from('conversations')
+          .select('id')
+          .eq('id', existingId)
+          .maybeSingle();
 
-    setMessages((prev) => [
-      ...prev,
-      { from: 'user', text },
-      { from: 'bot', text: AUTO_REPLY },
-    ]);
-    setInput('');
+        if (data) {
+          setConversationId(data.id);
+          return;
+        }
+      }
 
-    setCooldown(true);
-    setTimeout(() => setCooldown(false), SEND_COOLDOWN_MS);
-  };
+      const { data, error } = await supabase
+        .from('conversations')
+        .insert({ customer_name: 'ลูกค้าเว็บไซต์' })
+        .select('id')
+        .single();
+
+      if (!error && data) {
+        localStorage.setItem(STORAGE_KEY, data.id);
+        setConversationId(data.id);
+      }
+    }
+
+    initConversation();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!conversationId) return;
+
+    async function loadMessages() {
+      const { data } = await supabase
+        .from('messages')
+        .select('*')
+        .eq('conversation_id', conversationId)
+        .order('created_at', { ascending: true });
+      if (data) setMessages(data);
+    }
+    loadMessages();
+
+    const channel = supabase
+      .channel(`customer-messages-${conversationId}`)
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'messages',
+          filter: `conversation_id=eq.${conversationId}`,
+        },
+        (payload) => {
+          const msg = payload.new as Message;
+          setMessages((prev) =>
+            prev.some((m) => m.id === msg.id) ? prev : [...prev, msg]
+          );
+        }
+      )
+      .subscribe();
+
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [conversationId, supabase]);
+
+  useEffect(() => {
+    logRef.current?.scrollTo({ top: logRef.current.scrollHeight, behavior: 'smooth' });
+  }, [messages]);
+
+  const handleSend = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      if (cooldown || !conversationId) return;
+
+      const text = input.trim();
+      if (!text) return;
+
+      setInput('');
+      setCooldown(true);
+      setTimeout(() => setCooldown(false), SEND_COOLDOWN_MS);
+
+      const { data } = await supabase
+        .from('messages')
+        .insert({
+          conversation_id: conversationId,
+          sender_type: 'customer',
+          content: text,
+        })
+        .select()
+        .single();
+
+      if (data) {
+        setMessages((prev) => [...prev, data as Message]);
+      }
+    },
+    [cooldown, conversationId, input, supabase]
+  );
 
   return (
     <div className="chat-panel reveal">
@@ -79,16 +154,16 @@ export default function ContactChatPanel() {
           หรือพิมพ์ข้อความดูได้เลย
         </div>
 
-        {messages.map((m, i) => (
+        {messages.map((m) => (
           <div
-            key={i}
+            key={m.id}
             className={
-              m.from === 'user'
+              m.sender_type === 'customer'
                 ? 'chat-panel__bubble chat-panel__bubble--user'
                 : 'chat-panel__bubble'
             }
           >
-            {m.text}
+            {m.content}
           </div>
         ))}
       </div>
@@ -128,10 +203,14 @@ export default function ContactChatPanel() {
           onChange={(e) => setInput(e.target.value)}
           placeholder={cooldown ? 'รอสักครู่...' : 'พิมพ์ข้อความ...'}
           maxLength={MAX_MESSAGE_LENGTH}
-          disabled={cooldown}
+          disabled={cooldown || !conversationId}
           className="chat-panel__input"
         />
-        <button type="submit" className="chat-panel__send" disabled={cooldown}>
+        <button
+          type="submit"
+          className="chat-panel__send"
+          disabled={cooldown || !conversationId}
+        >
           ส่ง
         </button>
       </form>

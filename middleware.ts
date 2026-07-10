@@ -1,33 +1,53 @@
 // middleware.ts (วางไว้ที่ root โปรเจกต์ ระดับเดียวกับ app/)
-// เช็คคุกกี้ admin_session ทุกครั้งที่เข้า /admin/* ยกเว้น /admin/login
+// เช็ค Supabase session ทุกครั้งที่เข้า /admin/* ยกเว้น /admin/login
 
-import { NextRequest, NextResponse } from 'next/server';
+import { createServerClient } from '@supabase/ssr';
+import { NextResponse, type NextRequest } from 'next/server';
 
-const PUBLIC_ADMIN_PATHS = ['/admin/login'];
+export async function middleware(request: NextRequest) {
+  let supabaseResponse = NextResponse.next({ request });
 
-export function middleware(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) =>
+            request.cookies.set(name, value)
+          );
+          supabaseResponse = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          );
+        },
+      },
+    }
+  );
 
-  if (PUBLIC_ADMIN_PATHS.some((p) => pathname.startsWith(p))) {
-    return NextResponse.next();
-  }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const session = request.cookies.get('admin_session')?.value;
-  const expected = process.env.ADMIN_SESSION_TOKEN;
+  const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
+  const isLoginRoute = request.nextUrl.pathname === '/admin/login';
 
-  if (!expected) {
-    // ยังไม่ได้ตั้งค่า ADMIN_SESSION_TOKEN ใน .env.local — กันไม่ให้เข้าได้เลย
-    return new NextResponse('ADMIN_SESSION_TOKEN ยังไม่ถูกตั้งค่าใน .env.local', {
-      status: 500,
-    });
-  }
-
-  if (!session || session !== expected) {
-    const loginUrl = new URL('/admin/login', request.url);
+  if (isAdminRoute && !isLoginRoute && !user) {
+    const loginUrl = request.nextUrl.clone();
+    loginUrl.pathname = '/admin/login';
     return NextResponse.redirect(loginUrl);
   }
 
-  return NextResponse.next();
+  if (isLoginRoute && user) {
+    const chatUrl = request.nextUrl.clone();
+    chatUrl.pathname = '/admin/chat';
+    return NextResponse.redirect(chatUrl);
+  }
+
+  return supabaseResponse;
 }
 
 export const config = {
