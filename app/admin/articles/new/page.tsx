@@ -1,5 +1,5 @@
-// app/admin/new/page.tsx
-import { createArticleAction } from '../actions';
+// app/admin/articles/new/page.tsx
+import { createArticleAction } from '../../actions';
 import ArticleContentEditor from '@/components/admin/ArticleContentEditor';
 
 export const metadata = { title: 'สร้างบทความใหม่ | Admin' };

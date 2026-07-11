@@ -6,7 +6,7 @@
 // ต้องอยู่ภายใน <form action={createArticleAction / updateArticleAction}> เดิม
 // ค่าที่กรอกจะถูกเก็บลง hidden input name="content_blocks_json" ให้ server action อ่านต่อ
 
-import { useState } from 'react';
+import { useState, type CSSProperties } from 'react';
 import { uploadArticleImageAction } from '@/app/admin/actions';
 import type { ContentBlock } from '@/lib/data/articles';
 
@@ -14,7 +14,7 @@ interface Props {
   initialBlocks?: ContentBlock[];
 }
 
-const rowStyle: React.CSSProperties = {
+const rowStyle: CSSProperties = {
   display: 'flex',
   gap: 12,
   alignItems: 'flex-start',

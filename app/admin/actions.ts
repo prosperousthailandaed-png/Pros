@@ -94,10 +94,10 @@ export async function createArticleAction(formData: FormData) {
     targetId: slug,
   });
 
-  revalidatePath('/admin');
+  revalidatePath('/admin/articles');
   revalidatePath('/articles');
   revalidatePath('/');
-  redirect('/admin');
+  redirect('/admin/articles');
 }
 
 export async function updateArticleAction(slug: string, formData: FormData) {
@@ -120,11 +120,11 @@ export async function updateArticleAction(slug: string, formData: FormData) {
     targetId: slug,
   });
 
-  revalidatePath('/admin');
+  revalidatePath('/admin/articles');
   revalidatePath('/articles');
   revalidatePath(`/articles/${slug}`);
   revalidatePath('/');
-  redirect('/admin');
+  redirect('/admin/articles');
 }
 
 export async function deleteArticleAction(formData: FormData) {
@@ -140,7 +140,7 @@ export async function deleteArticleAction(formData: FormData) {
     targetId: slug,
   });
 
-  revalidatePath('/admin');
+  revalidatePath('/admin/articles');
   revalidatePath('/articles');
   revalidatePath('/');
 }

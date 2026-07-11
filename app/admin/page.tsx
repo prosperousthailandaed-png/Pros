@@ -1,87 +1,62 @@
 // app/admin/page.tsx
 import Link from 'next/link';
-import { supabaseAdmin } from '@/lib/supabase/admin';
-import { deleteArticleAction } from './actions';
+import type { CSSProperties } from 'react';
 import { logoutAction } from './login/actions';
 
-export const metadata = { title: 'จัดการบทความ | Admin' };
-export const dynamic = 'force-dynamic'; // ต้องเห็นข้อมูลล่าสุดเสมอ ไม่ cache
+export const metadata = { title: 'แผงควบคุมแอดมิน | Admin' };
 
-export default async function AdminPage() {
-  const { data: articles, error } = await supabaseAdmin
-    .from('articles')
-    .select('slug, title, published, updated_at')
-    .order('updated_at', { ascending: false });
+const cardStyle: CSSProperties = {
+  display: 'block',
+  padding: '2rem',
+  border: '1px solid #e4e6ea',
+  borderRadius: 16,
+  textDecoration: 'none',
+  color: 'inherit',
+  transition: 'box-shadow 0.2s, transform 0.2s',
+};
 
+export default function AdminHomePage() {
   return (
-    <div style={{ maxWidth: 900, margin: '40px auto', padding: 24 }}>
+    <div style={{ maxWidth: 800, margin: '60px auto', padding: 24 }}>
       <div
         style={{
           display: 'flex',
           justifyContent: 'space-between',
           alignItems: 'center',
-          marginBottom: 24,
+          marginBottom: 32,
         }}
       >
-        <h1 style={{ fontSize: 24 }}>จัดการบทความ</h1>
-        <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-          <Link href="/admin/new" className="btn btn-primary">
-            + บทความใหม่
-          </Link>
-          <form action={logoutAction}>
-            <button type="submit" style={{ cursor: 'pointer' }}>
-              ออกจากระบบ
-            </button>
-          </form>
-        </div>
+        <h1 style={{ fontSize: 26 }}>แผงควบคุมแอดมิน</h1>
+        <form action={logoutAction}>
+          <button type="submit" style={{ cursor: 'pointer' }}>
+            ออกจากระบบ
+          </button>
+        </form>
       </div>
 
-      {error && <p style={{ color: 'red' }}>โหลดข้อมูลไม่สำเร็จ: {error.message}</p>}
+      <div
+        style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+          gap: 20,
+        }}
+      >
+        <Link href="/admin/chat" style={cardStyle}>
+          <div style={{ fontSize: 32, marginBottom: 12 }}>💬</div>
+          <h2 style={{ fontSize: 19, marginBottom: 6 }}>คุยกับลูกค้า</h2>
+          <p style={{ color: '#888', fontSize: 14 }}>
+            ตอบแชทลูกค้าที่ทักเข้ามาจากหน้าเว็บแบบเรียลไทม์
+          </p>
+        </Link>
 
-      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
-        <thead>
-          <tr style={{ textAlign: 'left', borderBottom: '2px solid #ddd' }}>
-            <th style={{ padding: 8 }}>ชื่อบทความ</th>
-            <th style={{ padding: 8 }}>slug</th>
-            <th style={{ padding: 8 }}>สถานะ</th>
-            <th style={{ padding: 8 }}></th>
-          </tr>
-        </thead>
-        <tbody>
-          {(articles ?? []).map((a) => (
-            <tr key={a.slug} style={{ borderBottom: '1px solid #eee' }}>
-              <td style={{ padding: 8 }}>{a.title}</td>
-              <td style={{ padding: 8, color: '#888' }}>{a.slug}</td>
-              <td style={{ padding: 8 }}>
-                {a.published ? '✅ เผยแพร่แล้ว' : '📝 draft'}
-              </td>
-              <td style={{ padding: 8 }}>
-                <div style={{ display: 'flex', gap: 12 }}>
-                  <Link href={`/admin/${a.slug}/edit`} className="link-more">
-                    แก้ไข
-                  </Link>
-                  <form action={deleteArticleAction}>
-                    <input type="hidden" name="slug" value={a.slug} />
-                    <button
-                      type="submit"
-                      style={{ color: 'red', cursor: 'pointer', background: 'none', border: 'none' }}
-                    >
-                      ลบ
-                    </button>
-                  </form>
-                </div>
-              </td>
-            </tr>
-          ))}
-          {(articles ?? []).length === 0 && (
-            <tr>
-              <td colSpan={4} style={{ padding: 16, textAlign: 'center', color: '#888' }}>
-                ยังไม่มีบทความ
-              </td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+        <Link href="/admin/articles" style={cardStyle}>
+          <div style={{ fontSize: 32, marginBottom: 12 }}>📰</div>
+          <h2 style={{ fontSize: 19, marginBottom: 6 }}>จัดการบทความ</h2>
+          <p style={{ color: '#888', fontSize: 14 }}>
+            สร้าง แก้ไข ลบบทความ/ข่าวสาร และจัดการรูปภาพ
+          </p>
+        </Link>
+      </div>
     </div>
   );
 }

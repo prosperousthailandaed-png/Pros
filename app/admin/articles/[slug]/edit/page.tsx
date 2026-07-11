@@ -1,7 +1,7 @@
-// app/admin/[slug]/edit/page.tsx
+// app/admin/articles/[slug]/edit/page.tsx
 import { notFound } from 'next/navigation';
 import { supabaseAdmin } from '@/lib/supabase/admin';
-import { updateArticleAction } from '../../actions';
+import { updateArticleAction } from '../../../actions';
 import ArticleContentEditor from '@/components/admin/ArticleContentEditor';
 import type { ContentBlock } from '@/lib/data/articles';
 
@@ -32,7 +32,6 @@ export default async function EditArticlePage({ params }: PageProps) {
 
   if (!article) notFound();
 
-  // ผูก slug เข้ากับ server action ล่วงหน้า เพราะ updateArticleAction ต้องการ slug + formData
   const updateWithSlug = updateArticleAction.bind(null, slug);
   const initialBlocks: ContentBlock[] = article.content_blocks ?? [];
 
