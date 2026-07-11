@@ -5,6 +5,8 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { createArticle, updateArticle, deleteArticle } from '@/lib/data/articles';
 import { supabaseAdmin } from '@/lib/supabase/admin';
+import { requireLoggedIn, requireAdmin } from '@/lib/auth/session';
+import { logAudit } from '@/lib/supabase/audit';
 
 // แปลง textarea เป็น array พารากราฟ โดยแบ่งด้วยบรรทัดว่าง
 function parseContent(raw: FormDataEntryValue | null): string[] {
@@ -34,15 +36,25 @@ async function uploadCoverIfProvided(formData: FormData): Promise<string | undef
 }
 
 export async function createArticleAction(formData: FormData) {
+  const user = await requireLoggedIn(); // ต้องล็อกอิน (admin หรือ editor ก็สร้างได้)
+
   const coverUrl = await uploadCoverIfProvided(formData);
+  const slug = String(formData.get('slug')).trim();
 
   await createArticle({
-    slug: String(formData.get('slug')).trim(),
+    slug,
     title: String(formData.get('title')).trim(),
     excerpt: String(formData.get('excerpt')).trim(),
     content: parseContent(formData.get('content')),
     cover_url: coverUrl,
     published: formData.get('published') === 'on',
+  });
+
+  await logAudit({
+    actorEmail: user.email,
+    action: 'create_article',
+    targetTable: 'articles',
+    targetId: slug,
   });
 
   revalidatePath('/admin');
@@ -52,6 +64,8 @@ export async function createArticleAction(formData: FormData) {
 }
 
 export async function updateArticleAction(slug: string, formData: FormData) {
+  const user = await requireLoggedIn();
+
   const coverUrl = await uploadCoverIfProvided(formData);
 
   await updateArticle(slug, {
@@ -62,6 +76,13 @@ export async function updateArticleAction(slug: string, formData: FormData) {
     published: formData.get('published') === 'on',
   });
 
+  await logAudit({
+    actorEmail: user.email,
+    action: 'update_article',
+    targetTable: 'articles',
+    targetId: slug,
+  });
+
   revalidatePath('/admin');
   revalidatePath('/articles');
   revalidatePath(`/articles/${slug}`);
@@ -70,8 +91,18 @@ export async function updateArticleAction(slug: string, formData: FormData) {
 }
 
 export async function deleteArticleAction(formData: FormData) {
+  const user = await requireAdmin(); // ลบได้เฉพาะ role admin เท่านั้น
+
   const slug = String(formData.get('slug'));
   await deleteArticle(slug);
+
+  await logAudit({
+    actorEmail: user.email,
+    action: 'delete_article',
+    targetTable: 'articles',
+    targetId: slug,
+  });
+
   revalidatePath('/admin');
   revalidatePath('/articles');
   revalidatePath('/');
