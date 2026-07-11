@@ -1,5 +1,6 @@
 // app/admin/new/page.tsx
 import { createArticleAction } from '../actions';
+import ArticleContentEditor from '@/components/admin/ArticleContentEditor';
 
 export const metadata = { title: 'สร้างบทความใหม่ | Admin' };
 
@@ -33,10 +34,15 @@ export default function NewArticlePage() {
           บทคัดย่อ
           <textarea name="excerpt" required rows={2} style={inputStyle} />
         </label>
-        <label>
-          เนื้อหา (แบ่งพารากราฟด้วยการเว้นบรรทัดว่าง 1 บรรทัด)
-          <textarea name="content" rows={10} style={inputStyle} />
-        </label>
+
+        <div>
+          <p style={{ marginBottom: 8, fontWeight: 600 }}>เนื้อหา</p>
+          <p style={{ marginBottom: 8, fontSize: 13, color: '#888' }}>
+            เพิ่มย่อหน้าและรูปภาพสลับกันได้ตามลำดับที่ต้องการ ใช้ปุ่ม ↑ ↓ จัดลำดับ
+          </p>
+          <ArticleContentEditor />
+        </div>
+
         <label>
           รูปปก
           <input type="file" name="cover_file" accept="image/*" style={{ marginTop: 4 }} />

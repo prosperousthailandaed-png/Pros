@@ -54,12 +54,23 @@ export default async function ArticleDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* ===== เนื้อหาบทความ ===== */}
+      {/* ===== เนื้อหาบทความ (ย่อหน้า/รูป สลับกันตามลำดับที่แอดมินจัดไว้) ===== */}
       <section className="sec">
         <div className="wrap narrow reveal article-body">
-          {(article.content ?? ['รอเนื้อหาจริงจากระบบแอดมิน']).map((p, i) => (
-            <p key={i}>{p}</p>
-          ))}
+          {article.content && article.content.length > 0 ? (
+            article.content.map((block, i) =>
+              block.type === 'image' ? (
+                <figure key={i} className="article-inline-figure">
+                  <img src={block.url} alt={block.caption ?? ''} />
+                  {block.caption && <figcaption>{block.caption}</figcaption>}
+                </figure>
+              ) : (
+                <p key={i}>{block.text}</p>
+              )
+            )
+          ) : (
+            <p>รอเนื้อหาจริงจากระบบแอดมิน</p>
+          )}
         </div>
       </section>
 

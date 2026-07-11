@@ -1,26 +1,29 @@
 // lib/data/articles.ts
 // ดึงข้อมูลบทความจาก Supabase (ตาราง public.articles)
-// interface Article คงเดิมไว้ เพื่อไม่ต้องแก้หน้าอื่นที่ import ไปใช้
+// เนื้อหาบทความเก็บเป็น content_blocks (jsonb): array ของ paragraph/image สลับกันได้
 
 import { supabase } from '@/lib/supabase/client';
+
+export type ContentBlock =
+  | { type: 'paragraph'; text: string }
+  | { type: 'image'; url: string; caption?: string };
 
 export interface Article {
   slug: string;
   title: string;
   excerpt: string;
-  cover?: string;        // URL รูปปกจาก Supabase Storage
-  publishedAt?: string;  // เช่น "6 ก.ค. 2569"
-  content?: string[];    // เนื้อหาแบบแบ่งพารากราฟ
+  cover?: string;         // URL รูปปกจาก Supabase Storage
+  publishedAt?: string;   // เช่น "6 ก.ค. 2569"
+  content?: ContentBlock[];
 }
 
-// แปลง row จาก Supabase ให้เป็นรูปแบบ Article ที่หน้าเว็บใช้อยู่เดิม
 function mapRow(row: {
   slug: string;
   title: string;
   excerpt: string;
   cover_url: string | null;
   published_at: string | null;
-  content: string[] | null;
+  content_blocks: ContentBlock[] | null;
 }): Article {
   return {
     slug: row.slug,
@@ -34,7 +37,10 @@ function mapRow(row: {
           day: 'numeric',
         })
       : undefined,
-    content: row.content && row.content.length > 0 ? row.content : undefined,
+    content:
+      row.content_blocks && row.content_blocks.length > 0
+        ? row.content_blocks
+        : undefined,
   };
 }
 
@@ -43,7 +49,7 @@ function mapRow(row: {
 export async function getArticles(): Promise<Article[]> {
   const { data, error } = await supabase
     .from('articles')
-    .select('slug, title, excerpt, cover_url, published_at, content')
+    .select('slug, title, excerpt, cover_url, published_at, content_blocks')
     .eq('published', true)
     .order('published_at', { ascending: false });
 
@@ -57,7 +63,7 @@ export async function getArticles(): Promise<Article[]> {
 export async function getArticleBySlug(slug: string): Promise<Article | undefined> {
   const { data, error } = await supabase
     .from('articles')
-    .select('slug, title, excerpt, cover_url, published_at, content')
+    .select('slug, title, excerpt, cover_url, published_at, content_blocks')
     .eq('slug', slug)
     .eq('published', true)
     .maybeSingle();
@@ -80,29 +86,24 @@ export async function getAllArticleSlugs(): Promise<string[]> {
 }
 
 // ---------- ฝั่งแอดมิน (ใช้ supabaseAdmin ใน Server Action / Route Handler เท่านั้น) ----------
-// ตัวอย่างการใช้งาน:
-//
-// 'use server';
-// import { supabaseAdmin } from '@/lib/supabase/admin';
-// import { createArticle } from '@/lib/data/articles';
-//
-// export async function createArticleAction(formData: FormData) { ... }
 
 export interface ArticleInput {
   slug: string;
   title: string;
   excerpt: string;
-  content?: string[];
+  content?: ContentBlock[];
   cover_url?: string;
   published?: boolean;
 }
 
 export async function createArticle(input: ArticleInput) {
   const { supabaseAdmin } = await import('@/lib/supabase/admin');
+  const { content, ...rest } = input;
   const { data, error } = await supabaseAdmin
     .from('articles')
     .insert({
-      ...input,
+      ...rest,
+      content_blocks: content ?? [],
       published_at: input.published ? new Date().toISOString() : null,
     })
     .select()
@@ -114,7 +115,12 @@ export async function createArticle(input: ArticleInput) {
 
 export async function updateArticle(slug: string, input: Partial<ArticleInput>) {
   const { supabaseAdmin } = await import('@/lib/supabase/admin');
-  const patch: Record<string, unknown> = { ...input };
+  const { content, ...rest } = input;
+  const patch: Record<string, unknown> = { ...rest };
+
+  if (content) {
+    patch.content_blocks = content;
+  }
 
   // ถ้าเปลี่ยนเป็น published ครั้งแรก ให้ประทับ published_at อัตโนมัติ
   if (input.published) {

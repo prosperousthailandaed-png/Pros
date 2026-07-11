@@ -2,6 +2,8 @@
 import { notFound } from 'next/navigation';
 import { supabaseAdmin } from '@/lib/supabase/admin';
 import { updateArticleAction } from '../../actions';
+import ArticleContentEditor from '@/components/admin/ArticleContentEditor';
+import type { ContentBlock } from '@/lib/data/articles';
 
 export const metadata = { title: 'แก้ไขบทความ | Admin' };
 
@@ -32,6 +34,7 @@ export default async function EditArticlePage({ params }: PageProps) {
 
   // ผูก slug เข้ากับ server action ล่วงหน้า เพราะ updateArticleAction ต้องการ slug + formData
   const updateWithSlug = updateArticleAction.bind(null, slug);
+  const initialBlocks: ContentBlock[] = article.content_blocks ?? [];
 
   return (
     <div style={{ maxWidth: 700, margin: '40px auto', padding: 24 }}>
@@ -56,15 +59,14 @@ export default async function EditArticlePage({ params }: PageProps) {
             style={inputStyle}
           />
         </label>
-        <label>
-          เนื้อหา (แบ่งพารากราฟด้วยการเว้นบรรทัดว่าง 1 บรรทัด)
-          <textarea
-            name="content"
-            defaultValue={(article.content ?? []).join('\n\n')}
-            rows={10}
-            style={inputStyle}
-          />
-        </label>
+
+        <div>
+          <p style={{ marginBottom: 8, fontWeight: 600 }}>เนื้อหา</p>
+          <p style={{ marginBottom: 8, fontSize: 13, color: '#888' }}>
+            เพิ่มย่อหน้าและรูปภาพสลับกันได้ตามลำดับที่ต้องการ ใช้ปุ่ม ↑ ↓ จัดลำดับ
+          </p>
+          <ArticleContentEditor initialBlocks={initialBlocks} />
+        </div>
 
         {article.cover_url && (
           <div>
