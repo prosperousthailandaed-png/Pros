@@ -43,7 +43,7 @@ export default async function HomePage() {
           </div>
           <div className="pgrid">
             <Link href="/products/aed" className="pcard reveal">
-              <img src="/image/aed/A112.avif" className="contain tall" alt="AED" />
+              <img src="/image/aed/IMG.JPG" className="contain tall" alt="AED" />
               <div className="pbody">
                 <h4>เครื่องกระตุกหัวใจไฟฟ้าอัตโนมัติ</h4>
                 <div className="en">AED</div>
