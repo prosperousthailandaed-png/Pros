@@ -42,8 +42,8 @@ export default async function HomePage() {
             </p>
           </div>
           <div className="pgrid">
-            <Link href="/products/aed" className="pcard reveal">
-              <img src="/image/aed/IMG.JPG" className="contain tall" alt="AED" />
+            <Link href="/products/aed" className="card-aed reveal">
+              <img src="/image/aed/IMG.JPG" alt="AED" />
               <div className="pbody">
                 <h4>เครื่องกระตุกหัวใจไฟฟ้าอัตโนมัติ</h4>
                 <div className="en">AED</div>
@@ -58,7 +58,7 @@ export default async function HomePage() {
               </div>
             </Link>
 
-            <Link href="/products/auto-cpr" className="pcard reveal">
+            <Link href="/products/auto-cpr" className="card-cpr reveal">
               <img src="/image/aed/autocpr.avif" alt="Auto CPR" />
               <div className="pbody">
                 <h4>เครื่องนวดหัวใจอัตโนมัติ</h4>
@@ -74,7 +74,7 @@ export default async function HomePage() {
               </div>
             </Link>
 
-            <Link href="/products/physio" className="pcard reveal">
+            <Link href="/products/physio" className="card-physio reveal">
               <img src="/image/physio/physio.avif" alt="Physical Therapy" />
               <div className="pbody">
                 <h4>อุปกรณ์กายภาพบำบัด</h4>
