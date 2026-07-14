@@ -2056,12 +2056,15 @@ html.reveal-ready .reveal.in {
 }
 
 .course-meta > div {
-  padding: 2rem 2rem 2rem 0;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .course-meta > div + div {
   border-left: 1px solid var(--line);
-  padding-left: 2rem;
 }
 
 .course-meta__label {
@@ -2072,6 +2075,8 @@ html.reveal-ready .reveal.in {
   text-transform: uppercase;
   letter-spacing: normal;
   color: color-mix(in srgb, var(--ink) 50%, transparent);
+  text-align: center;
+  width: 100%;
 }
 
 .course-meta__value {
@@ -2081,6 +2086,8 @@ html.reveal-ready .reveal.in {
   line-height: 1.55;
   color: var(--ink);
   margin-top: 0.5rem;
+  text-align: center;
+  width: 100%;
 }
 
 @media (max-width: 768px) {
@@ -2255,8 +2262,10 @@ html.reveal-ready .reveal.in {
 
 .course-gallery__slide {
   flex: 0 0 100%;
+  min-width: 0;
   width: 100%;
   height: 100%;
+  overflow: hidden;
 }
 
 .course-gallery__slide img {
