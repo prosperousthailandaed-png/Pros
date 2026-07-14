@@ -2024,7 +2024,7 @@ html.reveal-ready .reveal.in {
   text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
 }
 
-.course-hero__content .sub {
+.course-hero__content .sub { 
   font-size: 1.175rem;
   line-height: 1.75;
   font-weight: 400;
