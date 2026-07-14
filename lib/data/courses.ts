@@ -16,7 +16,6 @@ export interface Course {
   curriculum?: string[];   // หัวข้อเนื้อหาที่จะสอน
   audience?: string[];     // คุณสมบัติผู้เข้าอบรม
   gallery?: string[];      // รูปบรรยากาศการอบรม 3 รูป ใน public/image/
-  certification?: string;  //ข้อความช่อง "เมื่อจบหลักสูตร" เฉพาะของแต่ละหลักสูตร
 }
 
 export const courses: Course[] = [
@@ -61,7 +60,7 @@ export const courses: Course[] = [
       "ฝึกการว่ายน้ำตัวเปล่า และการช่วยเหลือผู้ประสบภัยในกรณีที่ไม่มีอุปกรณ์ช่วยเหลือ",
     image: "/image/rescue/rescue_swimmer.avif",
     duration: "5 วัน (16 ชั่วโมง)",
-    level: "ผู้ที่ว่ายน้ำเป็นและมีสุขภาพร่างกายแข็งแรง มีการทดสอบร่างกาย",
+    level: "ผู้ที่ว่ายน้ำเป็นและมีสุขภาพร่างกายแข็งแรง",
     highlights: [
       "ฝึกโดยครูฝึกที่มีประสบการณ์กู้ภัยทางทะเล",
       "เน้นการฝึกภาคปฏิบัติในสภาพน้ำจริง",
@@ -82,8 +81,6 @@ export const courses: Course[] = [
       "ฝึกแบบ Militaly Style",
       "มีการทดสอบสอบร่างกายเพื่อคัดเลือก",
     ],
-    certification: "ได้รับใบรับรองทักษะกู้ภัยทางน้ำทางทะเล และเข็มของหลักสูตร",
-
     gallery: [
       "/image/rescue/rescue_swimmer.avif",
       "/image/rescue/swimmer.avif",

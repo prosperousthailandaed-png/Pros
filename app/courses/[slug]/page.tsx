@@ -65,9 +65,7 @@ export default async function CourseDetailPage({ params }: PageProps) {
             </div>
             <div>
               <span className="course-meta__label">เมื่อจบหลักสูตร</span>
-              <span className="course-meta__value">
-              {course.certification ?? 'ได้รับประกาศนียบัตร'}
-              </span>
+              <span className="course-meta__value">ได้รับประกาศนียบัตร</span>
             </div>
           </div>
         </div>
