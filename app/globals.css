@@ -1979,9 +1979,10 @@ html.reveal-ready .reveal.in {
   inset: 0;
   background: linear-gradient(
     to top,
-    rgba(10, 15, 12, 0.88) 0%,
-    rgba(10, 15, 12, 0.35) 50%,
-    rgba(10, 15, 12, 0.05) 100%
+    rgba(6, 8, 7, 0.95) 0%,
+    rgba(6, 8, 7, 0.65) 40%,
+    rgba(6, 8, 7, 0.15) 75%,
+    rgba(6, 8, 7, 0) 100%
   );
   z-index: 1;
 }
@@ -2020,15 +2021,17 @@ html.reveal-ready .reveal.in {
   margin-top: 1rem;
   max-width: 46rem;
   color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
 }
 
 .course-hero__content .sub {
   font-size: 1.175rem;
   line-height: 1.75;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.75);
+  color: rgba(255, 255, 255, 0.92);
   max-width: 40rem;
   margin-top: 1rem;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
 }
 
 /* ===== หัวข้อ section ภายในหน้า detail =====
@@ -2229,74 +2232,101 @@ html.reveal-ready .reveal.in {
   }
 }
 
-/* ===== Gallery: ภาพบรรยากาศการอบรม =====
-   ใช้ course.gallery?: string[] ใน lib/data/courses.ts
-   ถ้ายังไม่มีรูป page.tsx จะ render placeholder ให้เอง */
+/* ===== Gallery: ภาพบรรยากาศการอบรม — กล่องเดียว + ปุ่มลูกศร =====
+   ใช้ course.gallery?: string[] ใน lib/data/courses.ts (ใส่กี่รูปก็ได้)
+   ควบคุมด้วย components/CourseGallery.tsx (client component)
+   ถ้าไม่มีรูปเลย page.tsx จะไม่ render section นี้เลย */
 .course-gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.25rem;
-}
-
-.course-gallery__item {
   position: relative;
-  aspect-ratio: 4 / 3;
-  border-radius: 0.5rem;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 1rem;
   overflow: hidden;
   border: 1px solid var(--line);
   background: color-mix(in srgb, var(--ink) 3%, transparent);
 }
 
-.course-gallery__item img {
+.course-gallery__track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.45s var(--ease);
+}
+
+.course-gallery__slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+}
+
+.course-gallery__slide img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
 }
 
-.course-gallery__item:hover img {
-  transform: scale(1.04);
+.course-gallery__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: 999px;
+  border: none;
+  background: rgba(20, 22, 26, 0.55);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s var(--ease), transform 0.2s var(--ease);
 }
 
-/* ใช้ตอนยังไม่มีรูปจริง กันหน้าดูโหว่ */
-.course-gallery__placeholder {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  color: color-mix(in srgb, var(--ink) 35%, transparent);
-  font-size: 0.975rem;
-  font-weight: 500;
+.course-gallery__arrow:hover {
+  background: rgba(20, 22, 26, 0.8);
 }
 
-.course-gallery__placeholder svg {
-  width: 1.75rem;
-  height: 1.75rem;
-  opacity: 0.45;
+.course-gallery__arrow:active {
+  transform: translateY(-50%) scale(0.92);
 }
 
-@media (max-width: 1024px) {
-  .course-gallery {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  /* 3 ช่องบน grid 2 คอลัมน์ — ช่องแรกกินเต็มแถว กันช่องว่าง */
-  .course-gallery__item:first-child {
-    grid-column: span 2;
-    aspect-ratio: 16 / 9;
-  }
+.course-gallery__arrow svg {
+  width: 1.375rem;
+  height: 1.375rem;
+}
+
+.course-gallery__arrow--prev {
+  left: 1rem;
+}
+
+.course-gallery__arrow--next {
+  right: 1rem;
+}
+
+.course-gallery__counter {
+  position: absolute;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 2;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(20, 22, 26, 0.55);
+  backdrop-filter: blur(4px);
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
 }
 
 @media (max-width: 640px) {
   .course-gallery {
-    grid-template-columns: 1fr;
-  }
-  .course-gallery__item:first-child {
-    grid-column: auto;
     aspect-ratio: 4 / 3;
+  }
+  .course-gallery__arrow {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }
 

@@ -47,6 +47,10 @@ export const courses: Course[] = [
       "ผู้ดูแลผู้สูงอายุหรือเด็ก",
       "ประชาชนทั่วไปที่สนใจทักษะการช่วยชีวิต",
     ],
+    gallery: [
+      "/image/csr/cpr.avif",
+      "/image/csr/csr.avif",
+    ],
   },
   {
     slug: "rescue-swimmer",
@@ -75,6 +79,10 @@ export const courses: Course[] = [
       "เจ้าหน้าที่รักษาความปลอดภัยชายหาดหรือสระว่ายน้ำ",
       "ผู้ที่สนใจงานกู้ภัยทางน้ำเป็นอาชีพ",
     ],
+    gallery: [
+      "/image/rescue/rescue_swimmer.avif",
+      "/image/rescue/swimmer.avif",
+    ],
   },
   {
     slug: "rescue-diver",
@@ -102,6 +110,10 @@ export const courses: Course[] = [
       "มีสุขภาพร่างกายแข็งแรง ไม่มีโรคประจำตัวที่เป็นข้อห้ามในการดำน้ำ",
       "เจ้าหน้าที่กู้ภัย หน่วยงานความปลอดภัยทางทะเล",
     ],
+    gallery: [
+      "/image/rescue/diving.avif",
+      "/image/rescue/lifeguard.avif",
+    ],
   },
   {
     slug: "lifeguard-training",
@@ -128,6 +140,10 @@ export const courses: Course[] = [
       "ว่ายน้ำได้คล่องและมีสุขภาพแข็งแรง",
       "ผู้ที่ต้องการทำงานเป็นเจ้าหน้าที่ดูแลความปลอดภัยทางน้ำ",
       "พนักงานสระว่ายน้ำ รีสอร์ท หรือสถานที่ท่องเที่ยวทางน้ำ",
+    ],
+    gallery: [
+      "/image/rescue/diving.avif",
+      "/image/rescue/lifeguard.avif",
     ],
   },
 ];

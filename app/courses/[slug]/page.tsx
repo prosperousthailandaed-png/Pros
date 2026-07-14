@@ -1,12 +1,12 @@
 // app/courses/[slug]/page.tsx
 // โครงหน้ารายละเอียดหลักสูตร (เนื้อหาจริงใส่ทีหลังผ่าน lib/data/courses.ts)
 // ใช้ class ที่มีอยู่แล้ว (.sec, .sub, .mist, .finale, .btn, .btn-primary, .en, .ccard ฯลฯ)
-// ส่วน UI ใหม่ใช้ prefix .course-* ทั้งหมด (hero / meta / split / steps / gallery / check)
-// รูปภาพ: จุดเด่นใช้ course.image, แกลเลอรีใช้ course.gallery?[] (ถ้าไม่มีจะแสดง placeholder)
+// แกลเลอรี: course.gallery?[] — กล่องเดียว โชว์ทีละรูป เลื่อนด้วยปุ่มลูกศร (components/CourseGallery.tsx)
 
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { courses, getCourseBySlug, getAllCourseSlugs } from '@/lib/data/courses';
+import CourseGallery from '@/components/CourseGallery';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -26,33 +26,13 @@ export async function generateMetadata({ params }: PageProps) {
   };
 }
 
-// placeholder ตอนยังไม่มีรูปจริงในแกลเลอรี
-function GalleryPlaceholder() {
-  return (
-    <div className="course-gallery__placeholder">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-        <rect x="3" y="3" width="18" height="18" rx="2" />
-        <circle cx="8.5" cy="8.5" r="1.5" />
-        <path d="M21 15l-5-5L5 21" />
-      </svg>
-      <span>ภาพบรรยากาศการอบรม</span>
-    </div>
-  );
-}
-
 export default async function CourseDetailPage({ params }: PageProps) {
   const { slug } = await params;
   const course = getCourseBySlug(slug);
 
   if (!course) notFound();
 
-  // แกลเลอรี 3 ช่องเสมอ — เติม placeholder ถ้ารูปจริงยังไม่ครบ
-  const gallery: (string | null)[] = [
-    ...(course.gallery ?? []),
-    null,
-    null,
-    null,
-  ].slice(0, 3);
+  const hasGalleryImages = (course.gallery?.length ?? 0) > 0;
 
   return (
     <div className="course-detail">
@@ -127,24 +107,16 @@ export default async function CourseDetailPage({ params }: PageProps) {
         </div>
       </section>
 
-      {/* ===== ภาพบรรยากาศการอบรม ===== */}
-      {/* TODO: เพิ่ม gallery: string[] ใน lib/data/courses.ts เมื่อมีรูปจริง */}
-      <section className="sec">
-        <div className="wrap reveal">
-          <h2 className="sec">ภาพบรรยากาศการอบรม</h2>
-          <div className="course-gallery">
-            {gallery.map((src, i) => (
-              <div key={i} className="course-gallery__item">
-                {src ? (
-                  <img src={src} alt={`${course.title} — ภาพที่ ${i + 1}`} />
-                ) : (
-                  <GalleryPlaceholder />
-                )}
-              </div>
-            ))}
+      {/* ===== ภาพบรรยากาศการอบรม — กล่องเดียว เลื่อนด้วยปุ่มลูกศร =====
+          แสดงเฉพาะตอนมีรูปจริงอย่างน้อย 1 รูป — ไม่มีรูปเลยจะข้าม section นี้ไป */}
+      {hasGalleryImages && (
+        <section className="sec">
+          <div className="wrap narrow reveal">
+            <h2 className="sec">ภาพบรรยากาศการอบรม</h2>
+            <CourseGallery images={course.gallery!} title={course.title} />
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* ===== คุณสมบัติผู้เข้าอบรม — checklist ===== */}
       <section className="sec">
