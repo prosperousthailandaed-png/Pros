@@ -18,7 +18,7 @@ export async function getAdminUser(): Promise<AdminUser | null> {
     data: { user },
   } = await supabase.auth.getUser();
 
-  if (!user) return null;
+  if (!user || user.is_anonymous) return null;
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -26,10 +26,13 @@ export async function getAdminUser(): Promise<AdminUser | null> {
     .eq('id', user.id)
     .maybeSingle();
 
+  // ไม่มี profile แปลว่าไม่ใช่ทีมงาน — ไม่ default ให้เป็น editor อีกต่อไป
+  if (!profile?.role) return null;
+
   return {
     id: user.id,
     email: user.email ?? '',
-    role: (profile?.role as AdminRole) ?? 'editor',
+    role: profile.role as AdminRole,
   };
 }
 

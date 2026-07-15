@@ -2,17 +2,17 @@
 
 // components/ContactChatPanel.tsx
 // แผงแชทที่ "เปิดอยู่แล้ว" ทันทีที่เข้าหน้า /contact ไม่ต้องกดปุ่มไหนก่อน
-// ต่อกับ Supabase Realtime จริงแล้ว — ข้อความที่พิมพ์จะถูกบันทึกและแอดมิน
+// ต่อกับ Supabase Realtime จริง — ข้อความที่พิมพ์จะถูกบันทึกและแอดมิน
 // ตอบกลับผ่านหน้า /admin/chat ได้แบบเรียลไทม์
 //
-// การทำงาน:
-//   - สร้าง/ดึง conversation จาก localStorage (STORAGE_KEY) กันบทสนทนาหายตอนรีเฟรช
-//   - subscribe realtime ฟังข้อความใหม่จากแอดมิน
-//   - ยังคงปุ่มลัดไป LINE / Messenger / โทร ไว้เผื่อคนอยากคุยช่องทางอื่นแทน
+// ใช้ Supabase Anonymous Auth ผูก session ลูกค้าแต่ละคนกับ auth.uid() คงที่
+// (จำเป็นสำหรับ RLS ใหม่ — ลูกค้าอ่านได้เฉพาะบทสนทนาของตัวเองเท่านั้น)
+// ⚠️ ต้องเปิด Authentication > Sign In / Providers > Anonymous ใน Supabase Dashboard ก่อน
 //
-// กันสแปม 2 ชั้น (เหมือนเดิม):
-//   1. Cooldown — ส่งได้ทุก ๆ SEND_COOLDOWN_MS มิลลิวินาที ปุ่ม/ช่องพิมพ์จะถูกปิดชั่วคราว
-//   2. MAX_MESSAGE_LENGTH — จำกัดความยาวข้อความต่อครั้ง กันวางข้อความยาว ๆ ถล่ม
+// กันสแปม 3 ชั้น:
+//   1. Cooldown ฝั่ง client — ส่งได้ทุก ๆ SEND_COOLDOWN_MS มิลลิวินาที
+//   2. MAX_MESSAGE_LENGTH ฝั่ง client — จำกัดความยาวข้อความต่อครั้ง
+//   3. DB constraint + trigger ใน sql/security-fixes.sql — กันคนยิง API ข้าม client โดยตรง
 
 import { useEffect, useRef, useState, useCallback } from 'react';
 import { contactChannels } from '@/lib/data/contact-channels';
@@ -20,8 +20,8 @@ import { supabase } from '@/lib/supabase/client';
 import type { Message } from '@/lib/types/chat';
 
 const STORAGE_KEY = 'prosperous_conversation_id';
-const SEND_COOLDOWN_MS = 2000; // ส่งได้ทุก 2 วิ กันสแปมกดรัว ๆ
-const MAX_MESSAGE_LENGTH = 300; // กันวางข้อความยาว ๆ ถล่ม
+const SEND_COOLDOWN_MS = 2000;
+const MAX_MESSAGE_LENGTH = 300;
 
 export default function ContactChatPanel() {
   const [conversationId, setConversationId] = useState<string | null>(null);
@@ -36,7 +36,22 @@ export default function ContactChatPanel() {
   const phone = contactChannels.find((c) => c.id === 'phone');
 
   useEffect(() => {
+    async function ensureCustomerUserId(): Promise<string | null> {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (sessionData.session?.user) return sessionData.session.user.id;
+
+      const { data, error } = await supabase.auth.signInAnonymously();
+      if (error || !data.user) {
+        console.error('signInAnonymously error:', error?.message);
+        return null;
+      }
+      return data.user.id;
+    }
+
     async function initConversation() {
+      const userId = await ensureCustomerUserId();
+      if (!userId) return;
+
       const existingId = localStorage.getItem(STORAGE_KEY);
 
       if (existingId) {
@@ -54,7 +69,7 @@ export default function ContactChatPanel() {
 
       const { data, error } = await supabase
         .from('conversations')
-        .insert({ customer_name: 'ลูกค้าเว็บไซต์' })
+        .insert({ customer_name: 'ลูกค้าเว็บไซต์', customer_user_id: userId })
         .select('id')
         .single();
 
@@ -103,7 +118,7 @@ export default function ContactChatPanel() {
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [conversationId, supabase]);
+  }, [conversationId]);
 
   useEffect(() => {
     logRef.current?.scrollTo({ top: logRef.current.scrollHeight, behavior: 'smooth' });
@@ -121,7 +136,7 @@ export default function ContactChatPanel() {
       setCooldown(true);
       setTimeout(() => setCooldown(false), SEND_COOLDOWN_MS);
 
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from('messages')
         .insert({
           conversation_id: conversationId,
@@ -131,11 +146,16 @@ export default function ContactChatPanel() {
         .select()
         .single();
 
+      if (error) {
+        console.error('send message error:', error.message);
+        return;
+      }
+
       if (data) {
         setMessages((prev) => [...prev, data as Message]);
       }
     },
-    [cooldown, conversationId, input, supabase]
+    [cooldown, conversationId, input]
   );
 
   return (
@@ -170,22 +190,12 @@ export default function ContactChatPanel() {
 
       <div className="chat-panel__quick">
         {line && (
-          <a
-            href={line.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="chat-panel__quick-btn"
-          >
+          <a href={line.href} target="_blank" rel="noopener noreferrer" className="chat-panel__quick-btn">
             แชทผ่าน LINE
           </a>
         )}
         {messenger && (
-          <a
-            href={messenger.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="chat-panel__quick-btn"
-          >
+          <a href={messenger.href} target="_blank" rel="noopener noreferrer" className="chat-panel__quick-btn">
             แชทผ่าน Messenger
           </a>
         )}
@@ -206,11 +216,7 @@ export default function ContactChatPanel() {
           disabled={cooldown || !conversationId}
           className="chat-panel__input"
         />
-        <button
-          type="submit"
-          className="chat-panel__send"
-          disabled={cooldown || !conversationId}
-        >
+        <button type="submit" className="chat-panel__send" disabled={cooldown || !conversationId}>
           ส่ง
         </button>
       </form>

@@ -5,6 +5,7 @@ export interface Conversation {
   id: string;
   customer_name: string;
   customer_contact: string | null;
+  customer_user_id: string | null;
   status: ConversationStatus;
   created_at: string;
   last_message_at: string;

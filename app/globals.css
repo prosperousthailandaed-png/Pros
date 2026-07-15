@@ -1949,90 +1949,12 @@ html.reveal-ready .reveal.in {
 }
 
 /* ===================================================================
-   COURSE DETAIL — เฉพาะส่วนที่ "ยังไม่มี" ในระบบ (.cgrid/.ccard/.cbody/.en/.foot
-   /.link-more/.sec/.sub/.mist/.finale/.btn มีอยู่แล้ว ไม่ต้องเพิ่ม)
-   วาง block นี้แยกต่างหากใน globals.css
+   COURSE DETAIL — คลาสที่ยังใช้ร่วมกันทุกหน้าหลักสูตร
+   (.course-detail h2.sec, .course-gallery*, .related-grid)
+   ส่วน Hero/Meta/Split/List/Steps/Check ของแต่ละหลักสูตรแยกเป็นไฟล์ CSS
+   เฉพาะหน้าแล้ว (ดู sql อยู่ใน CSS ท้ายไฟล์นี้ โซน "COURSE PAGES — STANDALONE")
    ดีไซน์: corporate/medical — ขาวสะอาด เส้นบาง เน้น typography + บล็อกรูปภาพ
    =================================================================== */
-
-/* ===== Hero ===== */
-.course-hero {
-  position: relative;
-  min-height: 68vh;
-  display: flex;
-  align-items: flex-end;
-  color: #fff;
-  overflow: hidden;
-}
-
-.course-hero__img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-
-.course-hero__overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(6, 8, 7, 0.95) 0%,
-    rgba(6, 8, 7, 0.65) 40%,
-    rgba(6, 8, 7, 0.15) 75%,
-    rgba(6, 8, 7, 0) 100%
-  );
-  z-index: 1;
-}
-
-.course-hero__content {
-  position: relative;
-  z-index: 2;
-  padding-bottom: 4.5rem;
-  width: 100%;
-}
-/* หมวดหมู่ = eyebrow เส้นเหลืองนำหน้า สไตล์ corporate */
-.course-hero__content .en {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-size: 0.925rem;
-  font-weight: 600;
-  letter-spacing: normal;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.course-hero__content .en::before {
-  content: "";
-  width: 2.5rem;
-  height: 2px;
-  background: #FFA900;
-  flex: none;
-}
-
-.course-hero__content h1 {
-  font-size: clamp(2.125rem, 4.5vw, 3.375rem);
-  font-weight: 600;
-  line-height: 1.25;
-  letter-spacing: normal;
-  margin-top: 1rem;
-  max-width: 46rem;
-  color: #fff;
-  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
-}
-
-.course-hero__content .sub { 
-  font-size: 1.175rem;
-  line-height: 1.75;
-  font-weight: 400;
-  color: rgba(255, 255, 255, 0.92);
-  max-width: 40rem;
-  margin-top: 1rem;
-  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
-}
 
 /* ===== หัวข้อ section ภายในหน้า detail =====
    ล็อกขนาดเท่ากันทุกหัวข้อ + เส้นบางใต้หัวข้อแบบ editorial */
@@ -2044,199 +1966,6 @@ html.reveal-ready .reveal.in {
   padding-bottom: 1rem;
   margin-bottom: 1.75rem;
   border-bottom: 1px solid var(--line);
-}
-
-/* ===== Meta: ระยะเวลา / ระดับ / ประกาศนียบัตร =====
-   แถบข้อมูล 3 ช่องแนวราบ เส้นแบ่งบาง สไตล์ spec sheet */
-.course-meta {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
-}
-
-.course-meta > div {
-  padding: 2rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.course-meta > div + div {
-  border-left: 1px solid var(--line);
-}
-
-.course-meta__label {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 600;
-  line-height: 1.5;
-  text-transform: uppercase;
-  letter-spacing: normal;
-  color: color-mix(in srgb, var(--ink) 50%, transparent);
-  text-align: center;
-  width: 100%;
-}
-
-.course-meta__value {
-  display: block;
-  font-size: 1.225rem;
-  font-weight: 600;
-  line-height: 1.55;
-  color: var(--ink);
-  margin-top: 0.5rem;
-  text-align: center;
-  width: 100%;
-}
-
-@media (max-width: 768px) {
-  .course-meta {
-    grid-template-columns: 1fr;
-  }
-  .course-meta > div {
-    padding: 1.5rem 0;
-  }
-  .course-meta > div + div {
-    border-left: none;
-    border-top: 1px solid var(--line);
-    padding-left: 0;
-  }
-}
-
-/* ===== Split: จุดเด่น — ลิสต์ซ้าย รูปขวา ===== */
-.course-split {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: center;
-}
-
-.course-split__media {
-  margin: 0;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  aspect-ratio: 4 / 3;
-  border: 1px solid var(--line);
-}
-
-.course-split__media img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
-@media (max-width: 900px) {
-  .course-split {
-    grid-template-columns: 1fr;
-    gap: 2rem;
-  }
-  /* บนมือถือให้รูปขึ้นก่อนลิสต์ อ่านลื่นกว่า */
-  .course-split__media {
-    order: -1;
-  }
-}
-
-/* ===== List: จุดเด่น =====
-   marker เป็นขีดสั้นสีเหลือง สไตล์ corporate */
-.course-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1.1rem;
-  list-style: none;
-  padding-left: 0;
-}
-
-.course-list li {
-  position: relative;
-  padding-left: 1.75rem;
-  font-size: 1.125rem;
-  font-weight: 400;
-  line-height: 1.75;
-  color: color-mix(in srgb, var(--ink) 85%, transparent);
-}
-
-.course-list li::before {
-  content: "";
-  position: absolute;
-  left: 0;
-  top: 0.85em;
-  width: 1rem;
-  height: 2px;
-  background: #FFA900;
-}
-
-/* ===== Steps: เนื้อหาที่จะได้ฝึก — ลำดับตัวเลข 01 02 03 ===== */
-.course-steps {
-  display: flex;
-  flex-direction: column;
-  list-style: none;
-  padding-left: 0;
-  counter-reset: none;
-}
-
-.course-steps li {
-  display: flex;
-  align-items: baseline;
-  gap: 1.5rem;
-  padding: 1.35rem 0;
-}
-
-.course-steps li + li {
-  border-top: 1px solid var(--line);
-}
-
-.course-steps__num {
-  font-size: 1.025rem;
-  font-weight: 600;
-  color: #076600;
-  flex: none;
-  min-width: 2rem;
-  /* เลขใช้ฟอนต์เดียวกับเนื้อหา แต่ fix ความกว้างให้เรียงตรง */
-  font-variant-numeric: tabular-nums;
-}
-
-.course-steps__text {
-  font-size: 1.125rem;
-  font-weight: 400;
-  line-height: 1.75;
-  color: var(--ink);
-}
-
-/* ===== Check: คุณสมบัติผู้เข้าอบรม ===== */
-.course-check {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  column-gap: 3rem;
-  row-gap: 1.1rem;
-  list-style: none;
-  padding-left: 0;
-}
-
-.course-check li {
-  position: relative;
-  padding-left: 2rem;
-  font-size: 1.125rem;
-  font-weight: 400;
-  line-height: 1.75;
-  color: color-mix(in srgb, var(--ink) 85%, transparent);
-}
-
-.course-check li::before {
-  content: "✓";
-  position: absolute;
-  left: 0;
-  top: 0;
-  font-size: 1.075rem;
-  font-weight: 700;
-  color: #009C04;
-}
-
-@media (max-width: 768px) {
-  .course-check {
-    grid-template-columns: 1fr;
-  }
 }
 
 /* ===== Gallery: ภาพบรรยากาศการอบรม — กล่องเดียว + ปุ่มลูกศร =====
@@ -2369,6 +2098,1103 @@ html.reveal-ready .reveal.in {
 
 @media (max-width: 640px) {
   .related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===================================================================
+   COURSE PAGES — STANDALONE (4 หลักสูตร แยกไฟล์ page.tsx คนละอัน)
+   คนละ prefix ต่อหลักสูตร แก้อันไหนไม่กระทบอีก 3 อัน
+   =================================================================== */
+
+/* ===================================================================
+   หลักสูตร: หลักสูตรการช่วยชีวิตขั้นพื้นฐาน  (cpr-aed-basic)
+   หน้านี้ standalone แยกจากหลักสูตรอื่น — คลาสทั้งหมดใต้ prefix .crs-cpr-*
+   แก้ตรงนี้จุดเดียว ไม่กระทบ CSS ของหลักสูตรอื่นอีก 3 หลักสูตร
+   =================================================================== */
+
+/* ===== Hero ===== */
+.crs-cpr-hero {
+  position: relative;
+  min-height: 68vh;
+  display: flex;
+  align-items: flex-end;
+  color: #fff;
+  overflow: hidden;
+}
+
+.crs-cpr-hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.crs-cpr-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(6, 8, 7, 0.95) 0%,
+    rgba(6, 8, 7, 0.65) 40%,
+    rgba(6, 8, 7, 0.15) 75%,
+    rgba(6, 8, 7, 0) 100%
+  );
+  z-index: 1;
+}
+
+.crs-cpr-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 4.5rem;
+  width: 100%;
+}
+
+.crs-cpr-hero__content .en {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.925rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.crs-cpr-hero__content .en::before {
+  content: "";
+  width: 2.5rem;
+  height: 2px;
+  background: #FFA900;
+  flex: none;
+}
+
+.crs-cpr-hero__content h1 {
+  font-size: clamp(2.125rem, 4.5vw, 3.375rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: normal;
+  margin-top: 1rem;
+  max-width: 46rem;
+  color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+}
+
+.crs-cpr-hero__content .sub {
+  font-size: 1.175rem;
+  line-height: 1.75;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 40rem;
+  margin-top: 1rem;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== Meta: ระยะเวลา / ระดับ / ประกาศนียบัตร ===== */
+.crs-cpr-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.crs-cpr-meta > div {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.crs-cpr-meta > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.crs-cpr-meta__label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  color: color-mix(in srgb, var(--ink) 50%, transparent);
+  text-align: center;
+  width: 100%;
+}
+
+.crs-cpr-meta__value {
+  display: block;
+  font-size: 1.225rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-top: 0.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .crs-cpr-meta {
+    grid-template-columns: 1fr;
+  }
+  .crs-cpr-meta > div {
+    padding: 1.5rem 0;
+  }
+  .crs-cpr-meta > div + div {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+  }
+}
+
+/* ===== Split: จุดเด่น — ลิสต์ซ้าย รูปขวา ===== */
+.crs-cpr-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.crs-cpr-split__media {
+  margin: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+}
+
+.crs-cpr-split__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .crs-cpr-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .crs-cpr-split__media {
+    order: -1;
+  }
+}
+
+/* ===== List: จุดเด่น ===== */
+.crs-cpr-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-cpr-list li {
+  position: relative;
+  padding-left: 1.75rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
+}
+
+.crs-cpr-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 1rem;
+  height: 2px;
+  background: #FFA900;
+}
+
+/* ===== Steps: เนื้อหาที่จะได้ฝึก ===== */
+.crs-cpr-steps {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-cpr-steps li {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.35rem 0;
+}
+
+.crs-cpr-steps li + li {
+  border-top: 1px solid var(--line);
+}
+
+.crs-cpr-steps__num {
+  font-size: 1.025rem;
+  font-weight: 600;
+  color: #076600;
+  flex: none;
+  min-width: 2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.crs-cpr-steps__text {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+/* ===== Check: คุณสมบัติผู้เข้าอบรม ===== */
+.crs-cpr-check {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 3rem;
+  row-gap: 1.1rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-cpr-check li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
+}
+
+.crs-cpr-check li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.075rem;
+  font-weight: 700;
+  color: #009C04;
+}
+
+@media (max-width: 768px) {
+  .crs-cpr-check {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===================================================================
+   หลักสูตร: หลักสูตรกู้ภัยทางน้ำทางทะเล  (rescue-swimmer)
+   หน้านี้ standalone แยกจากหลักสูตรอื่น — คลาสทั้งหมดใต้ prefix .crs-swim-*
+   แก้ตรงนี้จุดเดียว ไม่กระทบ CSS ของหลักสูตรอื่นอีก 3 หลักสูตร
+   =================================================================== */
+
+/* ===== Hero ===== */
+.crs-swim-hero {
+  position: relative;
+  min-height: 68vh;
+  display: flex;
+  align-items: flex-end;
+  color: #fff;
+  overflow: hidden;
+}
+
+.crs-swim-hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.crs-swim-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(6, 8, 7, 0.95) 0%,
+    rgba(6, 8, 7, 0.65) 40%,
+    rgba(6, 8, 7, 0.15) 75%,
+    rgba(6, 8, 7, 0) 100%
+  );
+  z-index: 1;
+}
+
+.crs-swim-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 4.5rem;
+  width: 100%;
+}
+
+.crs-swim-hero__content .en {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.925rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.crs-swim-hero__content .en::before {
+  content: "";
+  width: 2.5rem;
+  height: 2px;
+  background: #FFA900;
+  flex: none;
+}
+
+.crs-swim-hero__content h1 {
+  font-size: clamp(2.125rem, 4.5vw, 3.375rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: normal;
+  margin-top: 1rem;
+  max-width: 46rem;
+  color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+}
+
+.crs-swim-hero__content .sub {
+  font-size: 1.175rem;
+  line-height: 1.75;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 40rem;
+  margin-top: 1rem;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== Meta: ระยะเวลา / ระดับ / ประกาศนียบัตร ===== */
+.crs-swim-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.crs-swim-meta > div {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.crs-swim-meta > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.crs-swim-meta__label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  color: color-mix(in srgb, var(--ink) 50%, transparent);
+  text-align: center;
+  width: 100%;
+}
+
+.crs-swim-meta__value {
+  display: block;
+  font-size: 1.225rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-top: 0.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .crs-swim-meta {
+    grid-template-columns: 1fr;
+  }
+  .crs-swim-meta > div {
+    padding: 1.5rem 0;
+  }
+  .crs-swim-meta > div + div {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+  }
+}
+
+/* ===== Split: จุดเด่น — ลิสต์ซ้าย รูปขวา ===== */
+.crs-swim-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.crs-swim-split__media {
+  margin: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+}
+
+.crs-swim-split__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .crs-swim-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .crs-swim-split__media {
+    order: -1;
+  }
+}
+
+/* ===== List: จุดเด่น ===== */
+.crs-swim-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-swim-list li {
+  position: relative;
+  padding-left: 1.75rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
+}
+
+.crs-swim-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 1rem;
+  height: 2px;
+  background: #FFA900;
+}
+
+/* ===== Steps: เนื้อหาที่จะได้ฝึก ===== */
+.crs-swim-steps {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-swim-steps li {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.35rem 0;
+}
+
+.crs-swim-steps li + li {
+  border-top: 1px solid var(--line);
+}
+
+.crs-swim-steps__num {
+  font-size: 1.025rem;
+  font-weight: 600;
+  color: #076600;
+  flex: none;
+  min-width: 2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.crs-swim-steps__text {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+/* ===== Check: คุณสมบัติผู้เข้าอบรม ===== */
+.crs-swim-check {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 3rem;
+  row-gap: 1.1rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-swim-check li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
+}
+
+.crs-swim-check li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.075rem;
+  font-weight: 700;
+  color: #009C04;
+}
+
+@media (max-width: 768px) {
+  .crs-swim-check {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===================================================================
+   หลักสูตร: หลักสูตรการดำน้ำเพื่อการกู้ภัย  (rescue-diver)
+   หน้านี้ standalone แยกจากหลักสูตรอื่น — คลาสทั้งหมดใต้ prefix .crs-dive-*
+   แก้ตรงนี้จุดเดียว ไม่กระทบ CSS ของหลักสูตรอื่นอีก 3 หลักสูตร
+   =================================================================== */
+
+/* ===== Hero ===== */
+.crs-dive-hero {
+  position: relative;
+  min-height: 68vh;
+  display: flex;
+  align-items: flex-end;
+  color: #fff;
+  overflow: hidden;
+}
+
+.crs-dive-hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.crs-dive-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(6, 8, 7, 0.95) 0%,
+    rgba(6, 8, 7, 0.65) 40%,
+    rgba(6, 8, 7, 0.15) 75%,
+    rgba(6, 8, 7, 0) 100%
+  );
+  z-index: 1;
+}
+
+.crs-dive-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 4.5rem;
+  width: 100%;
+}
+
+.crs-dive-hero__content .en {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.925rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.crs-dive-hero__content .en::before {
+  content: "";
+  width: 2.5rem;
+  height: 2px;
+  background: #FFA900;
+  flex: none;
+}
+
+.crs-dive-hero__content h1 {
+  font-size: clamp(2.125rem, 4.5vw, 3.375rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: normal;
+  margin-top: 1rem;
+  max-width: 46rem;
+  color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+}
+
+.crs-dive-hero__content .sub {
+  font-size: 1.175rem;
+  line-height: 1.75;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 40rem;
+  margin-top: 1rem;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== Meta: ระยะเวลา / ระดับ / ประกาศนียบัตร ===== */
+.crs-dive-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.crs-dive-meta > div {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.crs-dive-meta > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.crs-dive-meta__label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  color: color-mix(in srgb, var(--ink) 50%, transparent);
+  text-align: center;
+  width: 100%;
+}
+
+.crs-dive-meta__value {
+  display: block;
+  font-size: 1.225rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-top: 0.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .crs-dive-meta {
+    grid-template-columns: 1fr;
+  }
+  .crs-dive-meta > div {
+    padding: 1.5rem 0;
+  }
+  .crs-dive-meta > div + div {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+  }
+}
+
+/* ===== Split: จุดเด่น — ลิสต์ซ้าย รูปขวา ===== */
+.crs-dive-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.crs-dive-split__media {
+  margin: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+}
+
+.crs-dive-split__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .crs-dive-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .crs-dive-split__media {
+    order: -1;
+  }
+}
+
+/* ===== List: จุดเด่น ===== */
+.crs-dive-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-dive-list li {
+  position: relative;
+  padding-left: 1.75rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
+}
+
+.crs-dive-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 1rem;
+  height: 2px;
+  background: #FFA900;
+}
+
+/* ===== Steps: เนื้อหาที่จะได้ฝึก ===== */
+.crs-dive-steps {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-dive-steps li {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.35rem 0;
+}
+
+.crs-dive-steps li + li {
+  border-top: 1px solid var(--line);
+}
+
+.crs-dive-steps__num {
+  font-size: 1.025rem;
+  font-weight: 600;
+  color: #076600;
+  flex: none;
+  min-width: 2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.crs-dive-steps__text {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+/* ===== Check: คุณสมบัติผู้เข้าอบรม ===== */
+.crs-dive-check {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 3rem;
+  row-gap: 1.1rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-dive-check li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
+}
+
+.crs-dive-check li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.075rem;
+  font-weight: 700;
+  color: #009C04;
+}
+
+@media (max-width: 768px) {
+  .crs-dive-check {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===================================================================
+   หลักสูตร: หลักสูตรการช่วยชีวิต ผู้ประสบภัยทางน้ำ  (lifeguard-training)
+   หน้านี้ standalone แยกจากหลักสูตรอื่น — คลาสทั้งหมดใต้ prefix .crs-guard-*
+   แก้ตรงนี้จุดเดียว ไม่กระทบ CSS ของหลักสูตรอื่นอีก 3 หลักสูตร
+   =================================================================== */
+
+/* ===== Hero ===== */
+.crs-guard-hero {
+  position: relative;
+  min-height: 68vh;
+  display: flex;
+  align-items: flex-end;
+  color: #fff;
+  overflow: hidden;
+}
+
+.crs-guard-hero__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.crs-guard-hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(6, 8, 7, 0.95) 0%,
+    rgba(6, 8, 7, 0.65) 40%,
+    rgba(6, 8, 7, 0.15) 75%,
+    rgba(6, 8, 7, 0) 100%
+  );
+  z-index: 1;
+}
+
+.crs-guard-hero__content {
+  position: relative;
+  z-index: 2;
+  padding-bottom: 4.5rem;
+  width: 100%;
+}
+
+.crs-guard-hero__content .en {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.925rem;
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.crs-guard-hero__content .en::before {
+  content: "";
+  width: 2.5rem;
+  height: 2px;
+  background: #FFA900;
+  flex: none;
+}
+
+.crs-guard-hero__content h1 {
+  font-size: clamp(2.125rem, 4.5vw, 3.375rem);
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: normal;
+  margin-top: 1rem;
+  max-width: 46rem;
+  color: #fff;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+}
+
+.crs-guard-hero__content .sub {
+  font-size: 1.175rem;
+  line-height: 1.75;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.92);
+  max-width: 40rem;
+  margin-top: 1rem;
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
+}
+
+/* ===== Meta: ระยะเวลา / ระดับ / ประกาศนียบัตร ===== */
+.crs-guard-meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.crs-guard-meta > div {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.crs-guard-meta > div + div {
+  border-left: 1px solid var(--line);
+}
+
+.crs-guard-meta__label {
+  display: block;
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1.5;
+  text-transform: uppercase;
+  letter-spacing: normal;
+  color: color-mix(in srgb, var(--ink) 50%, transparent);
+  text-align: center;
+  width: 100%;
+}
+
+.crs-guard-meta__value {
+  display: block;
+  font-size: 1.225rem;
+  font-weight: 600;
+  line-height: 1.55;
+  color: var(--ink);
+  margin-top: 0.5rem;
+  text-align: center;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .crs-guard-meta {
+    grid-template-columns: 1fr;
+  }
+  .crs-guard-meta > div {
+    padding: 1.5rem 0;
+  }
+  .crs-guard-meta > div + div {
+    border-left: none;
+    border-top: 1px solid var(--line);
+    padding-left: 0;
+  }
+}
+
+/* ===== Split: จุดเด่น — ลิสต์ซ้าย รูปขวา ===== */
+.crs-guard-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.crs-guard-split__media {
+  margin: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border: 1px solid var(--line);
+}
+
+.crs-guard-split__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+@media (max-width: 900px) {
+  .crs-guard-split {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  .crs-guard-split__media {
+    order: -1;
+  }
+}
+
+/* ===== List: จุดเด่น ===== */
+.crs-guard-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-guard-list li {
+  position: relative;
+  padding-left: 1.75rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
+}
+
+.crs-guard-list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.85em;
+  width: 1rem;
+  height: 2px;
+  background: #FFA900;
+}
+
+/* ===== Steps: เนื้อหาที่จะได้ฝึก ===== */
+.crs-guard-steps {
+  display: flex;
+  flex-direction: column;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-guard-steps li {
+  display: flex;
+  align-items: baseline;
+  gap: 1.5rem;
+  padding: 1.35rem 0;
+}
+
+.crs-guard-steps li + li {
+  border-top: 1px solid var(--line);
+}
+
+.crs-guard-steps__num {
+  font-size: 1.025rem;
+  font-weight: 600;
+  color: #076600;
+  flex: none;
+  min-width: 2rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.crs-guard-steps__text {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: var(--ink);
+}
+
+/* ===== Check: คุณสมบัติผู้เข้าอบรม ===== */
+.crs-guard-check {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  column-gap: 3rem;
+  row-gap: 1.1rem;
+  list-style: none;
+  padding-left: 0;
+}
+
+.crs-guard-check li {
+  position: relative;
+  padding-left: 2rem;
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.75;
+  color: color-mix(in srgb, var(--ink) 85%, transparent);
+}
+
+.crs-guard-check li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  top: 0;
+  font-size: 1.075rem;
+  font-weight: 700;
+  color: #009C04;
+}
+
+@media (max-width: 768px) {
+  .crs-guard-check {
     grid-template-columns: 1fr;
   }
 }
@@ -2597,6 +3423,64 @@ html.reveal-ready .reveal.in {
 /* ==========================================================================
    Admin Login — /app/admin/login/page.tsx
    ========================================================================== */
+
+/* ===== Admin Hub (/admin) — การ์ดเลือกเมนู ===== */
+.adminhub-wrap {
+  max-width: 800px;
+  margin-inline: auto;
+  padding: 60px 24px;
+}
+
+.adminhub-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.adminhub-title {
+  font-size: 26px;
+}
+
+.adminhub-logout {
+  cursor: pointer;
+}
+
+.adminhub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+}
+
+.adminhub-card {
+  display: block;
+  padding: 2rem;
+  border: 1px solid #e4e6ea;
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.adminhub-card:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.adminhub-card-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.adminhub-card-title {
+  font-size: 19px;
+  margin-bottom: 6px;
+}
+
+.adminhub-card-desc {
+  color: #888;
+  font-size: 14px;
+}
 
 .admin-login {
   min-height: 100vh;

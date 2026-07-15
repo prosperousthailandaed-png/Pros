@@ -1,5 +1,7 @@
 // lib/auth/loginAttempts.ts
-// จำกัดจำนวนครั้งล็อกอินผิด: ผิดครบ MAX_FAILS ครั้ง -> ล็อก LOCK_MINUTES นาที
+// จำกัดจำนวนครั้งล็อกอินผิด 2 ชั้น:
+//   - ตามอีเมล: ผิดครบ MAX_FAILS ครั้ง -> ล็อก LOCK_MINUTES นาที (กันเดารหัสของ account เดียว)
+//   - ตาม IP: ผิดครบ IP_MAX_FAILS ครั้ง -> ล็อก IP_LOCK_MINUTES นาที (กันสแกนหลายอีเมลจาก IP เดียว)
 
 import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase/admin';
@@ -7,9 +9,10 @@ import { supabaseAdmin } from '@/lib/supabase/admin';
 const MAX_FAILS = 5;
 const LOCK_MINUTES = 15;
 
-export async function checkLockout(
-  email: string
-): Promise<{ locked: boolean; minutesLeft?: number }> {
+const IP_MAX_FAILS = 20; // สูงกว่าฝั่ง email เพราะ IP เดียวอาจมีหลายคนใช้ร่วม (ออฟฟิศ/NAT)
+const IP_LOCK_MINUTES = 15;
+
+export async function checkLockout(email: string): Promise<{ locked: boolean; minutesLeft?: number }> {
   const { data } = await supabaseAdmin
     .from('admin_login_attempts')
     .select('locked_until')
@@ -17,9 +20,7 @@ export async function checkLockout(
     .maybeSingle();
 
   if (data?.locked_until && new Date(data.locked_until) > new Date()) {
-    const minutesLeft = Math.ceil(
-      (new Date(data.locked_until).getTime() - Date.now()) / 60000
-    );
+    const minutesLeft = Math.ceil((new Date(data.locked_until).getTime() - Date.now()) / 60000);
     return { locked: true, minutesLeft };
   }
   return { locked: false };
@@ -34,9 +35,7 @@ export async function recordFailedAttempt(email: string) {
 
   const failCount = (data?.fail_count ?? 0) + 1;
   const lockedUntil =
-    failCount >= MAX_FAILS
-      ? new Date(Date.now() + LOCK_MINUTES * 60000).toISOString()
-      : null;
+    failCount >= MAX_FAILS ? new Date(Date.now() + LOCK_MINUTES * 60000).toISOString() : null;
 
   await supabaseAdmin.from('admin_login_attempts').upsert({
     email,
@@ -48,4 +47,41 @@ export async function recordFailedAttempt(email: string) {
 
 export async function clearAttempts(email: string) {
   await supabaseAdmin.from('admin_login_attempts').delete().eq('email', email);
+}
+
+export async function checkIpLockout(ip: string): Promise<{ locked: boolean; minutesLeft?: number }> {
+  const { data } = await supabaseAdmin
+    .from('admin_ip_attempts')
+    .select('locked_until')
+    .eq('ip', ip)
+    .maybeSingle();
+
+  if (data?.locked_until && new Date(data.locked_until) > new Date()) {
+    const minutesLeft = Math.ceil((new Date(data.locked_until).getTime() - Date.now()) / 60000);
+    return { locked: true, minutesLeft };
+  }
+  return { locked: false };
+}
+
+export async function recordIpFailedAttempt(ip: string) {
+  const { data } = await supabaseAdmin
+    .from('admin_ip_attempts')
+    .select('fail_count')
+    .eq('ip', ip)
+    .maybeSingle();
+
+  const failCount = (data?.fail_count ?? 0) + 1;
+  const lockedUntil =
+    failCount >= IP_MAX_FAILS ? new Date(Date.now() + IP_LOCK_MINUTES * 60000).toISOString() : null;
+
+  await supabaseAdmin.from('admin_ip_attempts').upsert({
+    ip,
+    fail_count: failCount,
+    locked_until: lockedUntil,
+    updated_at: new Date().toISOString(),
+  });
+}
+
+export async function clearIpAttempts(ip: string) {
+  await supabaseAdmin.from('admin_ip_attempts').delete().eq('ip', ip);
 }

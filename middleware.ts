@@ -1,5 +1,6 @@
 // middleware.ts (วางไว้ที่ root โปรเจกต์ ระดับเดียวกับ app/)
 // เช็ค Supabase session ทุกครั้งที่เข้า /admin/* ยกเว้น /admin/login
+// session แบบ anonymous (ของลูกค้าที่แชทหน้า /contact) ไม่ถือว่า login แล้ว
 
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
@@ -32,16 +33,18 @@ export async function middleware(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
+  const isStaffUser = !!user && !user.is_anonymous;
+
   const isAdminRoute = request.nextUrl.pathname.startsWith('/admin');
   const isLoginRoute = request.nextUrl.pathname === '/admin/login';
 
-  if (isAdminRoute && !isLoginRoute && !user) {
+  if (isAdminRoute && !isLoginRoute && !isStaffUser) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = '/admin/login';
     return NextResponse.redirect(loginUrl);
   }
 
-  if (isLoginRoute && user) {
+  if (isLoginRoute && isStaffUser) {
     const chatUrl = request.nextUrl.clone();
     chatUrl.pathname = '/admin/chat';
     return NextResponse.redirect(chatUrl);

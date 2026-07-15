@@ -1,16 +1,29 @@
 // app/admin/login/actions.ts
-// แทนที่ไฟล์เดิมทั้งหมด — เลิกใช้ระบบ ADMIN_PASSWORD cookie แล้ว
-// เหลือทางเดียว: Supabase Auth (email/password) + จำกัดจำนวนครั้งล็อกอินผิด + audit log
+// Supabase Auth (email/password) + จำกัดจำนวนครั้งล็อกอินผิดตามอีเมลและตาม IP + audit log
 
 'use server';
 
+import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { checkLockout, recordFailedAttempt, clearAttempts } from '@/lib/auth/loginAttempts';
+import {
+  checkLockout,
+  recordFailedAttempt,
+  clearAttempts,
+  checkIpLockout,
+  recordIpFailedAttempt,
+  clearIpAttempts,
+} from '@/lib/auth/loginAttempts';
 import { logAudit } from '@/lib/supabase/audit';
 
 export interface LoginState {
   error?: string;
+}
+
+function getClientIp(headersList: Headers): string {
+  const forwarded = headersList.get('x-forwarded-for');
+  if (forwarded) return forwarded.split(',')[0].trim();
+  return headersList.get('x-real-ip') ?? 'unknown';
 }
 
 export async function loginAction(
@@ -24,23 +37,28 @@ export async function loginAction(
     return { error: 'กรุณากรอกอีเมลและรหัสผ่าน' };
   }
 
-  const lockout = await checkLockout(email);
-  if (lockout.locked) {
-    return {
-      error: `ล็อกอินผิดเกินกำหนด กรุณารออีก ${lockout.minutesLeft} นาที`,
-    };
+  const headersList = await headers();
+  const ip = getClientIp(headersList);
+
+  const [emailLockout, ipLockout] = await Promise.all([checkLockout(email), checkIpLockout(ip)]);
+
+  if (emailLockout.locked) {
+    return { error: `ล็อกอินผิดเกินกำหนด กรุณารออีก ${emailLockout.minutesLeft} นาที` };
+  }
+  if (ipLockout.locked) {
+    return { error: `มีการล็อกอินผิดจากเครือข่ายนี้บ่อยเกินไป กรุณารออีก ${ipLockout.minutesLeft} นาที` };
   }
 
   const supabase = await createClient();
   const { error } = await supabase.auth.signInWithPassword({ email, password });
 
   if (error) {
-    await recordFailedAttempt(email);
+    await Promise.all([recordFailedAttempt(email), recordIpFailedAttempt(ip)]);
     await logAudit({ actorEmail: email, action: 'login_failed' });
     return { error: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง' };
   }
 
-  await clearAttempts(email);
+  await Promise.all([clearAttempts(email), clearIpAttempts(ip)]);
   await logAudit({ actorEmail: email, action: 'login_success' });
 
   redirect('/admin');
